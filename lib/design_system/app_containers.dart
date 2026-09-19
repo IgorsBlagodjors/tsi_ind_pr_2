@@ -29,30 +29,6 @@ class AppContainers {
     );
   }
 
-  static Widget settings() {
-    return CircleAvatar(
-      radius: 14,
-      backgroundColor: Colors.red,
-      child: AppIcons.settings,
-    );
-  }
-
-  static Widget search() {
-    return CircleAvatar(
-      radius: 14,
-      backgroundColor: Colors.red,
-      child: AppIcons.search,
-    );
-  }
-
-  static Widget edit() {
-    return CircleAvatar(
-      radius: 14,
-      backgroundColor: Colors.red,
-      child: AppIcons.edit,
-    );
-  }
-
   static Widget navigations({required Widget icon, required String text}) {
     return Container(
       color: Colors.red,

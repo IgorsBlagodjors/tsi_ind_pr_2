@@ -4,123 +4,408 @@ import 'package:tsi_ind_pr_2/design_system/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/app_containers.dart';
 
 class AppIcons {
-  static final Widget star = Icon(
-    Icons.star,
-    size: 12,
-    color: AppColors.primary,
-  );
+  //GradientCircles
+  static Widget userIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/user.svg',
+          width: 18.1,
+          height: 21.9,
+        ),
+      ),
+    );
+  }
 
-  static final Widget starBorder = Icon(
-    Icons.star_border,
-    size: 12,
-    color: AppColors.primary,
-  );
+  static Widget checkIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/check.svg',
+          width: 21,
+          height: 15.75,
+        ),
+      ),
+    );
+  }
 
-  static final Widget favourite = Icon(
-    Icons.favorite,
-    size: 12,
-    color: AppColors.primary,
-  );
+  static Widget closekIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/x.svg',
+          width: 12.95,
+          height: 13.33,
+        ),
+      ),
+    );
+  }
 
-  static final Widget favouriteBorder = Icon(
-    Icons.favorite_border,
-    size: 12,
-    color: AppColors.primary,
-  );
+  static Widget heartIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/heart.svg',
+          width: 18.18,
+          height: 16.36,
+        ),
+      ),
+    );
+  }
 
-  static final Widget male = Icon(
-    Icons.male,
-    size: 12,
-    color: AppColors.primary,
-  );
+  static Widget heartOutlinedIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/heartOutlined.svg',
+          width: 23,
+          height: 20,
+        ),
+      ),
+    );
+  }
 
-  static final Widget female = Icon(
-    Icons.female,
-    size: 12,
-    color: AppColors.primary,
-  );
-  static final Widget booking = SvgPicture.asset(
-    'assets/icons/booking.svg',
+  static Widget topIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/top.svg',
+          width: 18.51,
+          height: 18.51,
+        ),
+      ),
+    );
+  }
+
+  static Widget walletIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/wallet.svg',
+          width: 21.9,
+          height: 19.05,
+        ),
+      ),
+    );
+  }
+
+  static Widget soundIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/sound.svg',
+          width: 23,
+          height: 23,
+        ),
+      ),
+    );
+  }
+
+  static Widget fingerprintIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/fingerprint.svg',
+          width: 23,
+          height: 23,
+        ),
+      ),
+    );
+  }
+
+  static Widget privacyIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/privacy.svg',
+          width: 18.1,
+          height: 20.95,
+        ),
+      ),
+    );
+  }
+
+  static Widget globalIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/global.svg',
+          width: 22,
+          height: 22,
+        ),
+      ),
+    );
+  }
+
+  static Widget facebookIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/facebook.svg',
+          width: 22,
+          height: 22,
+        ),
+      ),
+    );
+  }
+
+  static Widget sattingIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/settings.svg',
+          width: 23.81,
+          height: 23.81,
+        ),
+      ),
+    );
+  }
+
+  static Widget whatsappIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/whatsapp.svg',
+          width: 23.6,
+          height: 24,
+        ),
+      ),
+    );
+  }
+
+  static Widget googleIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/google.svg',
+          width: 18,
+          height: 18,
+        ),
+      ),
+    );
+  }
+
+  static Widget questionsIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/questions.svg',
+          width: 11,
+          height: 21,
+        ),
+      ),
+    );
+  }
+
+  static Widget logOutIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/logOut.svg',
+          width: 19.05,
+          height: 16.1,
+        ),
+      ),
+    );
+  }
+
+  static Widget picgramIcons() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/icons/picgram.svg',
+          width: 18,
+          height: 18,
+        ),
+      ),
+    );
+  }
+
+  //Square
+  static Widget documentOutlinedIcons() {
+    return Container(
+      width: 46,
+      height: 44,
+      decoration: BoxDecoration(
+        gradient: AppColors.primaryGradient,
+        borderRadius: BorderRadius.circular(9),
+      ),
+      alignment: Alignment.center,
+      child: SvgPicture.asset(
+        'assets/icons/documentOutlined.svg',
+        width: 18,
+        height: 21,
+      ),
+    );
+  }
+
+  //Gradient outlined icons
+  static final Widget bookingGradientOutlinedIcon = SvgPicture.asset(
+    'assets/icons/bookingGradientOutlined.svg',
     width: 18.1,
     height: 21.09,
   );
 
-  static final Widget bookingOutlined = SvgPicture.asset(
-    'assets/icons/bookingOutlined.svg',
-    width: 18.1,
-    height: 21.09,
-  );
-
-  static final Widget chat = SvgPicture.asset(
-    'assets/icons/message.svg',
-    width: 23.53,
-    height: 21,
-  );
-
-  static final Widget messageOutlined = SvgPicture.asset(
-    'assets/icons/messageOutlined.svg',
-    width: 23.53,
-    height: 21,
-  );
-
-  static final Widget home = SvgPicture.asset(
-    'assets/icons/home.svg',
-    width: 23.12,
-    height: 22.36,
-  );
-
-  static final Widget homeOutlined = SvgPicture.asset(
-    'assets/icons/homeOutlined.svg',
-    width: 23.12,
-    height: 22.36,
-  );
-
-  static final Widget userProfile = SvgPicture.asset(
-    'assets/icons/userProfile.svg',
-    width: 19,
-    height: 20.97,
-  );
-
-  static final Widget userProfileOutlined = SvgPicture.asset(
-    'assets/icons/userProfileOutlined.svg',
-    width: 19,
-    height: 20.97,
-  );
-
-  static final Widget doctorInfo = SvgPicture.asset(
-    'assets/icons/doctorInfo.svg',
+  static final Widget infoGradientIcon = SvgPicture.asset(
+    'assets/icons/infoGradient.svg',
     width: 0,
     height: 20,
   );
 
-  static final Widget heartPrimeOutlined = SvgPicture.asset(
-    'assets/icons/heartPrimeOutlined.svg',
+  static final Widget heartGradientOutlinedIcon = SvgPicture.asset(
+    'assets/icons/heartGradientOutlined.svg',
     width: 20,
     height: 18.18,
   );
 
-  static final Widget returnIcon = SvgPicture.asset(
-    'assets/icons/return.svg',
+  static final Widget returnGradientIcon = SvgPicture.asset(
+    'assets/icons/returnGradient.svg',
     width: 13.43,
     height: 23.5,
   );
 
-  static final Widget info = SvgPicture.asset(
-    'assets/icons/info.svg',
+  static final Widget questionMarkGradientIcon = SvgPicture.asset(
+    'assets/icons/questionMarkGradient.svg',
     width: 11.11,
     height: 20,
   );
 
-  static final Widget back = SvgPicture.asset(
-    'assets/icons/back.svg',
+  static final Widget returnIcon = SvgPicture.asset(
+    'assets/icons/return.svg',
     width: 8,
     height: 14,
   );
 
-  static final Widget stethoscope = SvgPicture.asset(
+  static final Widget homeGradientOutlinedIcon = SvgPicture.asset(
+    'assets/icons/homeGradientOutlined.svg',
+    width: 23.12,
+    height: 22.36,
+  );
+
+  static final Widget stethoscopeIcon = SvgPicture.asset(
     'assets/icons/stethoscope.svg',
     width: 17.18,
     height: 20.62,
+  );
+
+  static final Widget chatOutlinedIcon = SvgPicture.asset(
+    'assets/icons/chatOutlined.svg',
+    width: 23.53,
+    height: 21,
+  );
+
+  static final Widget userProfileGradientOutlined = SvgPicture.asset(
+    'assets/icons/userGradientOutlined.svg',
+    width: 19,
+    height: 20.97,
   );
 
   static final Widget pharmacy = SvgPicture.asset(
@@ -141,36 +426,81 @@ class AppIcons {
     color: AppColors.primary,
   );
 
-  static final Widget filters = SvgPicture.asset(
-    'assets/icons/filters.svg',
-    width: 14.54,
-    height: 9.35,
-  );
-
-  static final Widget edit = SvgPicture.asset(
-    'assets/icons/edit.svg',
-    width: 12.15,
-    height: 17.55,
-  );
-
-  static final Widget search = SvgPicture.asset(
-    'assets/icons/search.svg',
-    width: 12,
-    height: 14,
-  );
-
+  ///WhiteCircles
   static final Widget bell = SvgPicture.asset(
     'assets/icons/bell.svg',
     width: 12,
     height: 15,
   );
 
-  static final Widget settings = SvgPicture.asset(
-    'assets/icons/settingsBlack.svg',
-    width: 15,
-    height: 15,
-  );
+  static Widget settings() {
+    return CircleAvatar(
+      radius: 14,
+      backgroundColor: Colors.red,
+      child: SvgPicture.asset(
+        'assets/icons/settingsBlack.svg',
+        width: 15,
+        height: 15,
+      ),
+    );
+  }
 
+  static Widget search() {
+    return CircleAvatar(
+      radius: 14,
+      backgroundColor: Colors.red,
+      child: SvgPicture.asset('assets/icons/search.svg', width: 12, height: 14),
+    );
+  }
+
+  static Widget filters() {
+    return CircleAvatar(
+      radius: 14,
+      backgroundColor: Colors.red,
+      child: SvgPicture.asset(
+        'assets/icons/filters.svg',
+        width: 14.54,
+        height: 9.35,
+      ),
+    );
+  }
+
+  static Widget edit() {
+    return CircleAvatar(
+      radius: 14,
+      backgroundColor: Colors.red,
+      child: SvgPicture.asset(
+        'assets/icons/edit.svg',
+        width: 12.15,
+        height: 17.55,
+      ),
+    );
+  }
+
+  //NavigationGradient
+  static Widget doctorsContainer() {
+    return AppContainers.navigations(
+      icon: AppIcons.stethoscopeIcon,
+      text: 'Doctors',
+    );
+  }
+
+  static Widget pharmasyContainer() {
+    return AppContainers.navigations(icon: AppIcons.pharmacy, text: 'Pharmacy');
+  }
+
+  static Widget specialtiesContainer() {
+    return AppContainers.navigations(
+      icon: AppIcons.speciality,
+      text: 'Specialties',
+    );
+  }
+
+  static Widget recordContainer() {
+    return AppContainers.navigations(icon: AppIcons.record, text: 'Record');
+  }
+
+  //Medical specialities
   static final Widget generalMedicine = SvgPicture.asset(
     'assets/icons/generalMedicine.svg',
     width: 32.75,
@@ -225,12 +555,35 @@ class AppIcons {
     height: 34.88,
   );
 
+  //Gradient
+  static final Widget bookingGradientIcon = SvgPicture.asset(
+    'assets/icons/bookingGradient.svg',
+    width: 18.1,
+    height: 21.59,
+  );
+  static final Widget homeGradientIcon = SvgPicture.asset(
+    'assets/icons/homeGradient.svg',
+    width: 22.09,
+    height: 21.36,
+  );
+  static final Widget chatGradienFullIcon = SvgPicture.asset(
+    'assets/icons/chatGradientFull.svg',
+    width: 22.43,
+    height: 19.87,
+  );
+
+  static final Widget userGradientIcon = SvgPicture.asset(
+    'assets/icons/userGradient.svg',
+    width: 19,
+    height: 20.09,
+  );
   static final Widget pinHomeLocation = SvgPicture.asset(
     'assets/icons/pinHomeLocation.svg',
     width: 26,
     height: 34.5,
   );
 
+  //Medical Record Icons
   static Widget analysis({bool big = false}) {
     return SvgPicture.asset(
       'assets/icons/analysis.svg',
@@ -261,34 +614,5 @@ class AppIcons {
       width: big ? 70 : 43,
       height: big ? 70 : 43,
     );
-  }
-
-  static Widget favouriteContainer() {
-    return AppContainers.navigations(
-      icon: AppIcons.heartPrimeOutlined,
-      text: 'Favourite',
-    );
-  }
-
-  static Widget doctorsContainer() {
-    return AppContainers.navigations(
-      icon: AppIcons.stethoscope,
-      text: 'Doctors',
-    );
-  }
-
-  static Widget pharmasyContainer() {
-    return AppContainers.navigations(icon: AppIcons.pharmacy, text: 'Pharmacy');
-  }
-
-  static Widget specialtiesContainer() {
-    return AppContainers.navigations(
-      icon: AppIcons.speciality,
-      text: 'Specialties',
-    );
-  }
-
-  static Widget recordContainer() {
-    return AppContainers.navigations(icon: AppIcons.record, text: 'Record');
   }
 }
