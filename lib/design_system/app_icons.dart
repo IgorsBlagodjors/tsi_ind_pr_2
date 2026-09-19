@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tsi_ind_pr_2/design_system/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/app_containers.dart';
@@ -7,8 +8,8 @@ class AppIcons {
   //GradientCircles
   static Widget userIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -16,8 +17,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/user.svg',
-          width: 18.1,
-          height: 21.9,
+          width: 18.1.w,
+          height: 21.9.h,
         ),
       ),
     );
@@ -25,8 +26,8 @@ class AppIcons {
 
   static Widget checkIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -34,8 +35,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/check.svg',
-          width: 21,
-          height: 15.75,
+          width: 21.w,
+          height: 15.75.h,
         ),
       ),
     );
@@ -43,8 +44,8 @@ class AppIcons {
 
   static Widget closekIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -52,8 +53,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/x.svg',
-          width: 12.95,
-          height: 13.33,
+          width: 12.95.w,
+          height: 13.33.h,
         ),
       ),
     );
@@ -61,8 +62,8 @@ class AppIcons {
 
   static Widget heartIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -70,8 +71,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/heart.svg',
-          width: 18.18,
-          height: 16.36,
+          width: 18.18.w,
+          height: 16.36.h,
         ),
       ),
     );
@@ -79,8 +80,8 @@ class AppIcons {
 
   static Widget heartOutlinedIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -88,8 +89,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/heartOutlined.svg',
-          width: 23,
-          height: 20,
+          width: 23.w,
+          height: 20.h,
         ),
       ),
     );
@@ -97,8 +98,8 @@ class AppIcons {
 
   static Widget topIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -106,8 +107,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/top.svg',
-          width: 18.51,
-          height: 18.51,
+          width: 18.51.w,
+          height: 18.51.h,
         ),
       ),
     );
@@ -115,8 +116,8 @@ class AppIcons {
 
   static Widget walletIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -124,8 +125,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/wallet.svg',
-          width: 21.9,
-          height: 19.05,
+          width: 21.9.w,
+          height: 19.05.h,
         ),
       ),
     );
@@ -133,8 +134,8 @@ class AppIcons {
 
   static Widget soundIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -142,8 +143,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/sound.svg',
-          width: 23,
-          height: 23,
+          width: 23.w,
+          height: 23.h,
         ),
       ),
     );
@@ -151,8 +152,8 @@ class AppIcons {
 
   static Widget fingerprintIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -160,8 +161,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/fingerprint.svg',
-          width: 23,
-          height: 23,
+          width: 23.w,
+          height: 23.h,
         ),
       ),
     );
@@ -169,8 +170,8 @@ class AppIcons {
 
   static Widget privacyIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -178,8 +179,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/privacy.svg',
-          width: 18.1,
-          height: 20.95,
+          width: 18.1.w,
+          height: 20.95.h,
         ),
       ),
     );
@@ -187,8 +188,8 @@ class AppIcons {
 
   static Widget globalIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -196,8 +197,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/global.svg',
-          width: 22,
-          height: 22,
+          width: 22.w,
+          height: 22.h,
         ),
       ),
     );
@@ -205,8 +206,8 @@ class AppIcons {
 
   static Widget facebookIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -214,8 +215,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/facebook.svg',
-          width: 22,
-          height: 22,
+          width: 22.w,
+          height: 22.h,
         ),
       ),
     );
@@ -223,8 +224,8 @@ class AppIcons {
 
   static Widget sattingIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -232,8 +233,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/settings.svg',
-          width: 23.81,
-          height: 23.81,
+          width: 23.81.w,
+          height: 23.81.h,
         ),
       ),
     );
@@ -241,8 +242,8 @@ class AppIcons {
 
   static Widget whatsappIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -250,8 +251,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/whatsapp.svg',
-          width: 23.6,
-          height: 24,
+          width: 23.6.w,
+          height: 24.h,
         ),
       ),
     );
@@ -259,8 +260,8 @@ class AppIcons {
 
   static Widget googleIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -268,8 +269,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/google.svg',
-          width: 18,
-          height: 18,
+          width: 18.w,
+          height: 18.h,
         ),
       ),
     );
@@ -277,8 +278,8 @@ class AppIcons {
 
   static Widget questionsIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -286,8 +287,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/questions.svg',
-          width: 11,
-          height: 21,
+          width: 11.w,
+          height: 21.h,
         ),
       ),
     );
@@ -295,8 +296,8 @@ class AppIcons {
 
   static Widget logOutIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -304,8 +305,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/logOut.svg',
-          width: 19.05,
-          height: 16.1,
+          width: 19.05.w,
+          height: 16.1.h,
         ),
       ),
     );
@@ -313,8 +314,8 @@ class AppIcons {
 
   static Widget picgramIcons() {
     return Container(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: AppColors.primaryGradient,
@@ -322,8 +323,8 @@ class AppIcons {
       child: Center(
         child: SvgPicture.asset(
           'assets/icons/picgram.svg',
-          width: 18,
-          height: 18,
+          width: 18.w,
+          height: 18.h,
         ),
       ),
     );
@@ -332,147 +333,139 @@ class AppIcons {
   //Square
   static Widget documentOutlinedIcons() {
     return Container(
-      width: 46,
-      height: 44,
+      width: 46.w,
+      height: 44.h,
       decoration: BoxDecoration(
         gradient: AppColors.primaryGradient,
-        borderRadius: BorderRadius.circular(9),
+        borderRadius: BorderRadius.circular(9.r),
       ),
       alignment: Alignment.center,
       child: SvgPicture.asset(
         'assets/icons/documentOutlined.svg',
-        width: 18,
-        height: 21,
+        width: 18.w,
+        height: 21.h,
       ),
     );
   }
 
   //Gradient outlined icons
-  static final Widget bookingGradientOutlinedIcon = SvgPicture.asset(
+  static Widget get bookingGradientOutlinedIcon => SvgPicture.asset(
     'assets/icons/bookingGradientOutlined.svg',
-    width: 18.1,
-    height: 21.09,
+    width: 18.1.w,
+    height: 21.09.h,
   );
 
-  static final Widget infoGradientIcon = SvgPicture.asset(
+  static Widget get infoGradientIcon => SvgPicture.asset(
     'assets/icons/infoGradient.svg',
-    width: 0,
-    height: 20,
+    width: 0.w,
+    height: 20.h,
   );
 
-  static final Widget heartGradientOutlinedIcon = SvgPicture.asset(
+  static Widget get heartGradientOutlinedIcon => SvgPicture.asset(
     'assets/icons/heartGradientOutlined.svg',
-    width: 20,
-    height: 18.18,
+    width: 20.w,
+    height: 18.18.h,
   );
 
-  static final Widget returnGradientIcon = SvgPicture.asset(
+  static Widget get returnGradientIcon => SvgPicture.asset(
     'assets/icons/returnGradient.svg',
-    width: 13.43,
-    height: 23.5,
+    width: 13.43.w,
+    height: 23.5.h,
   );
 
-  static final Widget questionMarkGradientIcon = SvgPicture.asset(
+  static Widget get questionMarkGradientIcon => SvgPicture.asset(
     'assets/icons/questionMarkGradient.svg',
-    width: 11.11,
-    height: 20,
+    width: 11.11.w,
+    height: 20.h,
   );
 
-  static final Widget returnIcon = SvgPicture.asset(
-    'assets/icons/return.svg',
-    width: 8,
-    height: 14,
-  );
+  static Widget get returnIcon =>
+      SvgPicture.asset('assets/icons/return.svg', width: 8.w, height: 14.h);
 
-  static final Widget homeGradientOutlinedIcon = SvgPicture.asset(
+  static Widget get homeGradientOutlinedIcon => SvgPicture.asset(
     'assets/icons/homeGradientOutlined.svg',
-    width: 23.12,
-    height: 22.36,
+    width: 23.12.w,
+    height: 22.36.h,
   );
 
-  static final Widget stethoscopeIcon = SvgPicture.asset(
+  static Widget get stethoscopeIcon => SvgPicture.asset(
     'assets/icons/stethoscope.svg',
-    width: 17.18,
-    height: 20.62,
+    width: 17.18.w,
+    height: 20.62.h,
   );
 
-  static final Widget chatOutlinedIcon = SvgPicture.asset(
+  static Widget get chatOutlinedIcon => SvgPicture.asset(
     'assets/icons/chatOutlined.svg',
-    width: 23.53,
-    height: 21,
+    width: 23.53.w,
+    height: 21.h,
   );
 
-  static final Widget userProfileGradientOutlined = SvgPicture.asset(
+  static Widget get userProfileGradientOutlined => SvgPicture.asset(
     'assets/icons/userGradientOutlined.svg',
-    width: 19,
-    height: 20.97,
+    width: 19.w,
+    height: 20.97.h,
   );
 
-  static final Widget pharmacy = SvgPicture.asset(
+  static Widget get pharmacy => SvgPicture.asset(
     'assets/icons/pharmacy.svg',
-    width: 19.7,
-    height: 20,
+    width: 19.7.w,
+    height: 20.h,
   );
 
-  static final Widget record = SvgPicture.asset(
-    'assets/icons/record.svg',
-    width: 13.16,
-    height: 20,
-  );
+  static Widget get record =>
+      SvgPicture.asset('assets/icons/record.svg', width: 13.16.w, height: 20.h);
 
-  static final Widget speciality = Icon(
-    Icons.add_circle_outline,
-    size: 20,
-    color: AppColors.primary,
-  );
+  static Widget get speciality =>
+      Icon(Icons.add_circle_outline, size: 20.r, color: AppColors.primary);
 
   ///WhiteCircles
-  static final Widget bell = SvgPicture.asset(
-    'assets/icons/bell.svg',
-    width: 12,
-    height: 15,
-  );
+  static Widget get bell =>
+      SvgPicture.asset('assets/icons/bell.svg', width: 12.w, height: 15.h);
 
   static Widget settings() {
     return CircleAvatar(
-      radius: 14,
+      radius: 14.r,
       backgroundColor: Colors.red,
       child: SvgPicture.asset(
         'assets/icons/settingsBlack.svg',
-        width: 15,
-        height: 15,
+        width: 15.w,
+        height: 15.h,
       ),
     );
   }
 
   static Widget search() {
     return CircleAvatar(
-      radius: 14,
+      radius: 14.r,
       backgroundColor: Colors.red,
-      child: SvgPicture.asset('assets/icons/search.svg', width: 12, height: 14),
+      child: SvgPicture.asset(
+        'assets/icons/search.svg',
+        width: 12.w,
+        height: 14.h,
+      ),
     );
   }
 
   static Widget filters() {
     return CircleAvatar(
-      radius: 14,
+      radius: 14.r,
       backgroundColor: Colors.red,
       child: SvgPicture.asset(
         'assets/icons/filters.svg',
-        width: 14.54,
-        height: 9.35,
+        width: 14.54.w,
+        height: 9.35.h,
       ),
     );
   }
 
   static Widget edit() {
     return CircleAvatar(
-      radius: 14,
+      radius: 14.r,
       backgroundColor: Colors.red,
       child: SvgPicture.asset(
         'assets/icons/edit.svg',
-        width: 12.15,
-        height: 17.55,
+        width: 12.15.w,
+        height: 17.55.h,
       ),
     );
   }
@@ -501,118 +494,115 @@ class AppIcons {
   }
 
   //Medical specialities
-  static final Widget generalMedicine = SvgPicture.asset(
+  static Widget get generalMedicine => SvgPicture.asset(
     'assets/icons/generalMedicine.svg',
-    width: 32.75,
-    height: 40,
+    width: 32.75.w,
+    height: 40.h,
   );
 
-  static final Widget ophtamology = SvgPicture.asset(
+  static Widget get ophtamology => SvgPicture.asset(
     'assets/icons/ophtamology.svg',
-    width: 40,
-    height: 27.88,
+    width: 40.w,
+    height: 27.88.h,
   );
 
-  static final Widget dermatology = SvgPicture.asset(
+  static Widget get dermatology => SvgPicture.asset(
     'assets/icons/dermatology.svg',
-    width: 40,
-    height: 21.55,
+    width: 40.w,
+    height: 21.55.h,
   );
 
-  static final Widget casrdiology = SvgPicture.asset(
+  static Widget get casrdiology => SvgPicture.asset(
     'assets/icons/cardiology.svg',
-    width: 40,
-    height: 31.29,
+    width: 40.w,
+    height: 31.29.h,
   );
 
-  static final Widget gynecology = SvgPicture.asset(
+  static Widget get gynecology => SvgPicture.asset(
     'assets/icons/gynecology.svg',
-    width: 40,
-    height: 20.62,
+    width: 40.w,
+    height: 20.62.h,
   );
 
-  static final Widget oncology = SvgPicture.asset(
-    'assets/icons/oncology.svg',
-    width: 40,
-    height: 40,
-  );
+  static Widget get oncology =>
+      SvgPicture.asset('assets/icons/oncology.svg', width: 40.w, height: 40.h);
 
-  static final Widget odontology = SvgPicture.asset(
+  static Widget get odontology => SvgPicture.asset(
     'assets/icons/odontology.svg',
-    width: 35.99,
-    height: 40,
+    width: 35.99.w,
+    height: 40.h,
   );
 
-  static final Widget orthopedics = SvgPicture.asset(
+  static Widget get orthopedics => SvgPicture.asset(
     'assets/icons/orthopedics.svg',
-    width: 40,
-    height: 39.15,
+    width: 40.w,
+    height: 39.15.h,
   );
 
-  static final Widget otolaryngology = SvgPicture.asset(
+  static Widget get otolaryngology => SvgPicture.asset(
     'assets/icons/otolaryngology.svg',
-    width: 40,
-    height: 34.88,
+    width: 40.w,
+    height: 34.88.h,
   );
 
   //Gradient
-  static final Widget bookingGradientIcon = SvgPicture.asset(
+  static Widget get bookingGradientIcon => SvgPicture.asset(
     'assets/icons/bookingGradient.svg',
-    width: 18.1,
-    height: 21.59,
+    width: 18.1.w,
+    height: 21.59.h,
   );
-  static final Widget homeGradientIcon = SvgPicture.asset(
+  static Widget get homeGradientIcon => SvgPicture.asset(
     'assets/icons/homeGradient.svg',
-    width: 22.09,
-    height: 21.36,
+    width: 22.09.w,
+    height: 21.36.h,
   );
-  static final Widget chatGradienFullIcon = SvgPicture.asset(
+  static Widget get chatGradienFullIcon => SvgPicture.asset(
     'assets/icons/chatGradientFull.svg',
-    width: 22.43,
-    height: 19.87,
+    width: 22.43.w,
+    height: 19.87.h,
   );
 
-  static final Widget userGradientIcon = SvgPicture.asset(
+  static Widget get userGradientIcon => SvgPicture.asset(
     'assets/icons/userGradient.svg',
-    width: 19,
-    height: 20.09,
+    width: 19.w,
+    height: 20.09.h,
   );
-  static final Widget pinHomeLocation = SvgPicture.asset(
+  static Widget get pinHomeLocation => SvgPicture.asset(
     'assets/icons/pinHomeLocation.svg',
-    width: 26,
-    height: 34.5,
+    width: 26.w,
+    height: 34.5.h,
   );
 
   //Medical Record Icons
   static Widget analysis({bool big = false}) {
     return SvgPicture.asset(
       'assets/icons/analysis.svg',
-      width: big ? 70 : 43,
-      height: big ? 70 : 43,
+      width: big ? 70.w : 43.w,
+      height: big ? 70.h : 43.h,
     );
   }
 
   static Widget vaccinations({bool big = false}) {
     return SvgPicture.asset(
       'assets/icons/vaccinations.svg',
-      width: big ? 70 : 43,
-      height: big ? 70 : 43,
+      width: big ? 70.w : 43.w,
+      height: big ? 70.h : 43.h,
     );
   }
 
   static Widget allergies({bool big = false}) {
     return SvgPicture.asset(
       'assets/icons/allergies.svg',
-      width: big ? 70 : 43,
-      height: big ? 70 : 43,
+      width: big ? 70.w : 43.w,
+      height: big ? 70.h : 43.h,
     );
   }
 
   static Widget medicalHistory({bool big = false}) {
     return SvgPicture.asset(
       'assets/icons/medicalHistory.svg',
-      width: big ? 70 : 43,
-      height: big ? 70 : 43,
+      width: big ? 70.w : 43.w,
+      height: big ? 70.h : 43.h,
     );
   }
 }
