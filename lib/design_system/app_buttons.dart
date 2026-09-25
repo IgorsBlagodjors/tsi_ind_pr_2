@@ -3,169 +3,106 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tsi_ind_pr_2/design_system/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/app_icons.dart';
+import 'package:tsi_ind_pr_2/design_system/app_tappable.dart';
 
 class AppButtons {
-  //Circle buttons
-  static Widget userBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.userIcons());
+  static Widget circleInkButton({
+    required VoidCallback onPressed,
+    required Widget icon,
+  }) {
+    return circleIconBTN(onPressed: onPressed, icon: icon);
   }
 
-  static Widget checkBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.checkIcons());
-  }
-
-  static Widget closeBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.closekIcons());
-  }
-
-  static Widget heartOutlinedBTN({required VoidCallback onPressed}) {
-    return GestureDetector(
+  static Widget circleIconBTN({
+    required VoidCallback onPressed,
+    required Widget icon,
+  }) {
+    return AppTappable(
       onTap: onPressed,
-      child: AppIcons.heartOutlinedIcons(),
-    );
-  }
-
-  static Widget top({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.topIcons());
-  }
-
-  static Widget heartBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.heartIcons());
-  }
-
-  static Widget walletBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.walletIcons());
-  }
-
-  static Widget soundBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.soundIcons());
-  }
-
-  static Widget fingerprintBTN({required VoidCallback onPressed}) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: AppIcons.fingerprintIcons(),
-    );
-  }
-
-  static Widget privacyBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.privacyIcons());
-  }
-
-  static Widget globalBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.globalIcons());
-  }
-
-  static Widget facebookBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.facebookIcons());
-  }
-
-  static Widget settingsBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.sattingIcons());
-  }
-
-  static Widget whatsappBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.whatsappIcons());
-  }
-
-  static Widget googleBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.googleIcons());
-  }
-
-  static Widget questionsBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.questionsIcons());
-  }
-
-  static Widget logoutBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.logOutIcons());
-  }
-
-  static Widget picgramBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.picgramIcons());
-  }
-
-  //Square buttons
-  static Widget bookingSquareBTN({required VoidCallback onPressed}) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: 46.w,
-        height: 44.h,
-        decoration: BoxDecoration(
-          gradient: AppColors.primaryGradient,
-          borderRadius: BorderRadius.circular(9.r),
-        ),
-        alignment: Alignment.center,
-        child: SvgPicture.asset(
-          'assets/icons/booking.svg',
-          width: 18.w,
-          height: 21.h,
-        ),
+      width: 40.r,
+      height: 40.r,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppColors.primaryGradient,
       ),
+      child: icon,
     );
   }
 
-  static Widget documentSquareBTN({required VoidCallback onPressed}) {
-    return GestureDetector(
+  static Widget smallSquareBTN({
+    required VoidCallback onPressed,
+    required double contWidth,
+    required double contHeight,
+    required double radius,
+    required Widget icon,
+  }) {
+    return AppTappable(
       onTap: onPressed,
-      child: AppIcons.documentOutlinedIcons(),
-    );
-  }
-
-  static Widget messageSquareBTN({required VoidCallback onPressed}) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: 46.w,
-        height: 44.h,
-        decoration: BoxDecoration(
-          gradient: AppColors.primaryGradient,
-          borderRadius: BorderRadius.circular(9.r),
-        ),
-        alignment: Alignment.center,
-        child: SvgPicture.asset(
-          'assets/icons/message.svg',
-          width: 18.w,
-          height: 18.h,
-        ),
+      width: contWidth.w,
+      height: contHeight.h,
+      decoration: BoxDecoration(
+        gradient: AppColors.primaryGradient,
+        borderRadius: BorderRadius.circular(radius.r),
       ),
+      alignment: Alignment.center,
+      child: icon,
     );
   }
 
-  //Gradient/GradientOutline buttons
-  static Widget bookingGradientOutlinedBTN({required VoidCallback onPressed}) {
-    return GestureDetector(
+  static Widget squareImageAndTextBTN({
+    required VoidCallback onPressed,
+    required double contWidth,
+    required double contHeight,
+    required double radius,
+    required double spacing,
+    required Widget icon,
+    required String text,
+    required int textSize,
+  }) {
+    return AppTappable(
       onTap: onPressed,
-      child: AppIcons.bookingGradientOutlinedIcon,
+      width: contWidth.w,
+      height: contHeight.h,
+      decoration: BoxDecoration(
+        gradient: AppColors.primaryGradient,
+        borderRadius: BorderRadius.circular(radius.r),
+      ),
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          icon,
+          SizedBox(height: spacing.h),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: textSize.sp,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              height: 1,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   static Widget bookingGradientBTN({required VoidCallback onPressed}) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: AppIcons.bookingGradientIcon,
-    );
-  }
-
-  static Widget homeGradienOutlinedtBTN({required VoidCallback onPressed}) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: AppIcons.homeGradientOutlinedIcon,
-    );
+    return IconButton(onPressed: onPressed, icon: AppIcons.bookingIcon);
   }
 
   static Widget homeGradientBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.homeGradientIcon);
-  }
-
-  static Widget chatGradienOutlinedtBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.chatOutlinedIcon);
+    return IconButton(
+      onPressed: onPressed,
+      icon: AppIcons.homeIcon(width: 23.12, height: 22.36),
+    );
   }
 
   static Widget chatGradientBTN({required VoidCallback onPressed}) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: SvgPicture.asset(
+    return IconButton(
+      onPressed: onPressed,
+      icon: SvgPicture.asset(
         'assets/icons/chat.svg',
         width: 23.53.w,
         height: 21.h,
@@ -173,18 +110,10 @@ class AppButtons {
     );
   }
 
-  static Widget userGradientOutlinedBTN({required VoidCallback onPressed}) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: AppIcons.userProfileGradientOutlined,
-    );
-  }
-
   static Widget userGradientBTN({required VoidCallback onPressed}) {
-    return GestureDetector(onTap: onPressed, child: AppIcons.userGradientIcon);
+    return IconButton(onPressed: onPressed, icon: AppIcons.userIcon());
   }
 
-  //IconButtons
   static Widget starIconBTN({required VoidCallback onPressed}) {
     return IconButton(
       onPressed: onPressed,
@@ -271,31 +200,29 @@ class AppButtons {
     bool isGradient = false,
     bool textIsBlack = false,
   }) {
-    return GestureDetector(
+    return AppTappable(
       onTap: onPressed,
-      child: Container(
-        width: width.w,
-        height: height.h,
-        decoration: BoxDecoration(
-          border: isGradient
-              ? null
-              : Border.all(color: AppColors.primary, width: 1),
-          gradient: isGradient ? AppColors.primaryGradient : null,
-          color: isGradient ? null : Colors.transparent,
-          borderRadius: BorderRadius.circular(30.r),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-              color: isGradient
-                  ? Colors.white
-                  : textIsBlack
-                  ? Colors.black
-                  : AppColors.primary,
-            ),
+      width: width.w,
+      height: height.h,
+      decoration: BoxDecoration(
+        border: isGradient
+            ? null
+            : Border.all(color: AppColors.primary, width: 1),
+        gradient: isGradient ? AppColors.primaryGradient : null,
+        color: isGradient ? null : Colors.transparent,
+        borderRadius: BorderRadius.circular(30.r),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 17.sp,
+            fontWeight: FontWeight.w500,
+            color: isGradient
+                ? Colors.white
+                : textIsBlack
+                ? Colors.black
+                : AppColors.primary,
           ),
         ),
       ),
@@ -305,47 +232,124 @@ class AppButtons {
   static Widget textWithImageBTN({
     required VoidCallback onPressed,
     bool isGradient = false,
+    String text = 'Main Button',
   }) {
-    return GestureDetector(
+    return AppTappable(
       onTap: onPressed,
-      child: Container(
-        width: 153.w,
-        height: 28.h,
-        decoration: BoxDecoration(
-          border: isGradient
-              ? null
-              : Border.all(color: AppColors.primary, width: 1),
-          gradient: isGradient ? AppColors.primaryGradient : null,
-          color: isGradient ? null : Colors.transparent,
-          borderRadius: BorderRadius.circular(38.r),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            isGradient
-                ? SvgPicture.asset(
-                    'assets/icons/booking.svg',
-                    width: 14.w,
-                    height: 15.h,
-                  )
-                : SvgPicture.asset(
-                    'assets/icons/bookingBlack.svg',
-                    width: 14.w,
-                    height: 15.h,
-                  ),
-            const SizedBox(width: 8),
-            Flexible(
-              child: Text(
-                'Main Button',
-                style: TextStyle(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w600,
-                  color: isGradient ? Colors.white : Colors.black,
+      width: 153.w,
+      height: 28.h,
+      decoration: BoxDecoration(
+        border: isGradient
+            ? null
+            : Border.all(color: AppColors.primary, width: 1),
+        gradient: isGradient ? AppColors.primaryGradient : null,
+        color: isGradient ? null : Colors.transparent,
+        borderRadius: BorderRadius.circular(38.r),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          isGradient
+              ? AppIcons.bookingOutlinedIcon(
+                  color: Colors.white,
+                  width: 14,
+                  height: 15,
+                )
+              : AppIcons.bookingOutlinedIcon(
+                  color: Colors.black,
+                  width: 14,
+                  height: 15,
                 ),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w600,
+                color: isGradient ? Colors.white : Colors.black,
               ),
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget contactUs({required VoidCallback onPressed}) {
+    return AppTappable(
+      onTap: onPressed,
+      width: 146.w,
+      height: 41.h,
+      decoration: BoxDecoration(
+        border: Border.all(width: 1, color: Colors.white),
+        borderRadius: BorderRadius.circular(20.r),
+        color: Colors.transparent,
+      ),
+      child: Center(
+        child: Text(
+          'Contact us',
+          style: TextStyle(fontSize: 20.sp, color: AppColors.primary),
+        ),
+      ),
+    );
+  }
+
+  static Widget customRadioBTN({
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    return AppTappable(
+      onTap: onTap,
+      width: 20.r,
+      height: 20.r,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: AppColors.primary, width: 2.r),
+      ),
+      child: Center(
+        child: selected
+            ? Container(
+                width: 12.r,
+                height: 12.r,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: AppColors.primaryGradient,
+                ),
+              )
+            : null,
+      ),
+    );
+  }
+
+  static Widget switchBTN({
+    required bool value,
+    required VoidCallback onTap,
+    bool isBig = false,
+  }) {
+    final bool hasWhiteTrack = isBig ? value : !value;
+    return AppTappable(
+      onTap: onTap,
+      width: isBig ? 51.w : 31.w,
+      height: isBig ? 26.h : 15.h,
+      padding: EdgeInsets.all(2.r),
+      decoration: BoxDecoration(
+        gradient: hasWhiteTrack ? null : AppColors.primaryGradient,
+        color: hasWhiteTrack ? Colors.white : null,
+        borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: AppColors.primary, width: 1.r),
+      ),
+      child: AnimatedAlign(
+        duration: const Duration(milliseconds: 200),
+        alignment: value ? Alignment.centerRight : Alignment.centerLeft,
+        child: Container(
+          width: 12.r,
+          height: 12.r,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: hasWhiteTrack ? AppColors.primary : Colors.white,
+          ),
         ),
       ),
     );

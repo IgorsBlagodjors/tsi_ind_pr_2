@@ -4,10 +4,23 @@ import 'package:tsi_ind_pr_2/design_system/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/app_icons.dart';
 
 class AppContainers {
-  static Widget notification({required bool hasNotification}) {
+  static Widget smallSquareContainer({required Widget icon}) {
+    return Container(
+      width: 96.w,
+      height: 94.h,
+      decoration: BoxDecoration(
+        gradient: AppColors.primaryGradient,
+
+        borderRadius: BorderRadius.circular(9.r),
+      ),
+      child: icon,
+    );
+  }
+
+  static Widget whiteCircleContainer({required bool hasNotification}) {
     return CircleAvatar(
       radius: 14.r,
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.white,
       child: Stack(
         children: [
           AppIcons.bell,
@@ -30,9 +43,10 @@ class AppContainers {
     );
   }
 
+  // Outlined icon plus outlinet text on the bottom
   static Widget navigations({required Widget icon, required String text}) {
     return Container(
-      color: Colors.red,
+      color: Colors.transparent,
       child: Column(
         children: [
           icon,
@@ -79,6 +93,14 @@ class AppContainers {
           ),
         ],
       ),
+    );
+  }
+
+  static Widget profileAvatar({required AssetImage image}) {
+    return CircleAvatar(
+      radius: 53.5.r,
+      backgroundImage: image,
+      backgroundColor: Colors.transparent,
     );
   }
 }
