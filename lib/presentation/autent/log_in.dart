@@ -49,10 +49,7 @@ class _LogInState extends State<LogIn> {
           ),
         ),
         leading: Center(
-          child: AppIcons.returnIcon(
-            color: Colors.white,
-            width: 10,
-            height: 16,
+          child: AppButtons.backBTN(
             onPressed: () {
               if (context.canPop()) {
                 context.pop();

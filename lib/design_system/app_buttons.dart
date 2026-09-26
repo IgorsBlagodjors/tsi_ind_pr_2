@@ -369,4 +369,22 @@ class AppButtons {
       ),
     );
   }
+
+  static Widget backBTN({required VoidCallback onPressed}) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onPressed,
+      child: SizedBox(
+        width: 48.w,
+        height: 48.h,
+        child: Center(
+          child: AppIcons.returnIcon(
+            color: Colors.white,
+            width: 10.w,
+            height: 16.h,
+          ),
+        ),
+      ),
+    );
+  }
 }
