@@ -1,0 +1,11 @@
+flutter_native_splash:
+  background_image: assets/app_logo_splash/native_background.png
+  image: assets/app_logo_splash/native_logo.png
+  android_gravity: center
+  ios_content_mode: center
+  web_image_mode: center
+
+  # Android 12+ only supports a solid background and a masked central icon.
+  android_12:
+    color: "#33E4DB"
+    image: assets/app_logo_splash/native_android12.png

@@ -202,15 +202,19 @@ class AppIcons {
   }
 
   static Widget returnIcon({
+    required VoidCallback onPressed,
     required Color color,
     required double width,
     required double height,
   }) {
-    return SvgPicture.asset(
-      'assets/icons/return.svg',
-      width: width.w,
-      height: height.h,
-      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+    return GestureDetector(
+      onTap: onPressed,
+      child: SvgPicture.asset(
+        'assets/icons/return.svg',
+        width: width.w,
+        height: height.h,
+        colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+      ),
     );
   }
 

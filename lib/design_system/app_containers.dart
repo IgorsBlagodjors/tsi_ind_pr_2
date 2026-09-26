@@ -9,7 +9,7 @@ class AppContainers {
       width: 96.w,
       height: 94.h,
       decoration: BoxDecoration(
-        gradient: AppColors.primaryGradient,
+        gradient: AppColors.degradadoAzul,
 
         borderRadius: BorderRadius.circular(9.r),
       ),

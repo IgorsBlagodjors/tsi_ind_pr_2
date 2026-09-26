@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/app_colors.dart';
+import 'package:tsi_ind_pr_2/design_system/text_styles.dart';
 
 class AppInputs {
   static Widget inputEmail({required TextEditingController controller}) {
@@ -10,13 +11,13 @@ class AppInputs {
       child: TextFormField(
         controller: controller,
         autofillHints: const [AutofillHints.email],
-        style: TextStyle(color: AppColors.primary, fontSize: 20.sp),
+        style: AppTextStyles.regular20Prime,
         decoration: InputDecoration(
           hintText: 'example@example.com',
-          hintStyle: TextStyle(color: AppColors.primary, fontSize: 20.sp),
+          hintStyle: AppTextStyles.regular20Prime,
           filled: true,
           contentPadding: EdgeInsets.only(top: 15.w, left: 12.h),
-          fillColor: Colors.white,
+          fillColor: AppColors.elements,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(13.r),
             borderSide: BorderSide.none,
@@ -46,18 +47,22 @@ class AppInputs {
   }) {
     return SizedBox(
       width: 299.w,
-      height: 45.h,
+      height: 55.h,
       child: TextFormField(
         controller: controller,
-        autofillHints: const [AutofillHints.password],
+        maxLength: 15,
         obscureText: obscureText,
-        style: TextStyle(fontSize: 20.sp, color: AppColors.primary),
+        textAlignVertical: TextAlignVertical.center,
+        style: AppTextStyles.regular20Prime,
         decoration: InputDecoration(
+          isDense: true,
           filled: true,
-          fillColor: Colors.white,
-          hintText: '**************',
-          hintStyle: TextStyle(fontSize: 20.sp, color: AppColors.primary),
-          contentPadding: EdgeInsets.only(top: 12.h, left: 12.w),
+          fillColor: AppColors.elements,
+          hintText: '••••••••••••••',
+          hintStyle: AppTextStyles.regular20Prime,
+
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0),
+
           suffixIcon: IconButton(
             onPressed: onEyePressed,
             icon: Icon(
@@ -68,11 +73,13 @@ class AppInputs {
               size: 20.r,
             ),
           ),
+
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(13.r),
             borderSide: BorderSide.none,
           ),
         ),
+
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Enter password';
