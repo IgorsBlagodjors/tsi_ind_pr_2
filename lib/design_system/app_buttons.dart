@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:tsi_ind_pr_2/design_system/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/app_tappable.dart';
+import 'package:tsi_ind_pr_2/design_system/text_styles.dart';
 
 class AppButtons {
   static Widget circleInkButton({
@@ -11,6 +12,22 @@ class AppButtons {
     required Widget icon,
   }) {
     return circleIconBTN(onPressed: onPressed, icon: icon);
+  }
+
+  static Widget textButton({
+    required VoidCallback onPressed,
+    required String text,
+    required TextStyle textStyle,
+  }) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      child: Text(text, style: textStyle),
+    );
   }
 
   static Widget circleIconBTN({
@@ -23,7 +40,7 @@ class AppButtons {
       height: 40.r,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        gradient: AppColors.primaryGradient,
+        gradient: AppColors.degradadoAzul,
       ),
       child: icon,
     );
@@ -41,7 +58,7 @@ class AppButtons {
       width: contWidth.w,
       height: contHeight.h,
       decoration: BoxDecoration(
-        gradient: AppColors.primaryGradient,
+        gradient: AppColors.degradadoAzul,
         borderRadius: BorderRadius.circular(radius.r),
       ),
       alignment: Alignment.center,
@@ -64,7 +81,7 @@ class AppButtons {
       width: contWidth.w,
       height: contHeight.h,
       decoration: BoxDecoration(
-        gradient: AppColors.primaryGradient,
+        gradient: AppColors.degradadoAzul,
         borderRadius: BorderRadius.circular(radius.r),
       ),
       alignment: Alignment.center,
@@ -166,8 +183,8 @@ class AppButtons {
       width: 207.w,
       height: 45.h,
       decoration: BoxDecoration(
-        gradient: isGradient ? AppColors.primaryGradient : null,
-        color: isGradient ? null : Colors.white,
+        gradient: isGradient ? AppColors.degradadoAzul : null,
+        color: isGradient ? null : AppColors.elements,
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: ElevatedButton(
@@ -181,11 +198,9 @@ class AppButtons {
         ),
         child: Text(
           text,
-          style: TextStyle(
-            fontSize: 24.sp,
-            fontWeight: FontWeight.w500,
-            color: isGradient ? Colors.white : AppColors.primary,
-          ),
+          style: isGradient
+              ? AppTextStyles.semiBold24Prime.copyWith(color: Colors.white)
+              : AppTextStyles.semiBold24Prime,
         ),
       ),
     );
@@ -208,7 +223,7 @@ class AppButtons {
         border: isGradient
             ? null
             : Border.all(color: AppColors.primary, width: 1),
-        gradient: isGradient ? AppColors.primaryGradient : null,
+        gradient: isGradient ? AppColors.degradadoAzul : null,
         color: isGradient ? null : Colors.transparent,
         borderRadius: BorderRadius.circular(30.r),
       ),
@@ -242,7 +257,7 @@ class AppButtons {
         border: isGradient
             ? null
             : Border.all(color: AppColors.primary, width: 1),
-        gradient: isGradient ? AppColors.primaryGradient : null,
+        gradient: isGradient ? AppColors.degradadoAzul : null,
         color: isGradient ? null : Colors.transparent,
         borderRadius: BorderRadius.circular(38.r),
       ),
@@ -315,7 +330,7 @@ class AppButtons {
                 height: 12.r,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: AppColors.primaryGradient,
+                  gradient: AppColors.degradadoAzul,
                 ),
               )
             : null,
@@ -335,7 +350,7 @@ class AppButtons {
       height: isBig ? 26.h : 15.h,
       padding: EdgeInsets.all(2.r),
       decoration: BoxDecoration(
-        gradient: hasWhiteTrack ? null : AppColors.primaryGradient,
+        gradient: hasWhiteTrack ? null : AppColors.degradadoAzul,
         color: hasWhiteTrack ? Colors.white : null,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: AppColors.primary, width: 1.r),

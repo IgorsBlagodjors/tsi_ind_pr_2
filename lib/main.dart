@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tsi_ind_pr_2/test_page.dart';
+import 'package:tsi_ind_pr_2/app_router.dart';
 
 void main() {
   runApp(
@@ -9,9 +9,10 @@ void main() {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return const MaterialApp(
+        return MaterialApp.router(
           debugShowCheckedModeBanner: false,
-          home: TestPage(),
+          theme: ThemeData(fontFamily: 'League Spartan'),
+          routerConfig: appRouter,
         );
       },
     ),

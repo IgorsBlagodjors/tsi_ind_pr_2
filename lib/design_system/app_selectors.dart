@@ -15,7 +15,7 @@ class AppSelectors {
       width: 96.w,
       height: 94.h,
       decoration: BoxDecoration(
-        gradient: isClicked ? AppColors.primaryGradient : null,
+        gradient: isClicked ? AppColors.degradadoAzul : null,
         color: isClicked ? null : Colors.white,
         borderRadius: BorderRadius.circular(18.r),
       ),
