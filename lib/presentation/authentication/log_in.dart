@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:tsi_ind_pr_2/presentation/authentication/auth_scaffold.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/design_system/app_buttons.dart';
@@ -18,7 +18,18 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
+
+  void _submit() {
+    if (!_formKey.currentState!.validate()) return;
+    FocusScope.of(context).unfocus();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Form is valid. Authentication is not connected yet.'),
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -29,62 +40,38 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        toolbarHeight: 70.h,
-        backgroundColor: const Color(0xFFECF1FF),
-        foregroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-        systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
-          statusBarColor: Colors.transparent,
-        ),
-        flexibleSpace: Padding(
-          padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
-          child: const DecoratedBox(
-            decoration: BoxDecoration(gradient: AppColors.degradadoAzul),
-            child: SizedBox.expand(),
-          ),
-        ),
-        leading: Center(
-          child: AppButtons.backBTN(
-            onPressed: () {
-              if (context.canPop()) {
-                context.pop();
-              } else {
-                context.goNamed('welcome');
-              }
-            },
-          ),
-        ),
-        title: Text(
-          'Log In',
-          style: AppTextStyles.semiBold24Prime.copyWith(color: Colors.white),
-        ),
-      ),
-      body: SafeArea(
-        top: false,
+    return AuthScaffold(
+      title: 'Log In',
+      backRoute: 'welcome',
+      child: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           padding: EdgeInsets.fromLTRB(31.w, 0, 31.w, 24.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 43.h),
               Text('Welcome', style: AppTextStyles.semiBold24Prime),
-              SizedBox(height: 53.h),
+              SizedBox(height: 33.h),
               Text(
                 'Email or Mobile Number',
                 style: AppTextStyles.medium20Black,
               ),
               SizedBox(height: 12.h),
-              AppInputs.inputEmail(controller: emailController),
+              AppInputs.inputEmail(
+                controller: emailController,
+                allowPhone: true,
+              ),
               SizedBox(height: 20.h),
               Text('Password ', style: AppTextStyles.medium20Black),
               SizedBox(height: 12.h),
               AppInputs.inputPassword(
                 controller: passwordController,
+                isNewPassword: false,
+                textInputAction: TextInputAction.done,
+                onSubmitted: _submit,
                 obscureText: obscureText,
                 onEyePressed: () {
                   setState(() {
@@ -98,11 +85,9 @@ class _LogInState extends State<LogIn> {
                 alignment: Alignment.centerRight,
                 child: AppButtons.textButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text(' Forget Password')),
-                    );
+                    context.pushNamed('set_password');
                   },
-                  text: 'Forget Password',
+                  text: 'Forgot Password?',
                   textStyle: AppTextStyles.lague12Light.copyWith(
                     fontWeight: FontWeight.w500,
                     color: AppColors.primary,
@@ -114,13 +99,11 @@ class _LogInState extends State<LogIn> {
                 child: Column(
                   children: [
                     AppButtons.authButton(
+                      width: 191.w,
+                      height: 45.h,
                       isGradient: true,
                       text: 'Log In',
-                      onPressed: () {
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(const SnackBar(content: Text('Log In')));
-                      },
+                      onPressed: _submit,
                     ),
                     SizedBox(height: 29.h),
                     Text('or', style: AppTextStyles.lague12Light),
@@ -142,11 +125,7 @@ class _LogInState extends State<LogIn> {
                           style: AppTextStyles.lague12Light,
                         ),
                         AppButtons.textButton(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Sign Up')),
-                            );
-                          },
+                          onPressed: () => context.pushNamed('create_account'),
                           text: 'Sign Up',
                           textStyle: AppTextStyles.lague12Light.copyWith(
                             color: AppColors.primary,

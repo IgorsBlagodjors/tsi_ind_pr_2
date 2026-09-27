@@ -177,11 +177,13 @@ class AppButtons {
   static Widget authButton({
     required String text,
     required VoidCallback onPressed,
+    required double width,
+    required double height,
     bool isGradient = false,
   }) {
     return Container(
-      width: 207.w,
-      height: 45.h,
+      width: width,
+      constraints: BoxConstraints(minHeight: height),
       decoration: BoxDecoration(
         gradient: isGradient ? AppColors.degradadoAzul : null,
         color: isGradient ? null : AppColors.elements,
@@ -198,6 +200,7 @@ class AppButtons {
         ),
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: isGradient
               ? AppTextStyles.semiBold24Prime.copyWith(color: Colors.white)
               : AppTextStyles.semiBold24Prime,
