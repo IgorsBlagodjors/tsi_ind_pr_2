@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tsi_ind_pr_2/presentation/home/home_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tsi_ind_pr_2/app/router/app_router.dart';
 import 'package:tsi_ind_pr_2/presentation/home/widgets/section_header.dart';
+import 'package:tsi_ind_pr_2/presentation/specialties/specialties.dart';
 
 void main() {
   for (final width in [320.0, 360.0, 430.0]) {
@@ -19,12 +21,17 @@ void main() {
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
+      final router = GoRouter(
+        initialLocation: '/bottom_navigation',
+        routes: appRouter.configuration.routes,
+      );
+      addTearDown(router.dispose);
       await tester.pumpWidget(
         ScreenUtilInit(
           designSize: const Size(360, 800),
-          builder: (context, child) => MaterialApp(
+          builder: (context, child) => MaterialApp.router(
             theme: ThemeData(fontFamily: 'League Spartan'),
-            home: const HomePage(),
+            routerConfig: router,
           ),
         ),
       );
@@ -54,7 +61,6 @@ void main() {
       for (final entry in [
         (0, 'All categories'),
         (2, 'All appointments'),
-        (3, 'All specialties'),
       ]) {
         await checkAction(
           find.descendant(
@@ -77,6 +83,20 @@ void main() {
       for (final label in ['Favorite', 'Doctors', 'Pharmacy', 'Record']) {
         await checkAction(find.text(label), label);
       }
+      final seeAllSpecialties = find.descendant(
+        of: headers.at(3),
+        matching: find.text('See all'),
+      );
+      await tester.ensureVisible(seeAllSpecialties);
+      await tester.pumpAndSettle();
+      await tester.tap(seeAllSpecialties);
+      await tester.pumpAndSettle();
+      expect(find.byType(Specialties), findsOneWidget);
+      expect(router.canPop(), isTrue);
+      router.pop();
+      await tester.pumpAndSettle();
+      expect(find.byType(SectionHeader), findsWidgets);
+      expect(tester.takeException(), isNull);
     });
   }
 }

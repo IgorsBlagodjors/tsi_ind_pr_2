@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_selectors.dart';
 import 'package:tsi_ind_pr_2/presentation/home/widgets/section_header.dart';
@@ -37,58 +38,65 @@ class HomePage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 31.w),
                 child: SectionHeader(
                   title: 'Specialties',
-                  onPressed: () =>
-                      showActionMessage(context, 'All specialties'),
+                  onPressed: () => context.pushNamed('specialties'),
                 ),
               ),
               SizedBox(height: 18.h),
-              Wrap(
-                spacing: 5.w,
-                runSpacing: 15.h,
-                children: [
-                  AppSelectors.specialitySelector(
-                    onPressed: () => showActionMessage(context, 'Cardiology'),
-                    icon: AppIcons.cardiology(color: Colors.white),
-                    text: 'Cardiology',
-                    isClicked: true,
-                  ),
-                  AppSelectors.specialitySelector(
-                    onPressed: () => showActionMessage(context, 'Dermatology'),
-                    icon: AppIcons.dermatology(color: Colors.white),
-                    text: 'Dermatology',
-                    isClicked: true,
-                  ),
-                  AppSelectors.specialitySelector(
-                    onPressed: () =>
-                        showActionMessage(context, 'General medicine'),
-                    icon: AppIcons.generalMedicine(color: Colors.white),
-                    text: 'General medicine',
-                    isClicked: true,
-                  ),
-                  AppSelectors.specialitySelector(
-                    onPressed: () => showActionMessage(context, 'Gynecology'),
-                    icon: AppIcons.gynecology(color: Colors.white),
-                    text: 'Gynecology',
-                    isClicked: true,
-                  ),
-                  AppSelectors.specialitySelector(
-                    onPressed: () => showActionMessage(context, 'Odontology'),
-                    icon: AppIcons.odontology(color: Colors.white),
-                    text: 'Odontology',
-                    isClicked: true,
-                  ),
-                  AppSelectors.specialitySelector(
-                    onPressed: () => showActionMessage(context, 'Oncology'),
-                    icon: AppIcons.oncology(color: Colors.white),
-                    text: 'Oncology',
-                    isClicked: true,
-                  ),
-                ],
-              ),
+              SpecialitySection(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class SpecialitySection extends StatelessWidget {
+  const new({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 5.w,
+      runSpacing: 15.h,
+      children: [
+        AppSelectors.specialitySelector(
+          onPressed: () => showActionMessage(context, 'Cardiology'),
+          icon: AppIcons.cardiology(color: Colors.white),
+          text: 'Cardiology',
+          isClicked: true,
+        ),
+        AppSelectors.specialitySelector(
+          onPressed: () => showActionMessage(context, 'Dermatology'),
+          icon: AppIcons.dermatology(color: Colors.white),
+          text: 'Dermatology',
+          isClicked: true,
+        ),
+        AppSelectors.specialitySelector(
+          onPressed: () => showActionMessage(context, 'General medicine'),
+          icon: AppIcons.generalMedicine(color: Colors.white),
+          text: 'General medicine',
+          isClicked: true,
+        ),
+        AppSelectors.specialitySelector(
+          onPressed: () => showActionMessage(context, 'Gynecology'),
+          icon: AppIcons.gynecology(color: Colors.white),
+          text: 'Gynecology',
+          isClicked: true,
+        ),
+        AppSelectors.specialitySelector(
+          onPressed: () => showActionMessage(context, 'Odontology'),
+          icon: AppIcons.odontology(color: Colors.white),
+          text: 'Odontology',
+          isClicked: true,
+        ),
+        AppSelectors.specialitySelector(
+          onPressed: () => showActionMessage(context, 'Oncology'),
+          icon: AppIcons.oncology(color: Colors.white),
+          text: 'Oncology',
+          isClicked: true,
+        ),
+      ],
     );
   }
 }

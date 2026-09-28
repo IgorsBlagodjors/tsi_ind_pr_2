@@ -6,6 +6,7 @@ import 'package:tsi_ind_pr_2/design_system/components/app_tappable.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/pages/log_in.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/pages/set_password.dart';
 import 'package:tsi_ind_pr_2/presentation/home/home_page.dart';
+import 'package:tsi_ind_pr_2/presentation/specialties/specialties.dart';
 import 'package:tsi_ind_pr_2/presentation/welcome/welcome_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -20,7 +21,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     HomePage(),
     WelcomeScreen(),
     LogIn(),
-    SetPassword(),
+    Specialties(),
   ];
   int currentIndex = 0;
 
