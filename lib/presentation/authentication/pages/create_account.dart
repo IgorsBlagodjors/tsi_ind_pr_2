@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tsi_ind_pr_2/presentation/authentication/auth_scaffold.dart';
+import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tsi_ind_pr_2/design_system/app_buttons.dart';
-import 'package:tsi_ind_pr_2/design_system/app_colors.dart';
-import 'package:tsi_ind_pr_2/design_system/app_icons.dart';
-import 'package:tsi_ind_pr_2/design_system/app_inputs.dart';
-import 'package:tsi_ind_pr_2/design_system/text_styles.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
+import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_inputs.dart';
+import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 
 class CreateAccount extends StatefulWidget {
   const new({super.key});
@@ -177,9 +177,7 @@ class _CreateAccountState extends State<CreateAccount> {
                           SizedBox(width: 9.w),
                           AppButtons.circleIconBTN(
                             onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Facebook')),
-                              );
+                              context.goNamed('bottom_navigation');
                             },
                             icon: AppIcons.facebookIcon(),
                           ),

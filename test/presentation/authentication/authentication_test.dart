@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tsi_ind_pr_2/presentation/authentication/log_in.dart';
-import 'package:tsi_ind_pr_2/presentation/authentication/create_account.dart';
-import 'package:tsi_ind_pr_2/presentation/authentication/set_password.dart';
+import 'package:tsi_ind_pr_2/presentation/authentication/pages/log_in.dart';
+import 'package:tsi_ind_pr_2/presentation/authentication/pages/create_account.dart';
+import 'package:tsi_ind_pr_2/presentation/authentication/pages/set_password.dart';
 
 Future<void> showScreen(
   WidgetTester tester,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tsi_ind_pr_2/design_system/app_colors.dart';
-import 'package:tsi_ind_pr_2/design_system/app_icons.dart';
+import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_tappable.dart';
 
 class AppContainers {
   static Widget smallSquareContainer({required Widget icon}) {
@@ -17,13 +17,18 @@ class AppContainers {
     );
   }
 
-  static Widget whiteCircleContainer({required bool hasNotification}) {
-    return CircleAvatar(
-      radius: 14.r,
-      backgroundColor: Colors.white,
+  static Widget whiteCircleContainer({
+    bool hasNotification = false,
+    required double radius,
+    required Widget icon,
+    VoidCallback? onTap,
+  }) {
+    final avatar = CircleAvatar(
+      radius: radius.r,
+      backgroundColor: AppColors.elements,
       child: Stack(
         children: [
-          AppIcons.bell,
+          icon,
           Positioned(
             right: 0,
             top: 0,
@@ -41,18 +46,32 @@ class AppContainers {
         ],
       ),
     );
+    if (onTap == null) return avatar;
+    return AppTappable(
+      onTap: onTap,
+      decoration: const BoxDecoration(shape: BoxShape.circle),
+      child: avatar,
+    );
   }
 
   // Outlined icon plus outlinet text on the bottom
-  static Widget navigations({required Widget icon, required String text}) {
-    return Container(
-      color: Colors.transparent,
+  static Widget navigations({
+    required Widget icon,
+    required String text,
+    VoidCallback? onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
       child: Column(
         children: [
           icon,
           Text(
             text,
-            style: TextStyle(fontSize: 12.sp, color: AppColors.primary),
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: AppColors.primary,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ],
       ),
@@ -70,6 +89,7 @@ class AppContainers {
       decoration: BoxDecoration(
         color: isSelected ? Colors.white : Colors.transparent,
         borderRadius: BorderRadius.circular(18.r),
+        border: Border.all(color: Colors.white, width: 1.w),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -96,9 +116,12 @@ class AppContainers {
     );
   }
 
-  static Widget profileAvatar({required AssetImage image}) {
+  static Widget profileAvatar({
+    required AssetImage image,
+    required double radius,
+  }) {
     return CircleAvatar(
-      radius: 53.5.r,
+      radius: radius.r,
       backgroundImage: image,
       backgroundColor: Colors.transparent,
     );

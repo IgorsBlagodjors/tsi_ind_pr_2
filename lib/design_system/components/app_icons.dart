@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tsi_ind_pr_2/design_system/app_colors.dart';
+import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 
 class AppIcons {
   static Widget userOutlinedIcon({
@@ -118,7 +118,7 @@ class AppIcons {
     );
   }
 
-  static Widget sattingIcon({
+  static Widget settingIcon({
     required Color color,
     required double width,
     required double height,
@@ -245,10 +245,10 @@ class AppIcons {
     );
   }
 
-  static Widget chatOutlinedIcon() {
+  static Widget chatOutlinedIcon({double width = 20}) {
     return SvgPicture.asset(
       'assets/icons/chatOutlined.svg',
-      width: 20.0.w,
+      width: width.w,
       height: 17.5.h,
     );
   }
@@ -292,11 +292,11 @@ class AppIcons {
     );
   }
 
-  static Widget edit() {
+  static Widget edit({required double width, required double height}) {
     return SvgPicture.asset(
       'assets/icons/edit.svg',
-      width: 12.15.w,
-      height: 17.55.h,
+      width: width.w,
+      height: height.h,
     );
   }
 

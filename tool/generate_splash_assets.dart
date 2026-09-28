@@ -7,7 +7,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/painting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tsi_ind_pr_2/design_system/app_colors.dart';
+import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 
 const _directory = 'assets/app_logo_splash';
 

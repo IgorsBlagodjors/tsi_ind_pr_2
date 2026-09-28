@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tsi_ind_pr_2/presentation/authentication/auth_scaffold.dart';
+import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tsi_ind_pr_2/design_system/app_buttons.dart';
-import 'package:tsi_ind_pr_2/design_system/app_inputs.dart';
-import 'package:tsi_ind_pr_2/design_system/text_styles.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_inputs.dart';
+import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 
 class SetPassword extends StatefulWidget {
   const new({super.key});
