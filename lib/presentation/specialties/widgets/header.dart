@@ -2,15 +2,22 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 
 class Header extends StatefulWidget {
-  const Header({super.key, required this.title, this.onSearchChanged});
+  const Header({
+    super.key,
+    required this.title,
+    this.onSearchChanged,
+    required this.onPressed,
+  });
 
   final String title;
   final ValueChanged<String>? onSearchChanged;
+  final VoidCallback onPressed;
 
   @override
   State<Header> createState() => _HeaderState();
@@ -46,11 +53,7 @@ class _HeaderState extends State<Header> {
             children: [
               Align(
                 alignment: Alignment.centerLeft,
-                child: AppIcons.returnIcon(
-                  color: Colors.white,
-                  width: 8.w,
-                  height: 14.h,
-                ),
+                child: AppButtons.backBTN(onPressed: widget.onPressed),
               ),
               Text(
                 widget.title,
@@ -61,7 +64,7 @@ class _HeaderState extends State<Header> {
               ),
             ],
           ),
-          SizedBox(height: 22.h),
+          SizedBox(height: 12.h),
           Text('Find Your Doctor', style: AppTextStyles.regular16White),
           SizedBox(height: 22.h),
           SizedBox(

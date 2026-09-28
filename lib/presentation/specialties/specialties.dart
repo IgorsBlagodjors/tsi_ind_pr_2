@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
-import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/presentation/specialties/widgets/header.dart';
 import 'package:tsi_ind_pr_2/presentation/specialties/widgets/specialties_filter.dart';
 
@@ -19,7 +18,7 @@ class _SpecialtiesState extends State<Specialties> {
       child: Scaffold(
         body: Column(
           children: [
-            Header(title: 'Specialties'),
+            Header(title: 'Specialties', onPressed: () => context.pop()),
             SizedBox(height: 25.h),
             SpecialtiesFilter(trailingText: 'Doctors'),
           ],
@@ -28,5 +27,3 @@ class _SpecialtiesState extends State<Specialties> {
     );
   }
 }
-
-class Appcolors {}
