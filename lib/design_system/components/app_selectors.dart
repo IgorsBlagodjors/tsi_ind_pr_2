@@ -8,6 +8,7 @@ class AppSelectors {
     required VoidCallback onPressed,
     required Widget icon,
     required String text,
+    required double fontSize,
     bool isClicked = false,
   }) {
     return AppTappable(
@@ -31,7 +32,7 @@ class AppSelectors {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 13.sp,
+                fontSize: fontSize.sp,
                 fontWeight: FontWeight.w600,
                 color: isClicked ? Colors.white : AppColors.primary,
                 height: 1,

@@ -1,3 +1,7 @@
+export 'doctor.dart';
+export 'doctor_type.dart';
+export 'doctors.dart';
+
 const List<String> doctorAvatars = [
   'assets/avatars/Dr. Ava.png',
   'assets/avatars/Dr. Benjamin.png',

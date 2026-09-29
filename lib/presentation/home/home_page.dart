@@ -61,36 +61,42 @@ class SpecialitySection extends StatelessWidget {
       runSpacing: 15.h,
       children: [
         AppSelectors.specialitySelector(
+          fontSize: 13,
           onPressed: () => showActionMessage(context, 'Cardiology'),
           icon: AppIcons.cardiology(color: Colors.white),
           text: 'Cardiology',
           isClicked: true,
         ),
         AppSelectors.specialitySelector(
+          fontSize: 13,
           onPressed: () => showActionMessage(context, 'Dermatology'),
           icon: AppIcons.dermatology(color: Colors.white),
           text: 'Dermatology',
           isClicked: true,
         ),
         AppSelectors.specialitySelector(
+          fontSize: 13,
           onPressed: () => showActionMessage(context, 'General medicine'),
           icon: AppIcons.generalMedicine(color: Colors.white),
           text: 'General medicine',
           isClicked: true,
         ),
         AppSelectors.specialitySelector(
+          fontSize: 13,
           onPressed: () => showActionMessage(context, 'Gynecology'),
           icon: AppIcons.gynecology(color: Colors.white),
           text: 'Gynecology',
           isClicked: true,
         ),
         AppSelectors.specialitySelector(
+          fontSize: 13,
           onPressed: () => showActionMessage(context, 'Odontology'),
           icon: AppIcons.odontology(color: Colors.white),
           text: 'Odontology',
           isClicked: true,
         ),
         AppSelectors.specialitySelector(
+          fontSize: 13,
           onPressed: () => showActionMessage(context, 'Oncology'),
           icon: AppIcons.oncology(color: Colors.white),
           text: 'Oncology',
