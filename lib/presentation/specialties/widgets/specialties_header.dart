@@ -7,8 +7,8 @@ import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 
-class Header extends StatefulWidget {
-  const Header({
+class SpecialtiesHeader extends StatefulWidget {
+  const SpecialtiesHeader({
     super.key,
     required this.title,
     this.onSearchChanged,
@@ -20,10 +20,10 @@ class Header extends StatefulWidget {
   final VoidCallback onPressed;
 
   @override
-  State<Header> createState() => _HeaderState();
+  State<SpecialtiesHeader> createState() => _HeaderState();
 }
 
-class _HeaderState extends State<Header> {
+class _HeaderState extends State<SpecialtiesHeader> {
   Timer? _searchDebounce;
 
   void _onSearchChanged(String value) {

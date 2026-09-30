@@ -1,8 +1,10 @@
 import 'package:go_router/go_router.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/pages/create_account.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/pages/log_in.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/pages/set_password.dart';
 import 'package:tsi_ind_pr_2/presentation/navigation/bottom_navigation.dart';
+import 'package:tsi_ind_pr_2/presentation/specialties/doctors_page.dart';
 import 'package:tsi_ind_pr_2/presentation/specialties/specialties.dart';
 
 import 'package:tsi_ind_pr_2/presentation/welcome/welcome_screen.dart';
@@ -39,6 +41,12 @@ final appRouter = GoRouter(
       path: '/specialties',
       name: 'specialties',
       builder: (context, state) => const Specialties(),
+    ),
+    GoRoute(
+      path: '/doctors_page',
+      name: 'doctors_page',
+      builder: (context, state) =>
+          DoctorsPage(doctorType: state.extra as DoctorType),
     ),
   ],
 );

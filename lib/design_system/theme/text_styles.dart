@@ -57,6 +57,13 @@ class AppTextStyles {
     fontFamily: 'League Spartan',
   );
 
+  static TextStyle get medium15Prime => TextStyle(
+    color: AppColors.primary,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w500,
+    fontFamily: 'League Spartan',
+  );
+
   static TextStyle get medium14White => TextStyle(
     color: Colors.white,
     fontSize: 14.sp,

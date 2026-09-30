@@ -9,7 +9,7 @@ final List<Map<String, Object>> specialties = [
   {
     'image': 'assets/icons/dermatology.svg',
     'title': 'Dermatology',
-    'type': DoctorType.cardiology,
+    'type': DoctorType.dermatology,
   },
   {
     'image': 'assets/icons/generalMedicine.svg',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_tappable.dart';
+import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 
 class AppContainers {
   static Widget smallSquareContainer({required Widget icon}) {
@@ -124,6 +125,19 @@ class AppContainers {
       radius: radius.r,
       backgroundImage: image,
       backgroundColor: Colors.transparent,
+    );
+  }
+
+  static Widget primaryBorderContainer({required String plaintText}) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(38.r),
+        border: BoxBorder.all(color: AppColors.primary, width: 1.r),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 2.h),
+        child: Text(plaintText, style: AppTextStyles.semiBold14Prime),
+      ),
     );
   }
 }

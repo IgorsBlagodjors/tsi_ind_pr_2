@@ -4,10 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/specialties.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_selectors.dart';
-import 'package:tsi_ind_pr_2/design_system/components/app_tappable.dart';
-import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
-import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
-import 'package:tsi_ind_pr_2/presentation/specialties/widgets/header.dart';
+import 'package:tsi_ind_pr_2/presentation/specialties/widgets/Specialties_header.dart';
 import 'package:tsi_ind_pr_2/presentation/specialties/widgets/specialties_filter.dart';
 
 class Specialties extends StatefulWidget {
@@ -20,11 +17,14 @@ class Specialties extends StatefulWidget {
 class _SpecialtiesState extends State<Specialties> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
-            Header(title: 'Specialties', onPressed: () => context.pop()),
+            SpecialtiesHeader(
+              title: 'Specialties',
+              onPressed: () => context.pop(),
+            ),
             SizedBox(height: 25.h),
             SpecialtiesFilter(trailingText: 'Doctors'),
             Expanded(
@@ -43,7 +43,7 @@ class _SpecialtiesState extends State<Specialties> {
                     return AppSelectors.specialitySelector(
                       isClicked: true,
                       onPressed: () {
-                        showActionMessage(context, item['title']!.toString());
+                        context.pushNamed('doctors_page', extra: item['type']);
                       },
                       icon: SvgPicture.asset(
                         item['image']!.toString(),

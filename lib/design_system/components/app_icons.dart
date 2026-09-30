@@ -41,11 +41,12 @@ class AppIcons {
     );
   }
 
-  static Widget heartIcon() {
+  static Widget heartIcon({required Color color}) {
     return SvgPicture.asset(
       'assets/icons/heart.svg',
       width: 18.18.w,
       height: 16.36.h,
+      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
   }
 

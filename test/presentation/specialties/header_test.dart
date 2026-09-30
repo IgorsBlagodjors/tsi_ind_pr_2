@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tsi_ind_pr_2/presentation/specialties/widgets/header.dart';
+import 'package:tsi_ind_pr_2/presentation/specialties/widgets/specialties_header.dart';
 
 void main() {
   testWidgets('Search waits for a three-second pause and cancels on disposal', (
