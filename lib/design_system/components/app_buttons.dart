@@ -390,4 +390,32 @@ class AppButtons {
       ),
     );
   }
+
+  static Widget infoOutlinedPrimeBTN({
+    required String plaintText,
+    required VoidCallback onPressed,
+  }) {
+    return AppTappable(
+      onTap: onPressed,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(38.r),
+        border: BoxBorder.all(color: AppColors.primary, width: 1.r),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 2.h),
+        child: Text(plaintText, style: AppTextStyles.semiBold14Prime),
+      ),
+    );
+
+    // Container(
+    //   decoration: BoxDecoration(
+    //     borderRadius: BorderRadius.circular(38.r),
+    //     border: BoxBorder.all(color: AppColors.primary, width: 1.r),
+    //   ),
+    //   child: Padding(
+    //     padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 2.h),
+    //     child: Text(plaintText, style: AppTextStyles.semiBold14Prime),
+    //   ),
+    // );
+  }
 }

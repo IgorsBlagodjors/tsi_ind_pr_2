@@ -4,23 +4,25 @@ import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctors.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
-import 'package:tsi_ind_pr_2/presentation/specialties/widgets/Specialties_header.dart';
-import 'package:tsi_ind_pr_2/presentation/specialties/widgets/specialties_filter.dart';
+import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
+import 'package:tsi_ind_pr_2/presentation/widgets/specialties_filter.dart';
+import 'package:tsi_ind_pr_2/presentation/widgets/specialties_header.dart';
 
-class DoctorsPage extends StatefulWidget {
+class DocBySpecialty extends StatefulWidget {
   const new({super.key, required this.doctorType});
 
   final DoctorType doctorType;
 
   @override
-  State<DoctorsPage> createState() => _DoctorsPageState();
+  State<DocBySpecialty> createState() => _DocBySpecialtyState();
 }
 
-class _DoctorsPageState extends State<DoctorsPage> {
+class _DocBySpecialtyState extends State<DocBySpecialty> {
   @override
   Widget build(BuildContext context) {
     final List<Doctor> doctorList = doctorsByType(widget.doctorType);
@@ -39,7 +41,10 @@ class _DoctorsPageState extends State<DoctorsPage> {
               },
             ),
             SizedBox(height: 28.h),
-            SpecialtiesFilter(trailingText: 'See all'),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 31.w),
+              child: SpecialtiesFilter(trailingText: 'See all'),
+            ),
             SizedBox(height: 14.h),
             Expanded(
               child: Padding(
@@ -78,7 +83,11 @@ class _DoctorsPageState extends State<DoctorsPage> {
                                     SizedBox(height: 15.h),
                                     Row(
                                       children: [
-                                        AppContainers.primaryBorderContainer(
+                                        AppButtons.infoOutlinedPrimeBTN(
+                                          onPressed: () => showActionMessage(
+                                            context,
+                                            'Info',
+                                          ),
                                           plaintText: 'Info',
                                         ),
                                         Spacer(),

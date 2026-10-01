@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/specialties.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_selectors.dart';
-import 'package:tsi_ind_pr_2/presentation/specialties/widgets/Specialties_header.dart';
-import 'package:tsi_ind_pr_2/presentation/specialties/widgets/specialties_filter.dart';
+import 'package:tsi_ind_pr_2/presentation/widgets/specialties_filter.dart';
+import 'package:tsi_ind_pr_2/presentation/widgets/specialties_header.dart';
 
 class Specialties extends StatefulWidget {
   const new({super.key});
@@ -26,7 +26,10 @@ class _SpecialtiesState extends State<Specialties> {
               onPressed: () => context.pop(),
             ),
             SizedBox(height: 25.h),
-            SpecialtiesFilter(trailingText: 'Doctors'),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 31.w),
+              child: SpecialtiesFilter(trailingText: 'Doctors'),
+            ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40.26.w),
@@ -43,7 +46,10 @@ class _SpecialtiesState extends State<Specialties> {
                     return AppSelectors.specialitySelector(
                       isClicked: true,
                       onPressed: () {
-                        context.pushNamed('doctors_page', extra: item['type']);
+                        context.pushNamed(
+                          'doc_by_specialty',
+                          extra: item['type'],
+                        );
                       },
                       icon: SvgPicture.asset(
                         item['image']!.toString(),

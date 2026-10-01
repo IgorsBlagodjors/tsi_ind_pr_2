@@ -38,7 +38,8 @@ class HomePage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 31.w),
                 child: SectionHeader(
                   title: 'Specialties',
-                  onPressed: () => context.pushNamed('specialties'),
+                  onPressed: () =>
+                      showActionMessage(context, 'All specialties'),
                 ),
               ),
               SizedBox(height: 18.h),
@@ -129,7 +130,7 @@ class SpecialtiesSection extends StatelessWidget {
           AppContainers.navigations(
             icon: AppIcons.stethoscopeIcon(),
             text: 'Doctors',
-            onTap: () => showActionMessage(context, 'Doctors'),
+            onTap: () => context.pushNamed('doctors'),
           ),
           AppContainers.navigations(
             icon: AppIcons.pharmacyIcon(),
@@ -139,7 +140,9 @@ class SpecialtiesSection extends StatelessWidget {
           AppContainers.navigations(
             icon: AppIcons.speciality(),
             text: 'Specialties',
-            onTap: () => showActionMessage(context, 'Specialties'),
+            onTap: () {
+              context.pushNamed('specialties');
+            },
           ),
           AppContainers.navigations(
             icon: AppIcons.record(),

@@ -127,17 +127,4 @@ class AppContainers {
       backgroundColor: Colors.transparent,
     );
   }
-
-  static Widget primaryBorderContainer({required String plaintText}) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(38.r),
-        border: BoxBorder.all(color: AppColors.primary, width: 1.r),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 2.h),
-        child: Text(plaintText, style: AppTextStyles.semiBold14Prime),
-      ),
-    );
-  }
 }
