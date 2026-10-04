@@ -70,11 +70,24 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
     fontFamily: 'League Spartan',
   );
+  static TextStyle get light14White => TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+    fontFamily: 'League Spartan',
+  );
 
   static TextStyle get light13Prime => TextStyle(
     fontSize: 13.sp,
     fontWeight: FontWeight.w400,
     color: AppColors.primary,
+    fontFamily: 'League Spartan',
+  );
+
+  static TextStyle get semiBold12Prime => TextStyle(
+    color: AppColors.primary,
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w600,
     fontFamily: 'League Spartan',
   );
 

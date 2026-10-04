@@ -42,7 +42,6 @@ class _HeaderState extends State<SpecialtiesHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 28.w),
       height: 197.h,
       decoration: BoxDecoration(gradient: AppColors.degradadoAzul),
       child: Column(
@@ -51,9 +50,12 @@ class _HeaderState extends State<SpecialtiesHeader> {
           Stack(
             alignment: Alignment.center,
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: AppButtons.backBTN(onPressed: widget.onPressed),
+              Padding(
+                padding: EdgeInsets.only(left: 21.w),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: AppButtons.backBTN(onPressed: widget.onPressed),
+                ),
               ),
               Text(
                 widget.title,
@@ -69,32 +71,35 @@ class _HeaderState extends State<SpecialtiesHeader> {
           SizedBox(height: 22.h),
           SizedBox(
             height: 38.h,
-            child: TextFormField(
-              onChanged: _onSearchChanged,
-              textAlignVertical: TextAlignVertical.center,
-              decoration: InputDecoration(
-                prefixIcon: Padding(
-                  padding: EdgeInsets.only(left: 13.9.w, right: 10.93.w),
-                  child: AppIcons.search(),
-                ),
-                prefixIconConstraints: BoxConstraints(
-                  minWidth: 38.w,
-                  minHeight: 38.h,
-                ),
-                hintText: 'Search',
-                hintStyle: AppTextStyles.regular16White.copyWith(
-                  color: AppColors.primary,
-                ),
-                filled: true,
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 13.91.w,
-                  vertical: 0,
-                ),
-                fillColor: AppColors.elements,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50.r),
-                  borderSide: BorderSide.none,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 31.w),
+              child: TextFormField(
+                onChanged: _onSearchChanged,
+                textAlignVertical: TextAlignVertical.center,
+                decoration: InputDecoration(
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.only(left: 13.9.w, right: 10.93.w),
+                    child: AppIcons.search(),
+                  ),
+                  prefixIconConstraints: BoxConstraints(
+                    minWidth: 38.w,
+                    minHeight: 38.h,
+                  ),
+                  hintText: 'Search',
+                  hintStyle: AppTextStyles.regular16White.copyWith(
+                    color: AppColors.primary,
+                  ),
+                  filled: true,
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 13.91.w,
+                    vertical: 0,
+                  ),
+                  fillColor: AppColors.elements,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50.r),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),

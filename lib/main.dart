@@ -17,7 +17,14 @@ Future<void> main() async {
       builder: (context, child) {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(fontFamily: 'League Spartan'),
+          theme: ThemeData(
+            fontFamily: 'League Spartan',
+            scaffoldBackgroundColor: Colors.white,
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF13CAD6),
+              surface: Colors.white,
+            ),
+          ),
           routerConfig: appRouter,
         );
       },

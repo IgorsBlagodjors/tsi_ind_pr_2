@@ -25,19 +25,29 @@ class AppIcons {
     );
   }
 
-  static Widget checkIcon() {
+  static Widget checkIcon({
+    required Color color,
+    required double width,
+    required double height,
+  }) {
     return SvgPicture.asset(
       'assets/icons/check.svg',
-      width: 21.w,
-      height: 15.75.h,
+      width: width,
+      height: height,
+      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
   }
 
-  static Widget closeIcon() {
+  static Widget closeIcon({
+    required Color color,
+    required double width,
+    required double height,
+  }) {
     return SvgPicture.asset(
       'assets/icons/x.svg',
-      width: 12.95.w,
-      height: 13.33.h,
+      width: width,
+      height: height,
+      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
   }
 
@@ -48,6 +58,18 @@ class AppIcons {
       height: 16.36.h,
       colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
+  }
+
+  static Widget phoneIcon() {
+    return SvgPicture.asset(
+      'assets/icons/phone.svg',
+      width: 10.w,
+      height: 11.h,
+    );
+  }
+
+  static Widget cameraIcon() {
+    return SvgPicture.asset('assets/icons/camera.svg');
   }
 
   static Widget heartOutlinedIcon({
@@ -63,9 +85,12 @@ class AppIcons {
     );
   }
 
-  static Widget topIcon() {
+  static Widget topIcon({Color? color}) {
     return SvgPicture.asset(
       'assets/icons/top.svg',
+      colorFilter: color == null
+          ? null
+          : ColorFilter.mode(color, BlendMode.srcIn),
       width: 18.51.w,
       height: 18.51.h,
     );
@@ -246,11 +271,14 @@ class AppIcons {
     );
   }
 
-  static Widget chatOutlinedIcon({double width = 20}) {
+  static Widget chatOutlinedIcon({
+    required double width,
+    required double height,
+  }) {
     return SvgPicture.asset(
       'assets/icons/chatOutlined.svg',
       width: width.w,
-      height: 17.5.h,
+      height: height.h,
     );
   }
 
@@ -402,8 +430,22 @@ class AppIcons {
     height: 34.5.h,
   );
 
-  static Widget get messaheIcon =>
-      SvgPicture.asset('assets/icons/message.svg', width: 18.w, height: 18.h);
+  static Widget messageIcon({
+    required Color color,
+    required double width,
+    required double height,
+  }) {
+    return SvgPicture.asset(
+      'assets/icons/message.svg',
+      width: width,
+      height: height,
+      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+    );
+  }
+
+  static Widget messageOutlinedIcon() {
+    return SvgPicture.asset('assets/icons/messageOutlined.svg');
+  }
 
   static Widget analysis({bool big = false}) {
     return SvgPicture.asset(

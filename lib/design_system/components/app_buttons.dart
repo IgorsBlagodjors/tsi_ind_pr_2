@@ -7,13 +7,6 @@ import 'package:tsi_ind_pr_2/design_system/components/app_tappable.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 
 class AppButtons {
-  static Widget circleInkButton({
-    required VoidCallback onPressed,
-    required Widget icon,
-  }) {
-    return circleIconBTN(onPressed: onPressed, icon: icon);
-  }
-
   static Widget textButton({
     required VoidCallback onPressed,
     required String text,
@@ -30,17 +23,41 @@ class AppButtons {
     );
   }
 
-  static Widget circleIconBTN({
+  static Widget gradientCircleIconBTN({
     required VoidCallback onPressed,
     required Widget icon,
+    required double radius,
+    bool gradientOutlined = false,
   }) {
     return AppTappable(
       onTap: onPressed,
-      width: 40.r,
-      height: 40.r,
-      decoration: const BoxDecoration(
+      width: radius * 2,
+      height: radius * 2,
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: AppColors.degradadoAzul,
+        gradient: gradientOutlined ? null : AppColors.degradadoAzul,
+        border: gradientOutlined
+            ? BoxBorder.all(width: 1, color: AppColors.primary)
+            : null,
+      ),
+      child: icon,
+    );
+  }
+
+  static Widget circleIconBTN({
+    required VoidCallback onPressed,
+    required Widget icon,
+    required double radius,
+    bool fullWhite = false,
+  }) {
+    return AppTappable(
+      onTap: onPressed,
+      width: radius * 2,
+      height: radius * 2,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: fullWhite ? Colors.transparent : Colors.white,
+        border: fullWhite ? Border.all(color: Colors.white, width: 1.r) : null,
       ),
       child: icon,
     );
@@ -213,15 +230,16 @@ class AppButtons {
   static Widget singleTextButton({
     required String text,
     required VoidCallback onPressed,
-    required double width,
     required double height,
+    required horizontalPadding,
+    TextStyle? textStyle,
+    bool adaptiveHeight = false,
     bool isGradient = false,
     bool textIsBlack = false,
   }) {
     return AppTappable(
       onTap: onPressed,
-      width: width.w,
-      height: height.h,
+      height: adaptiveHeight ? null : height,
       decoration: BoxDecoration(
         border: isGradient
             ? null
@@ -230,17 +248,28 @@ class AppButtons {
         color: isGradient ? null : Colors.transparent,
         borderRadius: BorderRadius.circular(30.r),
       ),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: isGradient
-                ? Colors.white
-                : textIsBlack
-                ? Colors.black
-                : AppColors.primary,
+      child: Container(
+        constraints: adaptiveHeight ? BoxConstraints(minHeight: height) : null,
+        padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding,
+          vertical: adaptiveHeight ? 4 : 0,
+        ),
+        alignment: Alignment.center,
+        child: Center(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style:
+                textStyle ??
+                TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  color: isGradient
+                      ? Colors.white
+                      : textIsBlack
+                      ? AppColors.text2
+                      : AppColors.primary,
+                ),
           ),
         ),
       ),
@@ -289,6 +318,43 @@ class AppButtons {
                 color: isGradient ? Colors.white : Colors.black,
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget textWithImageBTNWhite({
+    required VoidCallback onPressed,
+    required double height,
+    required Text? textData,
+    required double paddingLeft,
+    required double paddingRight,
+    required Widget icon,
+    Offset textOffset = Offset.zero,
+    bool isGradient = false,
+  }) {
+    return AppTappable(
+      padding: EdgeInsets.only(left: paddingLeft, right: paddingRight),
+      onTap: onPressed,
+      height: height,
+      decoration: BoxDecoration(
+        border: isGradient
+            ? null
+            : Border.all(color: AppColors.primary, width: 1),
+        gradient: isGradient ? AppColors.degradadoAzul : null,
+        color: isGradient ? null : Colors.white,
+        borderRadius: BorderRadius.circular(13.r),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          icon,
+          const SizedBox(width: 5),
+          Flexible(
+            child: Transform.translate(offset: textOffset, child: textData),
           ),
         ],
       ),
@@ -406,16 +472,31 @@ class AppButtons {
         child: Text(plaintText, style: AppTextStyles.semiBold14Prime),
       ),
     );
+  }
 
-    // Container(
-    //   decoration: BoxDecoration(
-    //     borderRadius: BorderRadius.circular(38.r),
-    //     border: BoxBorder.all(color: AppColors.primary, width: 1.r),
-    //   ),
-    //   child: Padding(
-    //     padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 2.h),
-    //     child: Text(plaintText, style: AppTextStyles.semiBold14Prime),
-    //   ),
-    // );
+  static Widget whiteConPrimeTextBTN({
+    required VoidCallback onPressed,
+    required double height,
+    required String text,
+    required double horizontalPadding,
+    bool isGradient = false,
+  }) {
+    return AppTappable(
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      onTap: onPressed,
+      height: height,
+      width: 156.w,
+      decoration: BoxDecoration(
+        gradient: isGradient ? AppColors.degradadoAzul : null,
+        color: isGradient ? null : Colors.white,
+        borderRadius: BorderRadius.circular(13.r),
+      ),
+      child: Text(
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        text,
+        style: AppTextStyles.medium14White.copyWith(color: AppColors.primary),
+      ),
+    );
   }
 }

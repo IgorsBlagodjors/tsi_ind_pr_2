@@ -86,7 +86,8 @@ class AppContainers {
   }) {
     return Container(
       width: 42.w,
-      height: 64.h,
+      constraints: BoxConstraints(minHeight: 64.h),
+      padding: EdgeInsets.symmetric(vertical: 6.h),
       decoration: BoxDecoration(
         color: isSelected ? Colors.white : Colors.transparent,
         borderRadius: BorderRadius.circular(18.r),
@@ -122,9 +123,44 @@ class AppContainers {
     required double radius,
   }) {
     return CircleAvatar(
-      radius: radius.r,
+      radius: radius,
       backgroundImage: image,
       backgroundColor: Colors.transparent,
     );
   }
+
+  static Widget infoTextContainer({required String text, String? label}) {
+    return Container(
+      padding: EdgeInsets.only(
+        left: 15.w,
+        right: 10.w,
+        top: 16.h,
+        bottom: 12.h,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.elements,
+        borderRadius: BorderRadius.circular(20.r),
+      ),
+      child: Text.rich(
+        TextSpan(
+          children: [
+            if (label != null)
+              TextSpan(
+                text: '$label ',
+                style: AppTextStyles.semiBold12Prime.copyWith(
+                  color: Colors.black,
+                ),
+              ),
+            TextSpan(text: text),
+          ],
+        ),
+        style: AppTextStyles.lague12Light.copyWith(color: Colors.black),
+      ),
+    );
+  }
+
+  static Widget appDivider() {
+    return Divider(thickness: 1, height: 1.h, color: AppColors.outline);
+  }
 }
+

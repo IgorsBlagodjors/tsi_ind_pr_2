@@ -91,10 +91,17 @@ class _DocBySpecialtyState extends State<DocBySpecialty> {
                                           plaintText: 'Info',
                                         ),
                                         Spacer(),
-                                        AppIcons.bookingOutlinedIcon(
-                                          color: AppColors.primary,
-                                          width: 13.w,
-                                          height: 14.82.h,
+                                        IconButton(
+                                          tooltip: 'Schedule',
+                                          onPressed: () => context.pushNamed(
+                                            'schedule',
+                                            extra: doctor,
+                                          ),
+                                          icon: AppIcons.bookingOutlinedIcon(
+                                            color: AppColors.primary,
+                                            width: 13.w,
+                                            height: 14.82.h,
+                                          ),
                                         ),
                                         SizedBox(width: 14.w),
                                         AppIcons.questionsIcon(

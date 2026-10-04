@@ -1,69 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
-import 'package:tsi_ind_pr_2/design_system/components/app_tappable.dart';
-import 'package:tsi_ind_pr_2/presentation/authentication/pages/log_in.dart';
-import 'package:tsi_ind_pr_2/presentation/authentication/pages/set_password.dart';
-import 'package:tsi_ind_pr_2/presentation/home/home_page.dart';
-import 'package:tsi_ind_pr_2/presentation/specialties/specialties.dart';
-import 'package:tsi_ind_pr_2/presentation/welcome/welcome_screen.dart';
 
-class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({super.key});
+class BottomNavigation extends StatelessWidget {
+  const BottomNavigation({
+    super.key,
+    required this.child,
+    required this.location,
+  });
 
-  @override
-  State<BottomNavigation> createState() => _BottomNavigationState();
-}
+  final Widget child;
+  final String location;
 
-class _BottomNavigationState extends State<BottomNavigation> {
-  final List<Widget> pages = const [
-    HomePage(),
-    WelcomeScreen(),
-    LogIn(),
-    Specialties(),
-  ];
-  int currentIndex = 0;
+  int get currentIndex {
+    if (location == '/apointment') return 2;
+    if (location == '/') return 1;
+    if (['/login', '/create_account', '/set_password'].contains(location))
+      return 2;
+    if ([
+      '/specialties',
+      '/doc_by_specialty',
+      '/doctors',
+      '/doctors_info',
+      '/schedule',
+    ].contains(location))
+      return 3;
+    return 0;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[currentIndex],
+      resizeToAvoidBottomInset: false,
+      body: child,
       bottomNavigationBar: Material(
         color: AppColors.elements,
-        elevation: 8,
         child: SafeArea(
           top: false,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 6.h),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _item(
+                  context,
                   0,
                   'Home',
+                  'home',
                   AppIcons.homeOutlinedIcon(
-                    width: 23.12,
-                    height: 22.36,
+                    width: 24.w,
+                    height: 24.h,
                     color: AppColors.primary,
                   ),
                 ),
-                _item(1, 'Chat', AppIcons.chatOutlinedIcon()),
                 _item(
+                  context,
+                  1,
+                  'Chat',
+                  'welcome',
+                  AppIcons.chatOutlinedIcon(width: 24.w, height: 24.h),
+                ),
+                _item(
+                  context,
                   2,
-                  'Profile',
+                  'apointment',
+                  'apointment',
                   AppIcons.userOutlinedIcon(
-                    width: 19,
-                    height: 20.97,
+                    width: 24.w,
+                    height: 24.h,
                     color: AppColors.primary,
                   ),
                 ),
                 _item(
+                  context,
                   3,
                   'Booking',
+                  'specialties',
                   AppIcons.bookingOutlinedIcon(
-                    width: 19,
-                    height: 22,
+                    width: 24.w,
+                    height: 24.h,
                     color: AppColors.primary,
                   ),
                 ),
@@ -75,28 +92,25 @@ class _BottomNavigationState extends State<BottomNavigation> {
     );
   }
 
-  Widget _item(int index, String label, Widget icon) {
-    final selected = currentIndex == index;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AppTappable(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: selected
-                ? AppColors.primary.withValues(alpha: 0.12)
-                : Colors.transparent,
-          ),
-          onTap: () {
-            setState(() {
-              currentIndex = index;
-            });
-          },
-          child: icon,
+  Widget _item(
+    BuildContext context,
+    int index,
+    String label,
+    String route,
+    Widget icon,
+  ) {
+    return Semantics(
+      selected: currentIndex == index,
+      child: IconButton(
+        tooltip: label,
+        onPressed: () => context.goNamed(route),
+        style: IconButton.styleFrom(
+          backgroundColor: currentIndex == index
+              ? AppColors.primary.withValues(alpha: 0.08)
+              : Colors.transparent,
         ),
-      ],
+        icon: icon,
+      ),
     );
   }
 }

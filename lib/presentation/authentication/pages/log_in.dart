@@ -41,7 +41,7 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return AuthScaffold(
-      title: 'Log In',
+      title: 'Hello!',
       backRoute: 'welcome',
       child: Form(
         key: _formKey,
@@ -108,7 +108,8 @@ class _LogInState extends State<LogIn> {
                     SizedBox(height: 29.h),
                     Text('or', style: AppTextStyles.lague12Light),
                     SizedBox(height: 12.h),
-                    AppButtons.circleIconBTN(
+                    AppButtons.gradientCircleIconBTN(
+                      radius: 20.r,
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Fingerprint')),
@@ -116,6 +117,7 @@ class _LogInState extends State<LogIn> {
                       },
                       icon: AppIcons.fingerprintIcon(),
                     ),
+
                     SizedBox(height: 29.h),
                     Wrap(
                       alignment: WrapAlignment.center,

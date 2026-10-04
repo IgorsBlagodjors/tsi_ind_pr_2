@@ -166,7 +166,8 @@ class _CreateAccountState extends State<CreateAccount> {
                       SizedBox(height: 12.h),
                       Wrap(
                         children: [
-                          AppButtons.circleIconBTN(
+                          AppButtons.gradientCircleIconBTN(
+                            radius: 20.r,
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('Google')),
@@ -175,14 +176,16 @@ class _CreateAccountState extends State<CreateAccount> {
                             icon: AppIcons.googleIcon(),
                           ),
                           SizedBox(width: 9.w),
-                          AppButtons.circleIconBTN(
+                          AppButtons.gradientCircleIconBTN(
+                            radius: 20.r,
                             onPressed: () {
-                              context.goNamed('bottom_navigation');
+                              context.goNamed('home');
                             },
                             icon: AppIcons.facebookIcon(),
                           ),
                           SizedBox(width: 9.w),
-                          AppButtons.circleIconBTN(
+                          AppButtons.gradientCircleIconBTN(
+                            radius: 20.r,
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('Fingerprint')),

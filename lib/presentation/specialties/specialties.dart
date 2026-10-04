@@ -23,7 +23,13 @@ class _SpecialtiesState extends State<Specialties> {
           children: [
             SpecialtiesHeader(
               title: 'Specialties',
-              onPressed: () => context.pop(),
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed('home');
+                }
+              },
             ),
             SizedBox(height: 25.h),
             Padding(
