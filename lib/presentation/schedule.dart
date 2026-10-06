@@ -6,6 +6,7 @@ import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_inputs.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/appointment_calendar.dart';
@@ -197,20 +198,19 @@ class _ScheduleState extends State<Schedule> {
                         style: AppTextStyles.regular14Black,
                       ),
                     ),
-                    _patientField(
-                      hint: 'Jane Doe',
+                    AppInputs.inputName(
+                      isGradient: false,
                       controller: _patientNameController,
+                      height: 35.h,
                     ),
                     SizedBox(height: 12.h),
                     Padding(
                       padding: EdgeInsets.only(left: 8.w),
                       child: Text('Age', style: AppTextStyles.regular14Black),
                     ),
-
-                    _patientField(
-                      hint: '30',
+                    AppInputs.inputAge(
                       controller: _patientAgeController,
-                      isAge: true,
+                      height: 35.h,
                     ),
                     SizedBox(height: 12.h),
                     Padding(
@@ -225,43 +225,43 @@ class _ScheduleState extends State<Schedule> {
                         SizedBox(
                           width: 61.w,
                           child: AppButtons.singleTextButton(
-                          textIsBlack: true,
-                          isGradient: _selectedGender == PatientGender.male,
-                          text: 'Male',
-                          onPressed: () => setState(() {
-                            _selectedGender = PatientGender.male;
-                          }),
-                          height: 18.h,
-                          horizontalPadding: 10.w,
-                        ),
-                        ),
-                        SizedBox(width: 10.w),
-                        SizedBox(
-                          width: 61.w,
-                          child: AppButtons.singleTextButton(
-                          textIsBlack: true,
-                          isGradient: _selectedGender == PatientGender.female,
-                          text: 'Female',
-                          onPressed: () => setState(() {
-                            _selectedGender = PatientGender.female;
-                          }),
-                          height: 18.h,
-                          horizontalPadding: 7.w,
-                        ),
+                            textIsBlack: true,
+                            isGradient: _selectedGender == PatientGender.male,
+                            text: 'Male',
+                            onPressed: () => setState(() {
+                              _selectedGender = PatientGender.male;
+                            }),
+                            height: 18.h,
+                            horizontalPadding: 10.w,
+                          ),
                         ),
                         SizedBox(width: 10.w),
                         SizedBox(
                           width: 61.w,
                           child: AppButtons.singleTextButton(
-                          textIsBlack: true,
-                          isGradient: _selectedGender == PatientGender.other,
-                          text: 'Other',
-                          onPressed: () => setState(() {
-                            _selectedGender = PatientGender.other;
-                          }),
-                          height: 18.h,
-                          horizontalPadding: 7.w,
+                            textIsBlack: true,
+                            isGradient: _selectedGender == PatientGender.female,
+                            text: 'Female',
+                            onPressed: () => setState(() {
+                              _selectedGender = PatientGender.female;
+                            }),
+                            height: 18.h,
+                            horizontalPadding: 7.w,
+                          ),
                         ),
+                        SizedBox(width: 10.w),
+                        SizedBox(
+                          width: 61.w,
+                          child: AppButtons.singleTextButton(
+                            textIsBlack: true,
+                            isGradient: _selectedGender == PatientGender.other,
+                            text: 'Other',
+                            onPressed: () => setState(() {
+                              _selectedGender = PatientGender.other;
+                            }),
+                            height: 18.h,
+                            horizontalPadding: 7.w,
+                          ),
                         ),
                       ],
                     ),
@@ -276,48 +276,9 @@ class _ScheduleState extends State<Schedule> {
                       ),
                     ),
                     SizedBox(height: 4.h),
-                    SizedBox(
+                    AppInputs.inputText(
+                      controller: _patientProblemController,
                       height: 97.h,
-                      child: TextFormField(
-                        controller: _patientProblemController,
-                        keyboardType: TextInputType.multiline,
-                        textInputAction: TextInputAction.newline,
-                        minLines: null,
-                        maxLines: null,
-                        expands: true,
-                        textAlignVertical: TextAlignVertical.top,
-                        style: AppTextStyles.regular14Black.copyWith(
-                          fontSize: 16.sp,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'Enter Your Problem Here...',
-                          hintStyle: AppTextStyles.light12White.copyWith(
-                            color: AppColors.text2,
-                          ),
-                          filled: true,
-                          fillColor: Colors.transparent,
-                          isDense: true,
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 18.w,
-                            vertical: 10.h,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18.r),
-                            borderSide: BorderSide(
-                              color: AppColors.outline,
-                              width: 1,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18.r),
-                            borderSide: BorderSide(color: AppColors.outline),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18.r),
-                            borderSide: BorderSide(color: AppColors.outline),
-                          ),
-                        ),
-                      ),
                     ),
                     SizedBox(height: 16.h),
                   ],
@@ -329,50 +290,4 @@ class _ScheduleState extends State<Schedule> {
       ),
     );
   }
-
-  Widget _patientField({
-    required String hint,
-    required TextEditingController controller,
-    bool isAge = false,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          controller: controller,
-          keyboardType: isAge ? TextInputType.number : TextInputType.name,
-          textCapitalization: isAge
-              ? TextCapitalization.none
-              : TextCapitalization.words,
-          textInputAction: isAge ? TextInputAction.done : TextInputAction.next,
-          inputFormatters: isAge
-              ? [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(3),
-                ]
-              : null,
-          style: AppTextStyles.regular14Black.copyWith(fontSize: 16.sp),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: AppTextStyles.regular14Black.copyWith(
-              fontSize: 16.sp,
-              color: AppColors.text2,
-            ),
-            filled: true,
-            fillColor: AppColors.elements,
-            isDense: true,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 18.w,
-              vertical: 10.h,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16.r),
-              borderSide: BorderSide.none,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 }
-

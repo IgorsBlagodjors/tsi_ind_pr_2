@@ -82,7 +82,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   style: AppTextStyles.medium20Black.copyWith(height: 1),
                 ),
                 SizedBox(height: 9.h),
-                AppInputs.inputName(controller: nameController),
+                AppInputs.inputName(controller: nameController, height: 45.h),
                 SizedBox(height: 18.h),
                 Text(
                   'Password',

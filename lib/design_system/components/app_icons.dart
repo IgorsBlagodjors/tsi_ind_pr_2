@@ -11,8 +11,8 @@ class AppIcons {
   }) {
     return SvgPicture.asset(
       'assets/icons/userOutlined.svg',
-      width: width.w,
-      height: height.h,
+      width: width,
+      height: height,
       colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
   }
@@ -217,8 +217,8 @@ class AppIcons {
   }) {
     return SvgPicture.asset(
       'assets/icons/bookingOutlined.svg',
-      width: width.w,
-      height: height.h,
+      width: width,
+      height: height,
       colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
   }
@@ -235,8 +235,8 @@ class AppIcons {
     return GestureDetector(
       child: SvgPicture.asset(
         'assets/icons/return.svg',
-        width: width.w,
-        height: height.h,
+        width: width,
+        height: height,
         colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
       ),
     );
@@ -257,8 +257,8 @@ class AppIcons {
   }) {
     return SvgPicture.asset(
       'assets/icons/homeOutlined.svg',
-      width: width.w,
-      height: height.h,
+      width: width,
+      height: height,
       colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
   }
@@ -277,8 +277,8 @@ class AppIcons {
   }) {
     return SvgPicture.asset(
       'assets/icons/chatOutlined.svg',
-      width: width.w,
-      height: height.h,
+      width: width,
+      height: height,
     );
   }
 
@@ -324,8 +324,8 @@ class AppIcons {
   static Widget edit({required double width, required double height}) {
     return SvgPicture.asset(
       'assets/icons/edit.svg',
-      width: width.w,
-      height: height.h,
+      width: width,
+      height: height,
     );
   }
 

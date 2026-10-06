@@ -35,10 +35,9 @@ class _CancelledapointmentlwState extends State<Cancelledapointmentlw> {
 
   Widget _apointment({required BuildContext context, required Doctor doctor}) {
     return Padding(
-      padding: EdgeInsetsGeometry.symmetric(horizontal: 19.w),
+      padding: EdgeInsets.symmetric(horizontal: 19.w, vertical: 16.h),
       child: Column(
         children: [
-          SizedBox(height: 21.h),
           Row(
             children: [
               CircleAvatar(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
-import 'package:tsi_ind_pr_2/presentation/appointments/cancelledApointmentLW.dart';
+import 'package:tsi_ind_pr_2/presentation/appointments/widgets/cancelledApointmentLW.dart';
 import 'package:tsi_ind_pr_2/presentation/appointments/widgets/completedApointmentLW.dart';
 import 'package:tsi_ind_pr_2/presentation/appointments/widgets/upcomingApointmentsLW.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';

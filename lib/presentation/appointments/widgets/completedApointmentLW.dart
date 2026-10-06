@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
@@ -21,7 +22,7 @@ class CompletedApointmentlw extends StatelessWidget {
   );
   Widget _appointment(BuildContext context, Doctor doctor) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+      padding: EdgeInsets.symmetric(horizontal: 19.w, vertical: 16.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
@@ -62,21 +63,31 @@ class AppInputs {
     );
   }
 
-  static Widget inputName({required TextEditingController controller}) {
+  static Widget inputName({
+    required TextEditingController controller,
+    required double height,
+    bool isGradient = true,
+  }) {
     return SizedBox(
-      width: 298.w,
+      height: height,
       child: TextFormField(
         controller: controller,
         textAlignVertical: TextAlignVertical.center,
         textCapitalization: TextCapitalization.words,
         textInputAction: TextInputAction.next,
+        keyboardType: TextInputType.name,
         autofillHints: const [AutofillHints.name],
         style: AppTextStyles.regular20Prime,
         decoration: InputDecoration(
           errorMaxLines: 3,
           counterText: '',
-          hintText: 'Full name',
-          hintStyle: AppTextStyles.regular20Prime,
+          hintText: 'Jane Doe',
+          hintStyle: isGradient
+              ? AppTextStyles.regular20Prime
+              : AppTextStyles.regular14Black.copyWith(
+                  fontSize: 16.sp,
+                  color: AppColors.text2,
+                ),
           filled: true,
           isDense: true,
           contentPadding: EdgeInsets.symmetric(
@@ -279,35 +290,80 @@ class AppInputs {
 
   static Widget inputText({
     required TextEditingController controller,
-    required double width,
     required double height,
-    required String hint,
   }) {
     return SizedBox(
-      width: width.w,
-      height: height.h,
-      child: TextField(
+      height: height,
+      child: TextFormField(
         controller: controller,
+        keyboardType: TextInputType.multiline,
+        textInputAction: TextInputAction.newline,
+        minLines: null,
         maxLines: null,
         expands: true,
         textAlignVertical: TextAlignVertical.top,
-        style: TextStyle(
-          fontSize: 13.sp,
-          fontWeight: FontWeight.w400,
-          color: Colors.black,
-        ),
+        style: AppTextStyles.regular14Black.copyWith(fontSize: 16.sp),
         decoration: InputDecoration(
-          errorMaxLines: 3,
+          hintText: 'Enter Your Problem Here...',
+          hintStyle: AppTextStyles.light12White.copyWith(
+            color: AppColors.text2,
+          ),
           filled: true,
-          fillColor: Colors.white,
-          hintText: hint,
-          hintStyle: TextStyle(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w400,
-            color: Colors.black,
+          fillColor: Colors.transparent,
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 18.w,
+            vertical: 10.h,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(18.r),
+            borderSide: BorderSide(color: AppColors.outline, width: 1),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18.r),
+            borderSide: BorderSide(color: AppColors.outline),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18.r),
+            borderSide: BorderSide(color: AppColors.outline),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Widget inputAge({
+    required TextEditingController controller,
+    required double height,
+  }) {
+    return SizedBox(
+      height: height,
+      child: TextFormField(
+        controller: controller,
+        keyboardType: TextInputType.number,
+        minLines: null,
+        maxLines: null,
+        expands: true,
+        textAlignVertical: TextAlignVertical.center,
+        textInputAction: TextInputAction.done,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          LengthLimitingTextInputFormatter(3),
+        ],
+        style: AppTextStyles.regular14Black.copyWith(fontSize: 16.sp),
+        decoration: InputDecoration(
+          hintText: '30',
+          constraints: BoxConstraints.tightFor(height: height),
+          hintStyle: AppTextStyles.regular14Black.copyWith(
+            fontSize: 16.sp,
+            color: AppColors.text2,
+          ),
+          filled: true,
+          fillColor: AppColors.elements,
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16.r),
             borderSide: BorderSide.none,
           ),
         ),
