@@ -65,7 +65,6 @@ class Upcomingapointmentslw extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-
           LayoutBuilder(
             builder: (context, constraints) {
               final date = _badge(

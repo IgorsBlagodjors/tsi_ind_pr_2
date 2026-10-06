@@ -14,7 +14,11 @@ class DoctorDetailsBadges extends StatelessWidget {
       children: [
         Expanded(
           child: _badge(
-            icon: AppIcons.topIcon(color: AppColors.primary),
+            icon: AppIcons.topIcon(
+              color: AppColors.primary,
+              width: 18.51.w,
+              height: 18.51.h,
+            ),
             label: '15 years',
             label2: 'experience',
           ),

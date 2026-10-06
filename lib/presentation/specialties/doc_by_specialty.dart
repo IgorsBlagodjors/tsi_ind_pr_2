@@ -84,6 +84,8 @@ class _DocBySpecialtyState extends State<DocBySpecialty> {
                                     Row(
                                       children: [
                                         AppButtons.infoOutlinedPrimeBTN(
+                                          horizontalPadding: 15.w,
+                                          verticalPadding: 2.h,
                                           onPressed: () => showActionMessage(
                                             context,
                                             'Info',

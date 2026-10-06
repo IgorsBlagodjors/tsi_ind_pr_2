@@ -1,16 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctors.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
+import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
+import 'package:tsi_ind_pr_2/presentation/doctor_favorite/widgets/favorite_doctorLW.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
-class SpecialtiesFilter extends StatelessWidget {
-  const new({super.key, required this.trailingText});
-  final String trailingText;
+class FavoriteDoctor extends StatefulWidget {
+  const new({super.key});
 
   @override
+  State<FavoriteDoctor> createState() => _FavoriteDoctorState();
+}
+
+class _FavoriteDoctorState extends State<FavoriteDoctor> {
+  @override
   Widget build(BuildContext context) {
+    return AuthScaffold(
+      title: 'Favorite',
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 31.w),
+        child: Column(
+          children: [
+            SizedBox(height: 16.h),
+            _faboriteFilter(context: context),
+            FavoriteDoctorlw(doctorList: getFavDoctors()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _faboriteFilter({required BuildContext context}) {
     return Column(
       children: [
         Row(
@@ -64,19 +88,41 @@ class SpecialtiesFilter extends StatelessWidget {
               plaintText: 'Filter',
               onPressed: () => showActionMessage(context, 'Filter'),
             ),
-            const Spacer(),
-            Text(trailingText, style: AppTextStyles.semiBold14Prime),
           ],
         ),
-        SizedBox(height: 14.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 31.w),
-          child: Divider(
-            color: AppColors.elements,
-            thickness: 1.h,
-            height: 1.h,
-          ),
+        SizedBox(height: 20.h),
+        Row(
+          children: [
+            Expanded(
+              child: AppButtons.singleTextButton(
+                isGradient: true,
+                text: 'Doctors',
+                onPressed: () => showActionMessage(context, 'Doctors'),
+                height: 40.h,
+                horizontalPadding: 5.w,
+                textStyle: AppTextStyles.semiBold16Prime.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SizedBox(width: 4.w),
+            Expanded(
+              child: AppButtons.singleTextButton(
+                isGradient: false,
+                textIsBlack: true,
+                text: 'Services',
+                onPressed: () => showActionMessage(context, 'Services'),
+                height: 40.h,
+                horizontalPadding: 5.w,
+                textStyle: AppTextStyles.semiBold16Prime.copyWith(
+                  color: AppColors.text2,
+                ),
+              ),
+            ),
+          ],
         ),
+        SizedBox(height: 19.h),
+        AppContainers.appDivider(),
       ],
     );
   }

@@ -85,14 +85,18 @@ class AppIcons {
     );
   }
 
-  static Widget topIcon({Color? color}) {
+  static Widget topIcon({
+    Color? color,
+    required double width,
+    required double height,
+  }) {
     return SvgPicture.asset(
       'assets/icons/top.svg',
       colorFilter: color == null
           ? null
           : ColorFilter.mode(color, BlendMode.srcIn),
-      width: 18.51.w,
-      height: 18.51.h,
+      width: width,
+      height: height,
     );
   }
 

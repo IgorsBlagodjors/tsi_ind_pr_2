@@ -255,3 +255,7 @@ const List<Doctor> doctors = [
 // Returns the doctors belonging to one medical category.
 List<Doctor> doctorsByType(DoctorType type) =>
     doctors.where((doctor) => doctor.type == type).toList(growable: false);
+
+List<Doctor> getFavDoctors() => doctors
+    .where((doctor) => doctor.isFavorite == true)
+    .toList(growable: false);

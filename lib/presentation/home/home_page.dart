@@ -125,7 +125,7 @@ class SpecialtiesSection extends StatelessWidget {
               height: 18.8,
             ),
             text: 'Favorite',
-            onTap: () => showActionMessage(context, 'Favorite'),
+            onTap: () => context.pushNamed('favorite_doctor'),
           ),
           AppContainers.navigations(
             icon: AppIcons.stethoscopeIcon(),

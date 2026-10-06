@@ -46,90 +46,7 @@ class _DoctorsState extends State<Doctors> {
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        AppButtons.smallSquareBTN(
-                          onPressed: () =>
-                              showActionMessage(context, 'Gynecology'),
-                          contWidth: 50.w,
-                          contHeight: 48.96.h,
-                          radius: 12.r,
-                          icon: AppIcons.gynecology(color: Colors.white),
-                        ),
-                        SizedBox(width: 21.w),
-                        AppButtons.smallSquareBTN(
-                          onPressed: () =>
-                              showActionMessage(context, 'Oncology'),
-                          contWidth: 50.w,
-                          contHeight: 48.96.h,
-                          radius: 12.r,
-                          icon: AppIcons.oncology(color: Colors.white),
-                        ),
-                        SizedBox(width: 21.w),
-                        AppButtons.smallSquareBTN(
-                          onPressed: () =>
-                              showActionMessage(context, 'Otolaryngology'),
-                          contWidth: 50.w,
-                          contHeight: 48.96.h,
-                          radius: 12.r,
-                          icon: AppIcons.otolaryngology(color: Colors.white),
-                        ),
-                        SizedBox(width: 21.w),
-                        AppButtons.smallSquareBTN(
-                          onPressed: () =>
-                              showActionMessage(context, 'Cardiology'),
-                          contWidth: 50.w,
-                          contHeight: 48.96.h,
-                          radius: 12.r,
-                          icon: AppIcons.cardiology(color: Colors.white),
-                        ),
-                        SizedBox(width: 21.w),
-                        AppButtons.smallSquareBTN(
-                          onPressed: () =>
-                              showActionMessage(context, 'Orthopedics'),
-                          contWidth: 50.w,
-                          contHeight: 48.96.h,
-                          radius: 12.r,
-                          icon: AppIcons.orthopedics(color: Colors.white),
-                        ),
-                        SizedBox(width: 21.w),
-                        AppButtons.smallSquareBTN(
-                          onPressed: () =>
-                              showActionMessage(context, 'Dermatology'),
-                          contWidth: 50.w,
-                          contHeight: 48.96.h,
-                          radius: 12.r,
-                          icon: AppIcons.dermatology(color: Colors.white),
-                        ),
-                        SizedBox(width: 21.w),
-                        AppButtons.smallSquareBTN(
-                          onPressed: () =>
-                              showActionMessage(context, 'General medicine'),
-                          contWidth: 50.w,
-                          contHeight: 48.96.h,
-                          radius: 12.r,
-                          icon: AppIcons.generalMedicine(color: Colors.white),
-                        ),
-                        SizedBox(width: 21.w),
-                        AppButtons.smallSquareBTN(
-                          onPressed: () =>
-                              showActionMessage(context, 'Odontology'),
-                          contWidth: 50.w,
-                          contHeight: 48.96.h,
-                          radius: 12.r,
-                          icon: AppIcons.odontology(color: Colors.white),
-                        ),
-                        SizedBox(width: 21.w),
-                        AppButtons.smallSquareBTN(
-                          onPressed: () =>
-                              showActionMessage(context, 'Ophtamology'),
-                          contWidth: 50.w,
-                          contHeight: 48.96.h,
-                          radius: 12.r,
-                          icon: AppIcons.ophtamology(color: Colors.white),
-                        ),
-                      ],
-                    ),
+                    child: _specialityWiev(context: context),
                   ),
                   SizedBox(height: 17.h),
                   Divider(
@@ -147,6 +64,84 @@ class _DoctorsState extends State<Doctors> {
           ],
         ),
       ),
+    );
+  }
+
+  static Widget _specialityWiev({required BuildContext context}) {
+    return Row(
+      children: [
+        AppButtons.smallSquareBTN(
+          onPressed: () => showActionMessage(context, 'Gynecology'),
+          contWidth: 50.w,
+          contHeight: 48.96.h,
+          radius: 12.r,
+          icon: AppIcons.gynecology(color: Colors.white),
+        ),
+        SizedBox(width: 21.w),
+        AppButtons.smallSquareBTN(
+          onPressed: () => showActionMessage(context, 'Oncology'),
+          contWidth: 50.w,
+          contHeight: 48.96.h,
+          radius: 12.r,
+          icon: AppIcons.oncology(color: Colors.white),
+        ),
+        SizedBox(width: 21.w),
+        AppButtons.smallSquareBTN(
+          onPressed: () => showActionMessage(context, 'Otolaryngology'),
+          contWidth: 50.w,
+          contHeight: 48.96.h,
+          radius: 12.r,
+          icon: AppIcons.otolaryngology(color: Colors.white),
+        ),
+        SizedBox(width: 21.w),
+        AppButtons.smallSquareBTN(
+          onPressed: () => showActionMessage(context, 'Cardiology'),
+          contWidth: 50.w,
+          contHeight: 48.96.h,
+          radius: 12.r,
+          icon: AppIcons.cardiology(color: Colors.white),
+        ),
+        SizedBox(width: 21.w),
+        AppButtons.smallSquareBTN(
+          onPressed: () => showActionMessage(context, 'Orthopedics'),
+          contWidth: 50.w,
+          contHeight: 48.96.h,
+          radius: 12.r,
+          icon: AppIcons.orthopedics(color: Colors.white),
+        ),
+        SizedBox(width: 21.w),
+        AppButtons.smallSquareBTN(
+          onPressed: () => showActionMessage(context, 'Dermatology'),
+          contWidth: 50.w,
+          contHeight: 48.96.h,
+          radius: 12.r,
+          icon: AppIcons.dermatology(color: Colors.white),
+        ),
+        SizedBox(width: 21.w),
+        AppButtons.smallSquareBTN(
+          onPressed: () => showActionMessage(context, 'General medicine'),
+          contWidth: 50.w,
+          contHeight: 48.96.h,
+          radius: 12.r,
+          icon: AppIcons.generalMedicine(color: Colors.white),
+        ),
+        SizedBox(width: 21.w),
+        AppButtons.smallSquareBTN(
+          onPressed: () => showActionMessage(context, 'Odontology'),
+          contWidth: 50.w,
+          contHeight: 48.96.h,
+          radius: 12.r,
+          icon: AppIcons.odontology(color: Colors.white),
+        ),
+        SizedBox(width: 21.w),
+        AppButtons.smallSquareBTN(
+          onPressed: () => showActionMessage(context, 'Ophtamology'),
+          contWidth: 50.w,
+          contHeight: 48.96.h,
+          radius: 12.r,
+          icon: AppIcons.ophtamology(color: Colors.white),
+        ),
+      ],
     );
   }
 }

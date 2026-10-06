@@ -69,6 +69,8 @@ class _DoctorsLwState extends State<DoctorsLw> {
                                       '${doctor.name} Info',
                                     ),
                                     plaintText: 'Info',
+                                    horizontalPadding: 15.w,
+                                    verticalPadding: 2,
                                   ),
                                   Spacer(),
                                   IconButton(

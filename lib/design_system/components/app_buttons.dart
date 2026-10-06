@@ -460,6 +460,8 @@ class AppButtons {
   static Widget infoOutlinedPrimeBTN({
     required String plaintText,
     required VoidCallback onPressed,
+    required double horizontalPadding,
+    required double verticalPadding,
   }) {
     return AppTappable(
       onTap: onPressed,
@@ -468,7 +470,10 @@ class AppButtons {
         border: BoxBorder.all(color: AppColors.primary, width: 1.r),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 2.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding,
+          vertical: verticalPadding,
+        ),
         child: Text(plaintText, style: AppTextStyles.semiBold14Prime),
       ),
     );
