@@ -17,9 +17,11 @@ void main() {
   setUpAll(() async {
     final loader = FontLoader('League Spartan');
     for (final weight in ['Light', 'Regular', 'Medium', 'SemiBold']) {
-      loader.addFont(rootBundle.load(
-        'assets/fonts/league_spartan/LeagueSpartan-$weight.ttf',
-      ));
+      loader.addFont(
+        rootBundle.load(
+          'assets/fonts/league_spartan/LeagueSpartan-$weight.ttf',
+        ),
+      );
     }
     await loader.load();
     final icons = FontLoader('MaterialIcons')
@@ -29,7 +31,9 @@ void main() {
 
   for (final size in [const Size(320, 568), const Size(360, 640)]) {
     for (final scale in [1.0, 1.5]) {
-      testWidgets('FavoriteDoctor fits $size at text scale $scale', (tester) async {
+      testWidgets('FavoriteDoctor fits $size at text scale $scale', (
+        tester,
+      ) async {
         tester.view.physicalSize = size;
         tester.view.devicePixelRatio = 1;
         addTearDown(tester.view.resetPhysicalSize);
@@ -57,39 +61,47 @@ void main() {
         );
         addTearDown(router.dispose);
         final boundaryKey = GlobalKey();
-        await tester.pumpWidget(ScreenUtilInit(
-          designSize: const Size(360, 800),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) => RepaintBoundary(
-            key: boundaryKey,
-            child: MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              theme: ThemeData(fontFamily: 'League Spartan'),
-              routerConfig: router,
-              builder: (context, child) => MediaQuery(
-                data: MediaQuery.of(context).copyWith(
-                  textScaler: TextScaler.linear(scale),
-                  padding: const EdgeInsets.only(top: 24, bottom: 16),
+        await tester.pumpWidget(
+          ScreenUtilInit(
+            designSize: const Size(360, 800),
+            minTextAdapt: true,
+            splitScreenMode: true,
+            builder: (context, child) => RepaintBoundary(
+              key: boundaryKey,
+              child: MaterialApp.router(
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(fontFamily: 'League Spartan'),
+                routerConfig: router,
+                builder: (context, child) => MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaler: TextScaler.linear(scale),
+                    padding: const EdgeInsets.only(top: 24, bottom: 16),
+                  ),
+                  child: child!,
                 ),
-                child: child!,
               ),
             ),
           ),
-        ));
+        );
         await tester.pumpAndSettle();
         await tester.runAsync(() async {
           final context = tester.element(find.byType(FavoriteDoctor));
-          await Future.wait(getFavDoctors().map((doctor) =>
-              precacheImage(AssetImage(doctor.image), context)));
+          await Future.wait(
+            getFavDoctors().map(
+              (doctor) => precacheImage(AssetImage(doctor.image), context),
+            ),
+          );
         });
         await tester.pumpAndSettle();
         await tester.runAsync(() async {
-          final boundary = boundaryKey.currentContext!.findRenderObject()
-              as RenderRepaintBoundary;
+          final boundary =
+              boundaryKey.currentContext!.findRenderObject()
+                  as RenderRepaintBoundary;
           final image = await boundary.toImage(pixelRatio: 2);
           final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
-          final file = File('build/favorite_doctor_qa/${size.width.toInt()}_${scale}.png');
+          final file = File(
+            'build/favorite_doctor_qa/${size.width.toInt()}_$scale.png',
+          );
           await file.parent.create(recursive: true);
           await file.writeAsBytes(bytes!.buffer.asUint8List());
           image.dispose();

@@ -111,7 +111,11 @@ class _CreateAccountState extends State<CreateAccount> {
                   style: AppTextStyles.medium20Black.copyWith(height: 1),
                 ),
                 SizedBox(height: 8.h),
-                AppInputs.inputPhoneNumber(controller: phoneController),
+                AppInputs.inputPhoneNumber(
+                  height: 45.h,
+
+                  controller: phoneController,
+                ),
                 SizedBox(height: 18.h),
                 Text(
                   'Date Of Birth',

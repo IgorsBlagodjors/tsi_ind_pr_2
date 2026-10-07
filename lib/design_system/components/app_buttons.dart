@@ -457,6 +457,20 @@ class AppButtons {
     );
   }
 
+  static Widget continueBTN({required VoidCallback onPressed}) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onPressed,
+      child: SizedBox(
+        width: 48.w,
+        height: 48.h,
+        child: Center(
+          child: Icon(Icons.chevron_right, color: AppColors.primary, size: 32),
+        ),
+      ),
+    );
+  }
+
   static Widget infoOutlinedPrimeBTN({
     required String plaintText,
     required VoidCallback onPressed,

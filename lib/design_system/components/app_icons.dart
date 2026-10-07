@@ -325,11 +325,16 @@ class AppIcons {
     );
   }
 
-  static Widget edit({required double width, required double height}) {
+  static Widget edit({
+    required double width,
+    required double height,
+    required Color color,
+  }) {
     return SvgPicture.asset(
       'assets/icons/edit.svg',
       width: width,
       height: height,
+      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
   }
 

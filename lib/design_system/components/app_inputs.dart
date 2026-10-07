@@ -13,9 +13,10 @@ class AppInputs {
   static Widget inputEmail({
     required TextEditingController controller,
     bool allowPhone = false,
+    bool isGradient = true,
   }) {
     return SizedBox(
-      width: 298.w,
+      height: 45.h,
       child: TextFormField(
         controller: controller,
         keyboardType: allowPhone
@@ -26,11 +27,15 @@ class AppInputs {
         autofillHints: [
           allowPhone ? AutofillHints.username : AutofillHints.email,
         ],
-        style: AppTextStyles.regular20Prime,
+        style: isGradient
+            ? AppTextStyles.regular20Prime
+            : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
         decoration: InputDecoration(
           errorMaxLines: 3,
           hintText: 'example@example.com',
-          hintStyle: AppTextStyles.regular20Prime,
+          hintStyle: isGradient
+              ? AppTextStyles.regular20Prime
+              : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
           filled: true,
           isDense: true,
           contentPadding: EdgeInsets.symmetric(
@@ -77,7 +82,9 @@ class AppInputs {
         textInputAction: TextInputAction.next,
         keyboardType: TextInputType.name,
         autofillHints: const [AutofillHints.name],
-        style: AppTextStyles.regular20Prime,
+        style: isGradient
+            ? AppTextStyles.regular20Prime
+            : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
         decoration: InputDecoration(
           errorMaxLines: 3,
           counterText: '',
@@ -111,19 +118,27 @@ class AppInputs {
     );
   }
 
-  static Widget inputPhoneNumber({required TextEditingController controller}) {
+  static Widget inputPhoneNumber({
+    required TextEditingController controller,
+    required double height,
+    bool isGradient = true,
+  }) {
     return SizedBox(
-      width: 298.w,
+      height: height,
       child: TextFormField(
         controller: controller,
         keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.next,
         autofillHints: const [AutofillHints.telephoneNumber],
-        style: AppTextStyles.regular20Prime,
+        style: isGradient
+            ? AppTextStyles.regular20Prime
+            : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
         decoration: InputDecoration(
           errorMaxLines: 3,
           hintText: '+371 20000000',
-          hintStyle: AppTextStyles.regular20Prime,
+          hintStyle: isGradient
+              ? AppTextStyles.regular20Prime
+              : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
           filled: true,
           isDense: true,
           contentPadding: EdgeInsets.symmetric(
@@ -225,6 +240,7 @@ class AppInputs {
   static Widget inputBirth({
     required TextEditingController controller,
     required BuildContext context,
+    bool isGradient = true,
     required ValueChanged<DateTime> onDateSelected,
   }) {
     return SizedBox(
@@ -252,23 +268,19 @@ class AppInputs {
                 '${date.year}';
           }
         },
-        style: TextStyle(
-          color: AppColors.primary,
-          fontSize: 20.sp,
-          fontWeight: FontWeight.w400,
-        ),
+        style: isGradient
+            ? AppTextStyles.regular20Prime
+            : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
         decoration: InputDecoration(
           errorMaxLines: 3,
           hintText: 'DD / MM / YYYY',
-          hintStyle: TextStyle(
-            color: AppColors.primary,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.w400,
-          ),
+          hintStyle: isGradient
+              ? AppTextStyles.regular20Prime
+              : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
           filled: true,
           isDense: true,
           contentPadding: EdgeInsets.symmetric(
-            horizontal: 43.w,
+            horizontal: 12.w,
             vertical: 12.h,
           ),
           fillColor: AppColors.elements,

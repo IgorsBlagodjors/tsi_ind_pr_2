@@ -15,18 +15,21 @@ class BottomNavigation extends StatelessWidget {
   final String location;
 
   int get currentIndex {
-    if (location == '/apointment') return 2;
+    if (location == '/profile') return 2;
+    if (location == '/apointment') return 3;
     if (location == '/') return 1;
-    if (['/login', '/create_account', '/set_password'].contains(location))
+    if (['/login', '/create_account', '/set_password'].contains(location)) {
       return 2;
+    }
     if ([
       '/specialties',
       '/doc_by_specialty',
       '/doctors',
       '/doctors_info',
       '/schedule',
-    ].contains(location))
+    ].contains(location)) {
       return 3;
+    }
     return 0;
   }
 
@@ -65,8 +68,8 @@ class BottomNavigation extends StatelessWidget {
                 _item(
                   context,
                   2,
-                  'apointment',
-                  'apointment',
+                  'Profile',
+                  'profile',
                   AppIcons.userOutlinedIcon(
                     width: 24.w,
                     height: 24.h,
@@ -76,8 +79,8 @@ class BottomNavigation extends StatelessWidget {
                 _item(
                   context,
                   3,
-                  'Booking',
-                  'specialties',
+                  'Appointments',
+                  'apointment',
                   AppIcons.bookingOutlinedIcon(
                     width: 24.w,
                     height: 24.h,

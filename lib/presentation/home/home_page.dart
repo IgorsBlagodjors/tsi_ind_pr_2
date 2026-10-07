@@ -208,9 +208,16 @@ class Header extends StatelessWidget {
               Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  AppContainers.profileAvatar(
-                    image: AssetImage('assets/avatars/Perfil.png'),
-                    radius: 20,
+                  Semantics(
+                    label: 'Open profile',
+                    button: true,
+                    child: GestureDetector(
+                      onTap: () => context.pushNamed('profile'),
+                      child: AppContainers.profileAvatar(
+                        image: AssetImage('assets/avatars/Perfil.png'),
+                        radius: 20,
+                      ),
+                    ),
                   ),
                   Positioned(
                     right: -2.w,
@@ -224,8 +231,12 @@ class Header extends StatelessWidget {
                       ),
                       child: AppContainers.whiteCircleContainer(
                         hasNotification: false,
-                        icon: AppIcons.edit(width: 9, height: 9),
-                        onTap: () => showActionMessage(context, 'Edit profile'),
+                        icon: AppIcons.edit(
+                          width: 9,
+                          height: 9,
+                          color: Colors.white,
+                        ),
+                        onTap: () => context.pushNamed('profile'),
                         radius: 6.5,
                       ),
                     ),

@@ -10,6 +10,8 @@ import 'package:tsi_ind_pr_2/presentation/doctor_favorite/doctors_info.dart';
 import 'package:tsi_ind_pr_2/presentation/doctor_favorite/favorite_doctor.dart';
 import 'package:tsi_ind_pr_2/presentation/navigation/bottom_navigation.dart';
 import 'package:tsi_ind_pr_2/presentation/home/home_page.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/edit_profile.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/profile.dart';
 import 'package:tsi_ind_pr_2/presentation/schedule.dart';
 import 'package:tsi_ind_pr_2/presentation/specialties/doc_by_specialty.dart';
 import 'package:tsi_ind_pr_2/presentation/specialties/specialties.dart';
@@ -38,6 +40,17 @@ final appRouter = GoRouter(
       name: 'set_password',
       builder: (context, state) => const SetPassword(),
     ),
+    GoRoute(
+      path: '/profile',
+      name: 'profile',
+      builder: (context, state) => const Profile(),
+    ),
+    GoRoute(
+      path: '/edit_profile',
+      name: 'edit_profile',
+      builder: (context, state) => const EditProfile(),
+    ),
+
     ShellRoute(
       builder: (context, state, child) =>
           BottomNavigation(location: state.uri.path, child: child),
