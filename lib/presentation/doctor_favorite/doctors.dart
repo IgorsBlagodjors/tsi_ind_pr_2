@@ -8,6 +8,7 @@ import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/doctors_lw.dart';
+import 'package:tsi_ind_pr_2/presentation/widgets/speciality_wiev.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/specialties_filter.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/specialties_header.dart';
 
@@ -44,10 +45,7 @@ class _DoctorsState extends State<Doctors> {
                     alignment: Alignment.centerRight,
                     child: Text('See all', style: AppTextStyles.regular12Prime),
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: _specialityWiev(context: context),
-                  ),
+                  SpecialityWiev(),
                   SizedBox(height: 17.h),
                   Divider(
                     height: 1.h,

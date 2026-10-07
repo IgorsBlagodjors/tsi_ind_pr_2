@@ -8,6 +8,7 @@ import 'package:tsi_ind_pr_2/presentation/authentication/pages/set_password.dart
 import 'package:tsi_ind_pr_2/presentation/doctor_favorite/doctors.dart';
 import 'package:tsi_ind_pr_2/presentation/doctor_favorite/doctors_info.dart';
 import 'package:tsi_ind_pr_2/presentation/doctor_favorite/favorite_doctor.dart';
+import 'package:tsi_ind_pr_2/presentation/filters.dart';
 import 'package:tsi_ind_pr_2/presentation/navigation/bottom_navigation.dart';
 import 'package:tsi_ind_pr_2/presentation/home/home_page.dart';
 import 'package:tsi_ind_pr_2/presentation/profile_screens/edit_profile.dart';
@@ -96,6 +97,11 @@ final appRouter = GoRouter(
           path: '/favorite_doctor',
           name: 'favorite_doctor',
           builder: (context, state) => const FavoriteDoctor(),
+        ),
+        GoRoute(
+          path: '/filters',
+          name: 'filters',
+          builder: (context, state) => const Filters(),
         ),
       ],
     ),

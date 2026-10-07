@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
-import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
 class SpecialtiesFilter extends StatelessWidget {
   const new({super.key, required this.trailingText});
@@ -62,7 +62,7 @@ class SpecialtiesFilter extends StatelessWidget {
               horizontalPadding: 10.w,
               verticalPadding: 2.h,
               plaintText: 'Filter',
-              onPressed: () => showActionMessage(context, 'Filter'),
+              onPressed: () => context.pushNamed('filters'),
             ),
             const Spacer(),
             Text(trailingText, style: AppTextStyles.semiBold14Prime),
