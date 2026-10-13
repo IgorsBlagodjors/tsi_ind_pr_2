@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../lib/data/doctors/doctors.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctors.dart';
 
 void main() {
   final ids = <String>{};
@@ -12,6 +12,8 @@ void main() {
     return {'id': doctor.id, 'data': doctor.toMap()};
   }).toList();
   final output = File('tool/doctors.seed.json');
-  output.writeAsStringSync('${const JsonEncoder.withIndent('  ').convert(records)}\n');
+  output.writeAsStringSync(
+    '${const JsonEncoder.withIndent('  ').convert(records)}\n',
+  );
   stdout.writeln('Exported ${records.length} doctors to ${output.path}');
 }
