@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctors.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
-import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
-class Cancelledapointmentlw extends StatefulWidget {
+class CancelledApointmentlLW extends StatefulWidget {
   const new({super.key, required this.doctors});
 
   final List<Doctor> doctors;
 
   @override
-  State<Cancelledapointmentlw> createState() => _CancelledapointmentlwState();
+  State<CancelledApointmentlLW> createState() => _CancelledApointmentlLWState();
 }
 
-class _CancelledapointmentlwState extends State<Cancelledapointmentlw> {
+class _CancelledApointmentlLWState extends State<CancelledApointmentlLW> {
   @override
   Widget build(BuildContext context) => Expanded(
     child: ListView.separated(
       separatorBuilder: (context, index) => AppContainers.appDivider(),
 
       itemBuilder: (context, index) {
-        final data = doctors[index];
+        final data = widget.doctors[index];
         return _apointment(context: context, doctor: data);
       },
 
@@ -74,7 +73,7 @@ class _CancelledapointmentlwState extends State<Cancelledapointmentlw> {
             textStyle: AppTextStyles.regular20Prime.copyWith(
               color: AppColors.text2,
             ),
-            onPressed: () => showActionMessage(context, 'Add Review'),
+            onPressed: () => context.pushNamed('rewiev', extra: doctor),
             height: 27.h,
             horizontalPadding: 6.w,
           ),

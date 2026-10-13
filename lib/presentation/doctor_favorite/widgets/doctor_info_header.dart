@@ -60,19 +60,28 @@ class DoctorInfoHeader extends StatelessWidget {
                       SizedBox(width: 2.w),
                       AppButtons.circleIconBTN(
                         radius: 10.5.r,
-                        onPressed: () => showActionMessage(context, 'phone'),
+                        onPressed: () => showActionMessage(
+                          context,
+                          'Calls are not available yet.',
+                        ),
                         icon: AppIcons.phoneIcon(),
                       ),
                       SizedBox(width: 3.w),
                       AppButtons.circleIconBTN(
                         radius: 10.5.r,
-                        onPressed: () => showActionMessage(context, 'camera'),
+                        onPressed: () => showActionMessage(
+                          context,
+                          'Video calls are not available yet.',
+                        ),
                         icon: AppIcons.cameraIcon(),
                       ),
                       SizedBox(width: 3.w),
                       AppButtons.circleIconBTN(
                         radius: 10.5.r,
-                        onPressed: () => showActionMessage(context, 'chat'),
+                        onPressed: () => showActionMessage(
+                          context,
+                          'Chat is not available yet.',
+                        ),
                         icon: AppIcons.chatOutlinedIcon(
                           width: 12.w,
                           height: 11.h,
@@ -82,8 +91,10 @@ class DoctorInfoHeader extends StatelessWidget {
                       AppButtons.circleIconBTN(
                         fullWhite: true,
                         radius: 10.5.r,
-                        onPressed: () =>
-                            showActionMessage(context, 'questions'),
+                        onPressed: () => showActionMessage(
+                          context,
+                          'Help is not available yet.',
+                        ),
                         icon: Icon(
                           Icons.question_mark,
                           size: 12.w,
@@ -94,8 +105,10 @@ class DoctorInfoHeader extends StatelessWidget {
                       AppButtons.circleIconBTN(
                         fullWhite: true,
                         radius: 10.5.r,
-                        onPressed: () =>
-                            showActionMessage(context, 'questions'),
+                        onPressed: () => showActionMessage(
+                          context,
+                          'Saving favorites is not connected yet.',
+                        ),
                         icon: Icon(
                           Icons.favorite_border,
                           size: 12.w,
@@ -110,10 +123,7 @@ class DoctorInfoHeader extends StatelessWidget {
                   padding: EdgeInsets.only(left: 52.w, right: 26.w),
                   child: Row(
                     children: [
-                      AppContainers.profileAvatar(
-                        image: AssetImage(doctor.image),
-                        radius: 47.5.r,
-                      ),
+                      AppContainers.networkImage(imageUrl: doctor.image),
                       SizedBox(width: 10.w),
                       Expanded(
                         child: Column(
@@ -143,11 +153,13 @@ class DoctorInfoHeader extends StatelessWidget {
                                 AppButtons.textWithImageBTNWhite(
                                   paddingLeft: 5.w,
                                   paddingRight: 15.w,
-                                  onPressed: () =>
-                                      showActionMessage(context, 'star'),
+                                  onPressed: () => showActionMessage(
+                                    context,
+                                    'Doctor reviews are not available yet.',
+                                  ),
                                   height: 23.h,
                                   textData: Text(
-                                    '5',
+                                    doctor.rating?.toString() ?? '—',
                                     style: AppTextStyles.light12White.copyWith(
                                       color: AppColors.text2,
                                     ),
@@ -163,11 +175,13 @@ class DoctorInfoHeader extends StatelessWidget {
                                 AppButtons.textWithImageBTNWhite(
                                   paddingLeft: 5.w,
                                   paddingRight: 15.w,
-                                  onPressed: () =>
-                                      showActionMessage(context, 'chat'),
+                                  onPressed: () => showActionMessage(
+                                    context,
+                                    'Chat is not available yet.',
+                                  ),
                                   height: 23.h,
                                   textData: Text(
-                                    '40',
+                                    doctor.reviewCount.toString(),
                                     style: AppTextStyles.light12White.copyWith(
                                       color: AppColors.text2,
                                     ),
@@ -190,7 +204,7 @@ class DoctorInfoHeader extends StatelessWidget {
             left: 31.w,
             right: 31.w,
             bottom: 0,
-            child: const DoctorDetailsBadges(),
+            child: DoctorDetailsBadges(doctor: doctor),
           ),
         ],
       ),

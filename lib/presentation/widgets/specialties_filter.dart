@@ -65,7 +65,12 @@ class SpecialtiesFilter extends StatelessWidget {
               onPressed: () => context.pushNamed('filters'),
             ),
             const Spacer(),
-            Text(trailingText, style: AppTextStyles.semiBold14Prime),
+            GestureDetector(
+              onTap: trailingText == 'Doctors' || trailingText == 'See all'
+                  ? () => context.pushNamed('doctors')
+                  : null,
+              child: Text(trailingText, style: AppTextStyles.semiBold14Prime),
+            ),
           ],
         ),
         SizedBox(height: 14.h),

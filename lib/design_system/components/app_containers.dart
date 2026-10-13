@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
@@ -119,7 +120,7 @@ class AppContainers {
   }
 
   static Widget profileAvatar({
-    required AssetImage image,
+    required NetworkImage image,
     required double radius,
   }) {
     return CircleAvatar(
@@ -162,5 +163,34 @@ class AppContainers {
   static Widget appDivider() {
     return Divider(thickness: 1, height: 1.h, color: AppColors.outline);
   }
-}
 
+  static Widget networkImage({required String imageUrl, bool small = false}) {
+    return ClipOval(
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: small ? 40.w : 107.w,
+        height: small ? 40.w : 107.w,
+        fit: BoxFit.cover,
+
+        placeholder: (context, url) {
+          return SizedBox(
+            width: small ? 40.w : 107.w,
+            height: small ? 40.w : 107.w,
+            child: const Center(child: CircularProgressIndicator()),
+          );
+        },
+
+        errorWidget: (context, url, error) {
+          debugPrint('CACHE IMAGE ERROR: $error');
+          debugPrint('URL: $url');
+
+          return SizedBox(
+            width: small ? 40.w : 107.w,
+            height: small ? 40.w : 107.w,
+            child: const Icon(Icons.person),
+          );
+        },
+      ),
+    );
+  }
+}

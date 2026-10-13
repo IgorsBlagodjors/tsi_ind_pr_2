@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 
 class DoctorDetailsBadges extends StatelessWidget {
-  const DoctorDetailsBadges({super.key});
+  const DoctorDetailsBadges({super.key, required this.doctor});
+  final Doctor doctor;
 
   @override
   Widget build(BuildContext context) {
-    // Demo values from the design; Doctor does not yet contain these fields.
     return Row(
       children: [
         Expanded(
@@ -19,7 +20,9 @@ class DoctorDetailsBadges extends StatelessWidget {
               width: 18.51.w,
               height: 18.51.h,
             ),
-            label: '15 years',
+            label: doctor.yearsOfExperience == null
+                ? '—'
+                : '${doctor.yearsOfExperience} years',
             label2: 'experience',
           ),
         ),
@@ -28,8 +31,8 @@ class DoctorDetailsBadges extends StatelessWidget {
           flex: 2,
           child: _badge2(
             icon: Icon(Icons.alarm, color: AppColors.primary, size: 18.r),
-            label: 'Mon-Sat',
-            label2: '9:00AM - 5:00PM',
+            label: doctor.workingHoursDescription ?? 'Hours not specified',
+            label2: '',
           ),
         ),
       ],
@@ -107,7 +110,7 @@ class DoctorDetailsBadges extends StatelessWidget {
               ),
             ),
             Text(
-              ' / ',
+              label2.isEmpty ? '' : ' / ',
               style: AppTextStyles.light14White.copyWith(
                 color: Colors.black,
                 height: 1,

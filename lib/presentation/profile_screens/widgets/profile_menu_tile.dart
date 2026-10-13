@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
-import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
 class ProfileMenuTile extends StatelessWidget {
   const new({
@@ -28,16 +27,15 @@ class ProfileMenuTile extends StatelessWidget {
             radius: 20.r,
           ),
           SizedBox(width: 21.w),
-          Text(
-            plainText,
-            style: AppTextStyles.regular20Prime.copyWith(
-              color: AppColors.text2,
+          Expanded(
+            child: Text(
+              plainText,
+              style: AppTextStyles.regular20Prime.copyWith(
+                color: AppColors.text2,
+              ),
             ),
           ),
-          Spacer(),
-          AppButtons.continueBTN(
-            onPressed: () => showActionMessage(context, plainText),
-          ),
+          AppButtons.continueBTN(onPressed: onPressed),
         ],
       ),
     );

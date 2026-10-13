@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctors.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 import 'package:tsi_ind_pr_2/presentation/doctor_favorite/widgets/favorite_doctorLW.dart';
-import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
+
+enum FavSelector { doctor, services }
 
 class FavoriteDoctor extends StatefulWidget {
   const new({super.key});
@@ -18,24 +18,39 @@ class FavoriteDoctor extends StatefulWidget {
 }
 
 class _FavoriteDoctorState extends State<FavoriteDoctor> {
+  FavSelector selected = FavSelector.doctor;
   @override
   Widget build(BuildContext context) {
     return AuthScaffold(
       title: 'Favorite',
+      backRoute: 'profile',
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 31.w),
         child: Column(
           children: [
             SizedBox(height: 16.h),
             _faboriteFilter(context: context),
-            FavoriteDoctorlw(doctorList: getFavDoctors()),
+            if (selected == FavSelector.doctor)
+              FavoriteDoctorLW()
+            else
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'Services are not available yet.',
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.semiBold16Prime.copyWith(
+                      color: AppColors.text2,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
   }
 
-  static Widget _faboriteFilter({required BuildContext context}) {
+  Widget _faboriteFilter({required BuildContext context}) {
     return Column(
       children: [
         Row(
@@ -96,27 +111,39 @@ class _FavoriteDoctorState extends State<FavoriteDoctor> {
           children: [
             Expanded(
               child: AppButtons.singleTextButton(
-                isGradient: true,
+                isGradient: selected == FavSelector.doctor,
                 text: 'Doctors',
-                onPressed: () => showActionMessage(context, 'Doctors'),
+                onPressed: () {
+                  setState(() {
+                    selected = FavSelector.doctor;
+                  });
+                },
+
                 height: 40.h,
                 horizontalPadding: 5.w,
                 textStyle: AppTextStyles.semiBold16Prime.copyWith(
-                  color: Colors.white,
+                  color: selected == FavSelector.doctor
+                      ? Colors.white
+                      : AppColors.text2,
                 ),
               ),
             ),
             SizedBox(width: 4.w),
             Expanded(
               child: AppButtons.singleTextButton(
-                isGradient: false,
-                textIsBlack: true,
+                isGradient: selected == FavSelector.services,
                 text: 'Services',
-                onPressed: () => showActionMessage(context, 'Services'),
+                onPressed: () {
+                  setState(() {
+                    selected = FavSelector.services;
+                  });
+                },
                 height: 40.h,
                 horizontalPadding: 5.w,
                 textStyle: AppTextStyles.semiBold16Prime.copyWith(
-                  color: AppColors.text2,
+                  color: selected == FavSelector.services
+                      ? Colors.white
+                      : AppColors.text2,
                 ),
               ),
             ),

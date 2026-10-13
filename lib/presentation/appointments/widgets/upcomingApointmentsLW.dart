@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tsi_ind_pr_2/data/appointments/appointment_booking.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:go_router/go_router.dart';
@@ -6,21 +7,38 @@ import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
-class Upcomingapointmentslw extends StatelessWidget {
-  const Upcomingapointmentslw({super.key, required this.doctors});
+class UpcomingApointmentsLW extends StatelessWidget {
+  const UpcomingApointmentsLW({
+    super.key,
+    required this.doctors,
+    required this.appointments,
+  });
   final List<Doctor> doctors;
+  final List<AppointmentBooking> appointments;
   @override
   Widget build(BuildContext context) => Expanded(
     child: ListView.separated(
       key: const PageStorageKey('Upcomingapointmentslw'),
       padding: const EdgeInsets.only(bottom: 16),
-      itemCount: doctors.length,
-      itemBuilder: (context, index) => _appointment(context, doctors[index]),
+      itemCount: appointments.length,
+      itemBuilder: (context, index) {
+        final booking = appointments[index];
+        final doctor = doctors.firstWhere(
+          (item) => item.id == booking.doctorId,
+        );
+        return _appointment(context, doctor, booking);
+      },
       separatorBuilder: (context, index) =>
           Divider(height: 1, thickness: 1, color: AppColors.outline),
     ),
   );
-  Widget _appointment(BuildContext context, Doctor doctor) {
+  Widget _appointment(
+    BuildContext context,
+    Doctor doctor,
+    AppointmentBooking booking,
+  ) {
+    final start = booking.startsAt.toLocal();
+    final end = booking.endsAt.toLocal();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 19.w, vertical: 16.h),
       child: Column(
@@ -70,9 +88,13 @@ class Upcomingapointmentslw extends StatelessWidget {
               final date = _badge(
                 context,
                 Icons.calendar_month_outlined,
-                'Sunday, 12 June',
+                MaterialLocalizations.of(context).formatMediumDate(start),
               );
-              final time = _badge(context, Icons.alarm, '9:30 AM - 10:00 AM');
+              final time = _badge(
+                context,
+                Icons.alarm,
+                '${TimeOfDay.fromDateTime(start).format(context)} - ${TimeOfDay.fromDateTime(end).format(context)}',
+              );
               if (constraints.maxWidth < 270 ||
                   MediaQuery.textScalerOf(context).scale(12) > 15) {
                 return Wrap(spacing: 6, runSpacing: 6, children: [date, time]);
@@ -105,14 +127,20 @@ class Upcomingapointmentslw extends StatelessWidget {
               AppButtons.gradientCircleIconBTN(
                 radius: 15,
                 gradientOutlined: true,
-                onPressed: () => showActionMessage(context, 'Confirm'),
+                onPressed: () => showActionMessage(
+                  context,
+                  'Confirmation is not connected yet.',
+                ),
                 icon: Icon(Icons.check, size: 21, color: AppColors.primary),
               ),
               const SizedBox(width: 5),
               AppButtons.gradientCircleIconBTN(
                 radius: 15,
                 gradientOutlined: true,
-                onPressed: () => showActionMessage(context, 'Cancel'),
+                onPressed: () => showActionMessage(
+                  context,
+                  'Cancellation is not connected yet. The appointment was not cancelled.',
+                ),
                 icon: Icon(Icons.close, size: 21, color: AppColors.primary),
               ),
             ],

@@ -13,12 +13,14 @@ class AppInputs {
   static Widget inputEmail({
     required TextEditingController controller,
     bool allowPhone = false,
+    bool readOnly = false,
     bool isGradient = true,
   }) {
     return SizedBox(
-      height: 45.h,
       child: TextFormField(
         controller: controller,
+        readOnly: readOnly,
+        textAlignVertical: TextAlignVertical.center,
         keyboardType: allowPhone
             ? TextInputType.text
             : TextInputType.emailAddress,
@@ -38,10 +40,13 @@ class AppInputs {
               : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
           filled: true,
           isDense: true,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 12.w,
-            vertical: 12.h,
+          // Size the filled area independently of the validation text below.
+          suffixIcon: const SizedBox.shrink(),
+          suffixIconConstraints: BoxConstraints.tightFor(
+            width: 0,
+            height: 45.h,
           ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0),
           fillColor: AppColors.elements,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(13.r),
@@ -176,7 +181,6 @@ class AppInputs {
     VoidCallback? onSubmitted,
   }) {
     return SizedBox(
-      width: 298.w,
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
@@ -244,7 +248,6 @@ class AppInputs {
     required ValueChanged<DateTime> onDateSelected,
   }) {
     return SizedBox(
-      width: 298.w,
       child: TextFormField(
         controller: controller,
         readOnly: true,
@@ -303,6 +306,8 @@ class AppInputs {
   static Widget inputText({
     required TextEditingController controller,
     required double height,
+    String hint = 'text',
+    Color fillColor = Colors.transparent,
   }) {
     return SizedBox(
       height: height,
@@ -316,12 +321,12 @@ class AppInputs {
         textAlignVertical: TextAlignVertical.top,
         style: AppTextStyles.regular14Black.copyWith(fontSize: 16.sp),
         decoration: InputDecoration(
-          hintText: 'Enter Your Problem Here...',
+          hintText: hint,
           hintStyle: AppTextStyles.light12White.copyWith(
             color: AppColors.text2,
           ),
           filled: true,
-          fillColor: Colors.transparent,
+          fillColor: fillColor,
           isDense: true,
           contentPadding: EdgeInsets.symmetric(
             horizontal: 18.w,

@@ -1,8 +1,9 @@
+import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
-import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
 class SpecialityWiev extends StatefulWidget {
   const new({super.key});
@@ -19,7 +20,10 @@ class _SpecialityWievState extends State<SpecialityWiev> {
       child: Row(
         children: [
           AppButtons.smallSquareBTN(
-            onPressed: () => showActionMessage(context, 'Gynecology'),
+            onPressed: () => context.pushNamed(
+              'doc_by_specialty',
+              extra: DoctorType.gynecology,
+            ),
             contWidth: 50.w,
             contHeight: 48.96.h,
             radius: 12.r,
@@ -27,7 +31,10 @@ class _SpecialityWievState extends State<SpecialityWiev> {
           ),
           SizedBox(width: 21.w),
           AppButtons.smallSquareBTN(
-            onPressed: () => showActionMessage(context, 'Oncology'),
+            onPressed: () => context.pushNamed(
+              'doc_by_specialty',
+              extra: DoctorType.oncology,
+            ),
             contWidth: 50.w,
             contHeight: 48.96.h,
             radius: 12.r,
@@ -35,7 +42,10 @@ class _SpecialityWievState extends State<SpecialityWiev> {
           ),
           SizedBox(width: 21.w),
           AppButtons.smallSquareBTN(
-            onPressed: () => showActionMessage(context, 'Otolaryngology'),
+            onPressed: () => context.pushNamed(
+              'doc_by_specialty',
+              extra: DoctorType.otolaryngology,
+            ),
             contWidth: 50.w,
             contHeight: 48.96.h,
             radius: 12.r,
@@ -43,7 +53,10 @@ class _SpecialityWievState extends State<SpecialityWiev> {
           ),
           SizedBox(width: 21.w),
           AppButtons.smallSquareBTN(
-            onPressed: () => showActionMessage(context, 'Cardiology'),
+            onPressed: () => context.pushNamed(
+              'doc_by_specialty',
+              extra: DoctorType.cardiology,
+            ),
             contWidth: 50.w,
             contHeight: 48.96.h,
             radius: 12.r,
@@ -51,7 +64,10 @@ class _SpecialityWievState extends State<SpecialityWiev> {
           ),
           SizedBox(width: 21.w),
           AppButtons.smallSquareBTN(
-            onPressed: () => showActionMessage(context, 'Orthopedics'),
+            onPressed: () => context.pushNamed(
+              'doc_by_specialty',
+              extra: DoctorType.orthopedics,
+            ),
             contWidth: 50.w,
             contHeight: 48.96.h,
             radius: 12.r,
@@ -59,7 +75,10 @@ class _SpecialityWievState extends State<SpecialityWiev> {
           ),
           SizedBox(width: 21.w),
           AppButtons.smallSquareBTN(
-            onPressed: () => showActionMessage(context, 'Dermatology'),
+            onPressed: () => context.pushNamed(
+              'doc_by_specialty',
+              extra: DoctorType.dermatology,
+            ),
             contWidth: 50.w,
             contHeight: 48.96.h,
             radius: 12.r,
@@ -67,7 +86,10 @@ class _SpecialityWievState extends State<SpecialityWiev> {
           ),
           SizedBox(width: 21.w),
           AppButtons.smallSquareBTN(
-            onPressed: () => showActionMessage(context, 'General medicine'),
+            onPressed: () => context.pushNamed(
+              'doc_by_specialty',
+              extra: DoctorType.generalMedicine,
+            ),
             contWidth: 50.w,
             contHeight: 48.96.h,
             radius: 12.r,
@@ -75,7 +97,10 @@ class _SpecialityWievState extends State<SpecialityWiev> {
           ),
           SizedBox(width: 21.w),
           AppButtons.smallSquareBTN(
-            onPressed: () => showActionMessage(context, 'Odontology'),
+            onPressed: () => context.pushNamed(
+              'doc_by_specialty',
+              extra: DoctorType.odontology,
+            ),
             contWidth: 50.w,
             contHeight: 48.96.h,
             radius: 12.r,
@@ -83,7 +108,10 @@ class _SpecialityWievState extends State<SpecialityWiev> {
           ),
           SizedBox(width: 21.w),
           AppButtons.smallSquareBTN(
-            onPressed: () => showActionMessage(context, 'Ophtamology'),
+            onPressed: () => context.pushNamed(
+              'doc_by_specialty',
+              extra: DoctorType.ophthalmology,
+            ),
             contWidth: 50.w,
             contHeight: 48.96.h,
             radius: 12.r,

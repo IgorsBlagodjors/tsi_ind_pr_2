@@ -3,6 +3,15 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:tsi_ind_pr_2/data/demo/demo_data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
+import 'package:tsi_ind_pr_2/data/users/profile_repository.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/widgets/profile_session.dart';
+
+import 'helpers/profile_auth.dart';
+
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,6 +61,9 @@ void main() {
       tester.view.devicePixelRatio = 1;
       tester.view.padding = const FakeViewPadding(top: 24, bottom: 16);
       addTearDown(tester.view.reset);
+      final auth = ProfileAuth(demoData.currentUser);
+      addTearDown(auth.changes.close);
+      final profiles = ProfileRepository(firestore: FakeFirebaseFirestore());
       final errors = <String>[];
       final previousErrorHandler = FlutterError.onError;
       FlutterError.onError = (details) =>
@@ -95,7 +107,15 @@ void main() {
                 builder: (context, child) => MediaQuery(
                   data: MediaQuery.of(context)
                       .copyWith(textScaler: TextScaler.linear(sample.scale)),
-                  child: child!,
+                  child: MultiRepositoryProvider(
+                    providers: [
+                      RepositoryProvider<AuthRepository>.value(value: auth),
+                      RepositoryProvider<ProfileRepository>.value(
+                        value: profiles,
+                      ),
+                    ],
+                    child: ProfileSession.withCubit(child: child!),
+                  ),
                 ),
               ),
             ),

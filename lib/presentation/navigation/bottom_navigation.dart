@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 
@@ -15,8 +16,10 @@ class BottomNavigation extends StatelessWidget {
   final String location;
 
   int get currentIndex {
-    if (location == '/profile') return 2;
-    if (location == '/apointment') return 3;
+    if (['/profile', '/edit_profile', '/favorite_doctor'].contains(location)) {
+      return 2;
+    }
+    if (['/apointment', '/rewiev'].contains(location)) return 3;
     if (location == '/') return 1;
     if (['/login', '/create_account', '/set_password'].contains(location)) {
       return 2;
@@ -27,6 +30,7 @@ class BottomNavigation extends StatelessWidget {
       '/doctors',
       '/doctors_info',
       '/schedule',
+      '/filters',
     ].contains(location)) {
       return 3;
     }
@@ -106,7 +110,13 @@ class BottomNavigation extends StatelessWidget {
       selected: currentIndex == index,
       child: IconButton(
         tooltip: label,
-        onPressed: () => context.goNamed(route),
+        onPressed: () {
+          if (label == 'Chat') {
+            showActionMessage(context, 'Chat is not available yet.');
+          } else if (location != '/$route') {
+            context.goNamed(route);
+          }
+        },
         style: IconButton.styleFrom(
           backgroundColor: currentIndex == index
               ? AppColors.primary.withValues(alpha: 0.08)

@@ -60,6 +60,20 @@ class AppIcons {
     );
   }
 
+  static Widget testIcon({
+    required bool isFavorite,
+    required VoidCallback onPressed,
+  }) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(
+        size: 20.w,
+        isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: AppColors.primary,
+      ),
+    );
+  }
+
   static Widget phoneIcon() {
     return SvgPicture.asset(
       'assets/icons/phone.svg',

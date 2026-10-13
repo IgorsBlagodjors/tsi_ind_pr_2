@@ -1,41 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctors_repository.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_cubit.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_state.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
-class FavoriteDoctorlw extends StatefulWidget {
-  const new({super.key, required this.doctorList});
-  final List<Doctor> doctorList;
+class FavoriteDoctorLW extends StatefulWidget {
+  const new({super.key});
 
   @override
-  State<FavoriteDoctorlw> createState() => _FavoriteDoctorlwState();
+  State<FavoriteDoctorLW> createState() => _FavoriteDoctorLWState();
 }
 
-class _FavoriteDoctorlwState extends State<FavoriteDoctorlw> {
+class _FavoriteDoctorLWState extends State<FavoriteDoctorLW> {
+  late final Stream<List<Doctor>> _doctors;
+
+  @override
+  void initState() {
+    super.initState();
+    _doctors = context.read<DoctorsRepository>().watchDoctors();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<ProfileCubit>().state;
+    if (state is! ProfileLoaded) return const SizedBox.shrink();
+    final user = state.user;
+    return StreamBuilder<List<Doctor>>(
+      stream: _doctors,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Expanded(
+            child: Center(child: Text('Unable to load doctors.')),
+          );
+        }
+        if (!snapshot.hasData) {
+          return const Expanded(
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+        final favorites = snapshot.data!
+            .where((doctor) => user.favoriteDoctorIds.contains(doctor.id))
+            .toList();
+        if (favorites.isEmpty) {
+          return const Expanded(
+            child: Center(child: Text('No favorite doctors yet.')),
+          );
+        }
+        return _buildList(favorites);
+      },
+    );
+  }
+
+  Widget _buildList(List<Doctor> favorites) {
     return Expanded(
       child: ListView.separated(
         separatorBuilder: (context, index) => AppContainers.appDivider(),
-        itemCount: widget.doctorList.length,
+        itemCount: favorites.length,
 
         itemBuilder: (context, index) {
-          final data = widget.doctorList[index];
+          final data = favorites[index];
           return Column(
             children: [
               SizedBox(height: 17.h),
               Row(
                 children: [
-                  AppContainers.profileAvatar(
-                    image: AssetImage(data.image),
-                    radius: 35.r,
-                  ),
+                  AppContainers.networkImage(imageUrl: data.image),
                   Expanded(
                     child: Stack(
                       clipBehavior: Clip.none,
@@ -98,8 +136,10 @@ class _FavoriteDoctorlwState extends State<FavoriteDoctorlw> {
                           bottom: 52,
                           right: 17,
                           child: GestureDetector(
-                            onTap: () =>
-                                showActionMessage(context, 'Heart pressed'),
+                            onTap: () => showActionMessage(
+                              context,
+                              'Saving favorites is not connected yet.',
+                            ),
                             child: AppIcons.heartIcon(color: AppColors.primary),
                           ),
                         ),
@@ -107,7 +147,7 @@ class _FavoriteDoctorlwState extends State<FavoriteDoctorlw> {
                           left: -5,
                           child: AppButtons.gradientCircleIconBTN(
                             onPressed: () =>
-                                showActionMessage(context, 'top Icon'),
+                                context.pushNamed('doctors_info', extra: data),
                             icon: AppIcons.topIcon(
                               width: 10.w,
                               height: 10.84.h,

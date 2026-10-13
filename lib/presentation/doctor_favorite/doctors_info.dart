@@ -32,7 +32,7 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                   children: [
                     AppContainers.infoTextContainer(
                       label: 'Focus:',
-                      text: 'The impact of hormonal imbalances on skin conditions, specializing in acne, hirsutism, and other skin disorders.',
+                      text: widget.doctor.focus ?? 'Not specified.',
                     ),
                     SizedBox(height: 18.h),
                     AppContainers.appDivider(),
@@ -47,7 +47,7 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                     AppContainers.appDivider(),
                     SizedBox(height: 7.h),
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                      widget.doctor.profile ?? 'Not specified.',
                       style: AppTextStyles.light12White.copyWith(
                         color: AppColors.text2,
                       ),
@@ -65,7 +65,7 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                     AppContainers.appDivider(),
                     SizedBox(height: 7.h),
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                      widget.doctor.careerPath ?? 'Not specified.',
                       style: AppTextStyles.light12White.copyWith(
                         color: AppColors.text2,
                       ),
@@ -84,7 +84,7 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                     AppContainers.appDivider(),
                     SizedBox(height: 7.h),
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo conseq uat.',
+                      widget.doctor.highlights ?? 'Not specified.',
                       style: AppTextStyles.light12White.copyWith(
                         color: AppColors.text2,
                       ),

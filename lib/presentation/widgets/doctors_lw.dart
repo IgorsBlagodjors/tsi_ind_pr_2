@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
+import 'package:tsi_ind_pr_2/data/users/profile_repository.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_cubit.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_state.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
 class DoctorsLw extends StatefulWidget {
@@ -20,6 +25,9 @@ class DoctorsLw extends StatefulWidget {
 class _DoctorsLwState extends State<DoctorsLw> {
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<ProfileCubit>().state;
+    if (state is! ProfileLoaded) return const SizedBox.shrink();
+    final user = state.user;
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 31.w),
@@ -28,91 +36,104 @@ class _DoctorsLwState extends State<DoctorsLw> {
           itemCount: widget.doctorList.length,
           itemBuilder: (context, index) {
             final doctor = widget.doctorList[index];
-            return GestureDetector(
-              onTap: () => context.pushNamed('doctors_info', extra: doctor),
-              child: SizedBox(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        AppContainers.profileAvatar(
-                          image: AssetImage(doctor.image),
-                          radius: 53.5.r,
-                        ),
-                        SizedBox(width: 13.w),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: false,
-                                doctor.name,
-                                style: AppTextStyles.medium15Prime,
+            final isFavorite = user.favoriteDoctorIds.contains(doctor.id);
+            return SizedBox(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      AppContainers.networkImage(imageUrl: doctor.image),
+                      SizedBox(width: 13.w),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              doctor.name,
+                              style: AppTextStyles.medium15Prime,
+                            ),
+                            Text(
+                              doctor.specialization,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.light13Prime.copyWith(
+                                color: AppColors.text2,
                               ),
-                              Text(
-                                doctor.specialization,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyles.light13Prime.copyWith(
-                                  color: AppColors.text2,
+                            ),
+                            SizedBox(height: 15.h),
+                            Row(
+                              children: [
+                                AppButtons.infoOutlinedPrimeBTN(
+                                  onPressed: () => context.pushNamed(
+                                    'doctors_info',
+                                    extra: doctor,
+                                  ),
+                                  plaintText: 'Info',
+                                  horizontalPadding: 15.w,
+                                  verticalPadding: 2,
                                 ),
-                              ),
-                              SizedBox(height: 15.h),
-                              Row(
-                                children: [
-                                  AppButtons.infoOutlinedPrimeBTN(
-                                    onPressed: () => showActionMessage(
-                                      context,
-                                      '${doctor.name} Info',
-                                    ),
-                                    plaintText: 'Info',
-                                    horizontalPadding: 15.w,
-                                    verticalPadding: 2,
+                                Spacer(),
+                                IconButton(
+                                  tooltip: 'Schedule',
+                                  onPressed: () => context.pushNamed(
+                                    'schedule',
+                                    extra: doctor,
                                   ),
-                                  Spacer(),
-                                  IconButton(
-                                    tooltip: 'Schedule',
-                                    onPressed: () => context.pushNamed(
-                                      'schedule',
-                                      extra: doctor,
-                                    ),
-                                    icon: AppIcons.bookingOutlinedIcon(
-                                      color: AppColors.primary,
-                                      width: 13.w,
-                                      height: 14.82.h,
-                                    ),
-                                  ),
-                                  SizedBox(width: 14.w),
-                                  AppIcons.questionsIcon(
+                                  icon: AppIcons.bookingOutlinedIcon(
                                     color: AppColors.primary,
-                                    width: 14.w,
-                                    height: 14.h,
+                                    width: 13.w,
+                                    height: 14.82.h,
                                   ),
-                                  SizedBox(width: 14.w),
-                                  AppIcons.heartIcon(color: AppColors.primary),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                                AppIcons.questionsIcon(
+                                  color: AppColors.primary,
+                                  width: 14.w,
+                                  height: 14.h,
+                                ),
+
+                                AppIcons.testIcon(
+                                  isFavorite: isFavorite,
+                                  onPressed: () async {
+                                    await _save(
+                                      docId: doctor.id,
+                                      removeIfIsFav: isFavorite,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 15.h),
-                    Divider(
-                      thickness: 1,
-                      height: 1.h,
-                      color: AppColors.elements,
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15.h),
+                  Divider(thickness: 1, height: 1.h, color: AppColors.elements),
+                ],
               ),
             );
           },
         ),
       ),
     );
+  }
+
+  Future<void> _save({required String docId, required removeIfIsFav}) async {
+    final uid = (context.read<ProfileCubit>().state as ProfileLoaded).user.id;
+    FocusScope.of(context).unfocus();
+    try {
+      await context.read<ProfileRepository>().setFavoriteDoctor(
+        uid: uid,
+        doctorId: docId,
+        removeIfIsFav: removeIfIsFav,
+      );
+      if (mounted) showActionMessage(context, 'Profile saved.');
+    } catch (error) {
+      if (mounted) showActionMessage(context, profileErrorMessage(error));
+    }
   }
 }

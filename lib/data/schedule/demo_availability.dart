@@ -7,7 +7,6 @@ class AppointmentSlot {
   final SlotStatus status;
 }
 
-/// Local demo availability only; no appointments are booked or persisted here.
 class DemoAvailability {
   const DemoAvailability(this.doctorId);
 

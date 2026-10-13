@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tsi_ind_pr_2/data/gender.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
@@ -11,8 +12,6 @@ import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/appointment_calendar.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
-enum PatientGender { male, female, other }
-
 class Schedule extends StatefulWidget {
   const new({super.key, required this.doctor});
 
@@ -24,7 +23,7 @@ class Schedule extends StatefulWidget {
 
 class _ScheduleState extends State<Schedule> {
   bool patientDetailsYourself = true;
-  PatientGender _selectedGender = PatientGender.male;
+  Gender _selectedGender = Gender.male;
   final _patientNameController = TextEditingController();
   final _patientAgeController = TextEditingController();
   final _patientProblemController = TextEditingController();
@@ -89,21 +88,28 @@ class _ScheduleState extends State<Schedule> {
                           SizedBox(width: 4.w),
                           AppButtons.circleIconBTN(
                             radius: 10.5.r,
-                            onPressed: () =>
-                                showActionMessage(context, 'phone'),
+                            onPressed: () => showActionMessage(
+                              context,
+                              'Calls are not available yet.',
+                            ),
                             icon: AppIcons.phoneIcon(),
                           ),
                           SizedBox(width: 2.w),
                           AppButtons.circleIconBTN(
                             radius: 10.5.r,
-                            onPressed: () =>
-                                showActionMessage(context, 'camera'),
+                            onPressed: () => showActionMessage(
+                              context,
+                              'Video calls are not available yet.',
+                            ),
                             icon: AppIcons.cameraIcon(),
                           ),
                           SizedBox(width: 2.w),
                           AppButtons.circleIconBTN(
                             radius: 10.5.r,
-                            onPressed: () => showActionMessage(context, 'chat'),
+                            onPressed: () => showActionMessage(
+                              context,
+                              'Chat is not available yet.',
+                            ),
                             icon: AppIcons.chatOutlinedIcon(
                               width: 12.w,
                               height: 11.h,
@@ -113,8 +119,10 @@ class _ScheduleState extends State<Schedule> {
                           AppButtons.circleIconBTN(
                             fullWhite: true,
                             radius: 10.5.r,
-                            onPressed: () =>
-                                showActionMessage(context, 'questions'),
+                            onPressed: () => showActionMessage(
+                              context,
+                              'Help is not available yet.',
+                            ),
                             icon: Icon(
                               Icons.question_mark,
                               size: 12.w,
@@ -125,8 +133,10 @@ class _ScheduleState extends State<Schedule> {
                           AppButtons.circleIconBTN(
                             fullWhite: true,
                             radius: 10.5.r,
-                            onPressed: () =>
-                                showActionMessage(context, 'questions'),
+                            onPressed: () => showActionMessage(
+                              context,
+                              'Saving favorites is not connected yet.',
+                            ),
                             icon: Icon(
                               Icons.favorite_border,
                               size: 12.w,
@@ -225,10 +235,10 @@ class _ScheduleState extends State<Schedule> {
                           width: 61.w,
                           child: AppButtons.singleTextButton(
                             textIsBlack: true,
-                            isGradient: _selectedGender == PatientGender.male,
+                            isGradient: _selectedGender == Gender.male,
                             text: 'Male',
                             onPressed: () => setState(() {
-                              _selectedGender = PatientGender.male;
+                              _selectedGender = Gender.male;
                             }),
                             height: 18.h,
                             horizontalPadding: 10.w,
@@ -239,10 +249,10 @@ class _ScheduleState extends State<Schedule> {
                           width: 61.w,
                           child: AppButtons.singleTextButton(
                             textIsBlack: true,
-                            isGradient: _selectedGender == PatientGender.female,
+                            isGradient: _selectedGender == Gender.female,
                             text: 'Female',
                             onPressed: () => setState(() {
-                              _selectedGender = PatientGender.female;
+                              _selectedGender = Gender.female;
                             }),
                             height: 18.h,
                             horizontalPadding: 7.w,
@@ -253,10 +263,10 @@ class _ScheduleState extends State<Schedule> {
                           width: 61.w,
                           child: AppButtons.singleTextButton(
                             textIsBlack: true,
-                            isGradient: _selectedGender == PatientGender.other,
+                            isGradient: _selectedGender == Gender.other,
                             text: 'Other',
                             onPressed: () => setState(() {
-                              _selectedGender = PatientGender.other;
+                              _selectedGender = Gender.other;
                             }),
                             height: 18.h,
                             horizontalPadding: 7.w,
@@ -276,10 +286,26 @@ class _ScheduleState extends State<Schedule> {
                     ),
                     SizedBox(height: 4.h),
                     AppInputs.inputText(
+                      hint: 'Enter your Problem here...',
                       controller: _patientProblemController,
                       height: 97.h,
                     ),
-                    SizedBox(height: 16.h),
+                    SizedBox(height: 25.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 22.w),
+                      child: AppButtons.singleTextButton(
+                        isGradient: true,
+                        text: 'Confirm',
+                        onPressed: () => showActionMessage(
+                          context,
+                          'Booking is not connected yet. No appointment was created.',
+                        ),
+                        height: 48.h,
+                        horizontalPadding: 1.w,
+                        textStyle: AppTextStyles.semiBold20White,
+                      ),
+                    ),
+                    SizedBox(height: 50.h),
                   ],
                 ),
               ),

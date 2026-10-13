@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
@@ -201,8 +202,7 @@ class _ScheduleSectionState extends State<ScheduleSection> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SectionHeader(
-                        onPressed: () =>
-                            showActionMessage(context, 'All appointments'),
+                        onPressed: () => context.pushNamed('apointment'),
                         color: Colors.white,
                         dividerColor: Colors.white,
                       ),

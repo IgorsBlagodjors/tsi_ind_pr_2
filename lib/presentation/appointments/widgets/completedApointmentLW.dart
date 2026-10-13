@@ -4,7 +4,6 @@ import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
-import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
 class CompletedApointmentlw extends StatelessWidget {
   const CompletedApointmentlw({super.key, required this.doctors});
@@ -117,7 +116,7 @@ class CompletedApointmentlw extends StatelessWidget {
               Expanded(
                 child: AppButtons.singleTextButton(
                   text: 'Add Review',
-                  onPressed: () => showActionMessage(context, 'Add Review'),
+                  onPressed: () => context.pushNamed('rewiev', extra: doctor),
                   height: 30,
                   horizontalPadding: 6.0,
                   adaptiveHeight: true,

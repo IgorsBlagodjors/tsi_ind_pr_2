@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tsi_ind_pr_2/data/gender.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/speciality_wiev.dart';
-
-enum Gender { male, female }
 
 enum AgeSelector { first, seccont, third }
 
@@ -28,6 +28,7 @@ class _FiltersState extends State<Filters> {
   Widget build(BuildContext context) {
     return AuthScaffold(
       title: 'Filters',
+      backRoute: 'doctors',
       child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 31.w),
@@ -37,7 +38,17 @@ class _FiltersState extends State<Filters> {
               SizedBox(height: 24.h),
               Align(
                 alignment: AlignmentGeometry.centerRight,
-                child: Text('Reset', style: AppTextStyles.regular12Prime),
+                child: AppButtons.textButton(
+                  text: 'Reset',
+                  textStyle: AppTextStyles.regular12Prime,
+                  onPressed: () => setState(() {
+                    _selectedGender = Gender.male;
+                    _ageSelector = AgeSelector.first;
+                    _switchActive = true;
+                    _selectedRating = 3;
+                    _selectedAge = 40;
+                  }),
+                ),
               ),
               SizedBox(height: 24.h),
               Row(

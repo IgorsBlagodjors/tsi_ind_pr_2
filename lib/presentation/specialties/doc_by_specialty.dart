@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctor_state.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctors.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctors_cubit.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
-import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
+
 import 'package:tsi_ind_pr_2/presentation/widgets/specialties_filter.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/specialties_header.dart';
 
@@ -20,18 +23,40 @@ class DocBySpecialty extends StatefulWidget {
 
   @override
   State<DocBySpecialty> createState() => _DocBySpecialtyState();
+  Widget withCubit() => BlocProvider(
+    create: (context) => DoctorsCubit(context.read()),
+    child: DocBySpecialty(doctorType: doctorType),
+  );
 }
 
 class _DocBySpecialtyState extends State<DocBySpecialty> {
+  late final DoctorsCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read();
+    _cubit.load(type: widget.doctorType);
+  }
+
+  String _search = '';
   @override
   Widget build(BuildContext context) {
-    final List<Doctor> doctorList = doctorsByType(widget.doctorType);
+    final List<Doctor> doctorList = doctorsByType(widget.doctorType)
+        .where(
+          (doctor) =>
+              doctor.name.toLowerCase().contains(_search) ||
+              doctor.specialization.toLowerCase().contains(_search),
+        )
+        .toList();
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             SpecialtiesHeader(
               title: widget.doctorType.title,
+              onSearchChanged: (value) =>
+                  setState(() => _search = value.trim().toLowerCase()),
               onPressed: () {
                 if (context.canPop()) {
                   context.pop();
@@ -46,94 +71,117 @@ class _DocBySpecialtyState extends State<DocBySpecialty> {
               child: SpecialtiesFilter(trailingText: 'See all'),
             ),
             SizedBox(height: 14.h),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsetsGeometry.only(left: 27.w, right: 31.w),
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 13.h),
-                  itemCount: doctorList.length,
-                  itemBuilder: (context, index) {
-                    final doctor = doctorList[index];
-                    return SizedBox(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              AppContainers.profileAvatar(
-                                image: AssetImage(doctor.image),
-                                radius: 53.5.r,
-                              ),
-                              SizedBox(width: 13.w),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+            BlocBuilder<DoctorsCubit, DoctorsState>(
+              builder: (context, state) {
+                return switch (state) {
+                  Loading() => const Expanded(
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+                  ErrorState(:final message) => Expanded(
+                    child: Center(child: Text(message)),
+                  ),
+
+                  EmptyState() => const Expanded(
+                    child: Center(child: Text('There is no doctors')),
+                  ),
+                  Loaded(:final doctors) => Expanded(
+                    child: Padding(
+                      padding: EdgeInsetsGeometry.only(left: 27.w, right: 31.w),
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: 13.h),
+                        itemCount: doctors.length,
+                        itemBuilder: (context, index) {
+                          final doctor = doctors[index];
+                          return SizedBox(
+                            child: Column(
+                              children: [
+                                Row(
                                   children: [
-                                    Text(
-                                      doctor.name,
-                                      style: AppTextStyles.medium15Prime,
+                                    AppContainers.networkImage(
+                                      imageUrl: doctor.image,
                                     ),
-                                    Text(
-                                      doctor.specialization,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppTextStyles.light13Prime
-                                          .copyWith(color: AppColors.text2),
-                                    ),
-                                    SizedBox(height: 15.h),
-                                    Row(
-                                      children: [
-                                        AppButtons.infoOutlinedPrimeBTN(
-                                          horizontalPadding: 15.w,
-                                          verticalPadding: 2.h,
-                                          onPressed: () => showActionMessage(
-                                            context,
-                                            'Info',
+                                    SizedBox(width: 13.w),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            doctor.name,
+                                            style: AppTextStyles.medium15Prime,
                                           ),
-                                          plaintText: 'Info',
-                                        ),
-                                        Spacer(),
-                                        IconButton(
-                                          tooltip: 'Schedule',
-                                          onPressed: () => context.pushNamed(
-                                            'schedule',
-                                            extra: doctor,
+                                          Text(
+                                            doctor.specialization,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: AppTextStyles.light13Prime
+                                                .copyWith(
+                                                  color: AppColors.text2,
+                                                ),
                                           ),
-                                          icon: AppIcons.bookingOutlinedIcon(
-                                            color: AppColors.primary,
-                                            width: 13.w,
-                                            height: 14.82.h,
+                                          SizedBox(height: 15.h),
+                                          Row(
+                                            children: [
+                                              AppButtons.infoOutlinedPrimeBTN(
+                                                horizontalPadding: 15.w,
+                                                verticalPadding: 2.h,
+                                                onPressed: () =>
+                                                    context.pushNamed(
+                                                      'doctors_info',
+                                                      extra: doctor,
+                                                    ),
+                                                plaintText: 'Info',
+                                              ),
+                                              Spacer(),
+                                              IconButton(
+                                                tooltip: 'Schedule',
+                                                onPressed: () =>
+                                                    context.pushNamed(
+                                                      'schedule',
+                                                      extra: doctor,
+                                                    ),
+                                                icon:
+                                                    AppIcons.bookingOutlinedIcon(
+                                                      color: AppColors.primary,
+                                                      width: 13.w,
+                                                      height: 14.82.h,
+                                                    ),
+                                              ),
+                                              SizedBox(width: 14.w),
+                                              AppIcons.questionsIcon(
+                                                color: AppColors.primary,
+                                                width: 14.w,
+                                                height: 14.h,
+                                              ),
+                                              SizedBox(width: 14.w),
+                                              AppIcons.heartIcon(
+                                                color: AppColors.primary,
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                        SizedBox(width: 14.w),
-                                        AppIcons.questionsIcon(
-                                          color: AppColors.primary,
-                                          width: 14.w,
-                                          height: 14.h,
-                                        ),
-                                        SizedBox(width: 14.w),
-                                        AppIcons.heartIcon(
-                                          color: AppColors.primary,
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 15.h),
-                          Divider(
-                            thickness: 1,
-                            height: 1.h,
-                            color: AppColors.elements,
-                          ),
-                        ],
+                                SizedBox(height: 15.h),
+                                Divider(
+                                  thickness: 1,
+                                  height: 1.h,
+                                  color: AppColors.elements,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
+                    ),
+                  ),
+                };
+              },
             ),
           ],
         ),

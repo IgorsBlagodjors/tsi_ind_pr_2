@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctors.dart';
+import 'package:tsi_ind_pr_2/data/demo/demo_data.dart';
 import 'package:tsi_ind_pr_2/presentation/doctor_favorite/favorite_doctor.dart';
 import 'package:tsi_ind_pr_2/presentation/navigation/bottom_navigation.dart';
 
@@ -87,7 +87,7 @@ void main() {
         await tester.runAsync(() async {
           final context = tester.element(find.byType(FavoriteDoctor));
           await Future.wait(
-            getFavDoctors().map(
+            demoData.favoritesFor(demoData.currentUser).map(
               (doctor) => precacheImage(AssetImage(doctor.image), context),
             ),
           );
@@ -112,12 +112,12 @@ void main() {
         await tester.drag(find.byType(ListView), const Offset(0, -3000));
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
-        expect(find.text(getFavDoctors().last.name), findsOneWidget);
+        expect(find.text(demoData.favoritesFor(demoData.currentUser).last.name), findsOneWidget);
         await tester.drag(find.byType(ListView), const Offset(0, 3000));
         await tester.pumpAndSettle();
         await tester.tap(find.text('Make Appointment').first);
         await tester.pumpAndSettle();
-        expect(selected, same(getFavDoctors().first));
+        expect(selected, same(demoData.favoritesFor(demoData.currentUser).first));
         expect(tester.takeException(), isNull);
         await tester.pumpWidget(const SizedBox.shrink());
       });

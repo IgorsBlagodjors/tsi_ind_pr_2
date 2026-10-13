@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 import 'package:tsi_ind_pr_2/presentation/home/widgets/section_header.dart';
 import 'package:flutter/material.dart';
@@ -201,8 +202,7 @@ class _ScheduleSectionState extends State<ScheduleSection> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SectionHeader(
-                        onPressed: () =>
-                            showActionMessage(context, 'All appointments'),
+                        onPressed: () => context.pushNamed('apointment'),
                         color: Colors.white,
                         dividerColor: Colors.white,
                       ),

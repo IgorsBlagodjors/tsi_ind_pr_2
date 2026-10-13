@@ -10,10 +10,24 @@ class AppTextStyles {
     fontFamily: 'League Spartan',
   );
 
+  static TextStyle get medium24Prime => TextStyle(
+    color: AppColors.primary,
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w500,
+    fontFamily: 'League Spartan',
+  );
+
   static TextStyle get medium20Black => TextStyle(
     color: AppColors.text2,
     fontSize: 20.sp,
     fontWeight: FontWeight.w500,
+    fontFamily: 'League Spartan',
+  );
+
+  static TextStyle get semiBold20White => TextStyle(
+    color: Colors.white,
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w600,
     fontFamily: 'League Spartan',
   );
 
@@ -26,7 +40,7 @@ class AppTextStyles {
 
   static TextStyle get semiBold17Prime => TextStyle(
     color: AppColors.primary,
-    fontSize: 16.sp,
+    fontSize: 17.sp,
     fontWeight: FontWeight.w600,
     fontFamily: 'League Spartan',
   );
@@ -49,6 +63,13 @@ class AppTextStyles {
     color: Colors.white,
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
+    fontFamily: 'League Spartan',
+  );
+
+  static TextStyle get light15Blacke => TextStyle(
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w400,
+    color: AppColors.text2,
     fontFamily: 'League Spartan',
   );
 

@@ -15,14 +15,22 @@ class Specialties extends StatefulWidget {
 }
 
 class _SpecialtiesState extends State<Specialties> {
+  String _search = '';
   @override
   Widget build(BuildContext context) {
+    final visibleSpecialties = specialties
+        .where(
+          (item) => item['title'].toString().toLowerCase().contains(_search),
+        )
+        .toList();
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             SpecialtiesHeader(
               title: 'Specialties',
+              onSearchChanged: (value) =>
+                  setState(() => _search = value.trim().toLowerCase()),
               onPressed: () {
                 if (context.canPop()) {
                   context.pop();
@@ -47,7 +55,7 @@ class _SpecialtiesState extends State<Specialties> {
                     mainAxisExtent: 129.h,
                   ),
                   itemBuilder: ((context, index) {
-                    final item = specialties[index];
+                    final item = visibleSpecialties[index];
 
                     return AppSelectors.specialitySelector(
                       isClicked: true,
@@ -66,7 +74,7 @@ class _SpecialtiesState extends State<Specialties> {
                       fontSize: 17.84,
                     );
                   }),
-                  itemCount: specialties.length,
+                  itemCount: visibleSpecialties.length,
                 ),
               ),
             ),
