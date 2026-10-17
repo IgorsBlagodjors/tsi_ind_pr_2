@@ -24,6 +24,18 @@ class ProfileRepository {
     if (pendingRegistration?.id == profile.id) pendingRegistration = null;
   }
 
+  Future<void> toggleFavoriteDoctor(
+    String userId,
+    String doctorId,
+    bool isFavorite,
+  ) async {
+    await db.collection('users').doc(userId).update({
+      'favoriteDoctorIds': isFavorite
+          ? FieldValue.arrayRemove([doctorId])
+          : FieldValue.arrayUnion([doctorId]),
+    });
+  }
+
   Stream<AppUser?> watch(String uid) => db
       .collection('users')
       .doc(uid)

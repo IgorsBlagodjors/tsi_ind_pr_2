@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 import 'package:tsi_ind_pr_2/presentation/doctor_favorite/widgets/favorite_doctorLW.dart';
+import 'package:tsi_ind_pr_2/presentation/widgets/a_z_filter.dart';
 
 enum FavSelector { doctor, services }
 
@@ -19,6 +21,8 @@ class FavoriteDoctor extends StatefulWidget {
 
 class _FavoriteDoctorState extends State<FavoriteDoctor> {
   FavSelector selected = FavSelector.doctor;
+  SortOrder sortOrder = SortOrder.ascending;
+
   @override
   Widget build(BuildContext context) {
     return AuthScaffold(
@@ -62,40 +66,15 @@ class _FavoriteDoctorState extends State<FavoriteDoctor> {
               ),
             ),
             SizedBox(width: 4.w),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
-              decoration: BoxDecoration(
-                gradient: AppColors.degradadoAzul,
-                borderRadius: BorderRadius.circular(38.r),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'A',
-                    style: AppTextStyles.semiBold14Prime.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(width: 3.w),
-                  Transform.translate(
-                    offset: Offset(0, -2.h),
-                    child: Icon(
-                      Icons.arrow_forward,
-                      size: 14.r,
-                      color: Colors.white,
-                    ),
-                  ),
-
-                  SizedBox(width: 3.w),
-                  Text(
-                    'Z',
-                    style: AppTextStyles.semiBold14Prime.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
+            AZFilter(
+              sortOrder: sortOrder,
+              onPressed: () {
+                setState(() {
+                  sortOrder = sortOrder == SortOrder.ascending
+                      ? SortOrder.descending
+                      : SortOrder.ascending;
+                });
+              },
             ),
             SizedBox(width: 7.w),
             AppButtons.infoOutlinedPrimeBTN(

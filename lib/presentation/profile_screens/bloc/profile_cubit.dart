@@ -87,6 +87,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     await _load(null);
   }
 
+  Future<void> toggleFavoriteDoctor(String doctorId) async {
+    final currentState = state;
+    if (currentState is! ProfileLoaded) return;
+    final user = currentState.user;
+    await _profiles.toggleFavoriteDoctor(
+      user.id,
+      doctorId,
+      user.favoriteDoctorIds.contains(doctorId),
+    );
+  }
+
   @override
   Future<void> close() async {
     ++_generation;

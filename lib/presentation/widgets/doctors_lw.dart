@@ -94,13 +94,12 @@ class _DoctorsLwState extends State<DoctorsLw> {
                                   height: 14.h,
                                 ),
 
-                                AppIcons.testIcon(
+                                AppIcons.favIcon(
                                   isFavorite: isFavorite,
-                                  onPressed: () async {
-                                    await _save(
-                                      docId: doctor.id,
-                                      removeIfIsFav: isFavorite,
-                                    );
+                                  onPressed: () {
+                                    context
+                                        .read<ProfileCubit>()
+                                        .toggleFavoriteDoctor(doctor.id);
                                   },
                                 ),
                               ],
@@ -121,7 +120,10 @@ class _DoctorsLwState extends State<DoctorsLw> {
     );
   }
 
-  Future<void> _save({required String docId, required removeIfIsFav}) async {
+  Future<void> _toggleFavoriteDoctor({
+    required String docId,
+    required removeIfIsFav,
+  }) async {
     final uid = (context.read<ProfileCubit>().state as ProfileLoaded).user.id;
     FocusScope.of(context).unfocus();
     try {

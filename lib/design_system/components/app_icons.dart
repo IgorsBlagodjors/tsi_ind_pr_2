@@ -60,7 +60,7 @@ class AppIcons {
     );
   }
 
-  static Widget testIcon({
+  static Widget favIcon({
     required bool isFavorite,
     required VoidCallback onPressed,
   }) {
