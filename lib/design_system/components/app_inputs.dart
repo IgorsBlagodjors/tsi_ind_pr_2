@@ -179,6 +179,7 @@ class AppInputs {
     required bool obscureText,
     required VoidCallback onEyePressed,
     bool isNewPassword = true,
+    bool enableAutofill = true,
     TextEditingController? confirmWith,
     TextInputAction textInputAction = TextInputAction.next,
     VoidCallback? onSubmitted,
@@ -189,9 +190,9 @@ class AppInputs {
         obscureText: obscureText,
         autocorrect: false,
         enableSuggestions: false,
-        autofillHints: [
-          isNewPassword ? AutofillHints.newPassword : AutofillHints.password,
-        ],
+        autofillHints: enableAutofill
+            ? [isNewPassword ? AutofillHints.newPassword : AutofillHints.password]
+            : null,
         textInputAction: textInputAction,
         onFieldSubmitted: onSubmitted == null ? null : (_) => onSubmitted(),
         textAlignVertical: TextAlignVertical.center,
