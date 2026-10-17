@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor_state.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctors.dart';
+
 import 'package:tsi_ind_pr_2/data/doctors/doctors_cubit.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
+import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
 import 'package:tsi_ind_pr_2/presentation/widgets/specialties_filter.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/specialties_header.dart';
@@ -39,16 +40,9 @@ class _DocBySpecialtyState extends State<DocBySpecialty> {
     _cubit.load(type: widget.doctorType);
   }
 
-  String _search = '';
   @override
   Widget build(BuildContext context) {
-    final List<Doctor> doctorList = doctorsByType(widget.doctorType)
-        .where(
-          (doctor) =>
-              doctor.name.toLowerCase().contains(_search) ||
-              doctor.specialization.toLowerCase().contains(_search),
-        )
-        .toList();
+    SortOrder sortOrder = SortOrder.ascending;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -56,7 +50,7 @@ class _DocBySpecialtyState extends State<DocBySpecialty> {
             SpecialtiesHeader(
               title: widget.doctorType.title,
               onSearchChanged: (value) =>
-                  setState(() => _search = value.trim().toLowerCase()),
+                  showActionMessage(context, 'not awaible yet'),
               onPressed: () {
                 if (context.canPop()) {
                   context.pop();
@@ -68,7 +62,17 @@ class _DocBySpecialtyState extends State<DocBySpecialty> {
             SizedBox(height: 28.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 31.w),
-              child: SpecialtiesFilter(trailingText: 'See all'),
+              child: SpecialtiesFilter(
+                trailingText: 'See all',
+                sortOrder: sortOrder,
+                onPressed: () {
+                  setState(() {
+                    sortOrder = sortOrder == SortOrder.ascending
+                        ? SortOrder.descending
+                        : SortOrder.ascending;
+                  });
+                },
+              ),
             ),
             SizedBox(height: 14.h),
             BlocBuilder<DoctorsCubit, DoctorsState>(

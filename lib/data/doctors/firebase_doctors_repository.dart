@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctors_repository.dart';
 
 class FirebaseDoctorsRepository implements DoctorsRepository {
@@ -11,7 +12,7 @@ class FirebaseDoctorsRepository implements DoctorsRepository {
         .snapshots()
         .map(
           (snapshot) => snapshot.docs
-              .map((doc) => Doctor.fromMap(doc.id, doc.data()))
+              .map((doc) => Doctor.fromJson({...doc.data(), 'id': doc.id}))
               .toList(),
         );
   }
@@ -23,18 +24,18 @@ class FirebaseDoctorsRepository implements DoctorsRepository {
 
     if (data == null) return null;
 
-    return Doctor.fromMap(doc.id, data);
+    return Doctor.fromJson({...data, 'id': doc.id});
   }
 
   @override
-  Stream<List<Doctor>> watchDoctorsByType(type) {
+  Stream<List<Doctor>> watchDoctorsByType(DoctorType type) {
     return _firestore
         .collection('doctors')
         .where('type', isEqualTo: type.name)
         .snapshots()
         .map(
           (snapshot) => snapshot.docs
-              .map((doc) => Doctor.fromMap(doc.id, doc.data()))
+              .map((doc) => Doctor.fromJson({...doc.data(), 'id': doc.id}))
               .toList(),
         );
   }

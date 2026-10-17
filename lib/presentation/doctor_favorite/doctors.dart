@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor_state.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctors_cubit.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctors_repository.dart';
@@ -27,6 +28,7 @@ class Doctors extends StatefulWidget {
 
 class _DoctorsState extends State<Doctors> {
   String _search = '';
+  SortOrder sortOrder = SortOrder.ascending;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +70,17 @@ class _DoctorsState extends State<Doctors> {
                     thickness: 1.h,
                   ),
                   SizedBox(height: 12.h),
-                  SpecialtiesFilter(trailingText: 'Top Rating'),
+                  SpecialtiesFilter(
+                    trailingText: 'Top Rating',
+                    sortOrder: sortOrder,
+                    onPressed: () {
+                      setState(() {
+                        sortOrder = sortOrder == SortOrder.ascending
+                            ? SortOrder.descending
+                            : SortOrder.ascending;
+                      });
+                    },
+                  ),
                 ],
               ),
             ),

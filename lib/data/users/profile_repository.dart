@@ -19,7 +19,7 @@ class ProfileRepository {
     final ref = db.collection('users').doc(profile.id);
     await db.runTransaction((transaction) async {
       final snapshot = await transaction.get(ref);
-      if (!snapshot.exists) transaction.set(ref, profile.toMap());
+      if (!snapshot.exists) transaction.set(ref, profile.toJson());
     });
     if (pendingRegistration?.id == profile.id) pendingRegistration = null;
   }
@@ -29,8 +29,9 @@ class ProfileRepository {
       .doc(uid)
       .snapshots()
       .map(
-        (snapshot) =>
-            snapshot.exists ? AppUser.fromMap(uid, snapshot.data()!) : null,
+        (snapshot) => snapshot.exists
+            ? AppUser.fromJson({...snapshot.data()!, 'id': snapshot.id})
+            : null,
       );
 
   Future<void> saveDetails({

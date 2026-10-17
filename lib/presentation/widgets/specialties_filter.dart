@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 
 class SpecialtiesFilter extends StatelessWidget {
-  const new({super.key, required this.trailingText});
+  const new({
+    super.key,
+    required this.trailingText,
+    required this.onPressed,
+    required this.sortOrder,
+  });
   final String trailingText;
+  final VoidCallback onPressed;
+  final SortOrder sortOrder;
 
   @override
   Widget build(BuildContext context) {
+    final isAscending = sortOrder == SortOrder.ascending;
     return Column(
       children: [
         Row(
@@ -22,39 +31,42 @@ class SpecialtiesFilter extends StatelessWidget {
               ),
             ),
             SizedBox(width: 4.w),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
-              decoration: BoxDecoration(
-                gradient: AppColors.degradadoAzul,
-                borderRadius: BorderRadius.circular(38.r),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'A',
-                    style: AppTextStyles.semiBold14Prime.copyWith(
-                      color: Colors.white,
+            GestureDetector(
+              onTap: onPressed,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
+                decoration: BoxDecoration(
+                  gradient: AppColors.degradadoAzul,
+                  borderRadius: BorderRadius.circular(38.r),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      isAscending ? 'A' : 'Z',
+                      style: AppTextStyles.semiBold14Prime.copyWith(
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 3.w),
-                  Transform.translate(
-                    offset: Offset(0, -2.h),
-                    child: Icon(
-                      Icons.arrow_forward,
-                      size: 14.r,
-                      color: Colors.white,
+                    SizedBox(width: 3.w),
+                    Transform.translate(
+                      offset: Offset(0, -2.h),
+                      child: Icon(
+                        Icons.arrow_forward,
+                        size: 14.r,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
 
-                  SizedBox(width: 3.w),
-                  Text(
-                    'Z',
-                    style: AppTextStyles.semiBold14Prime.copyWith(
-                      color: Colors.white,
+                    SizedBox(width: 3.w),
+                    Text(
+                      isAscending ? 'Z' : 'A',
+                      style: AppTextStyles.semiBold14Prime.copyWith(
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(width: 7.w),

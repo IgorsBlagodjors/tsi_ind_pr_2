@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tsi_ind_pr_2/data/gender.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';

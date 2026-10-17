@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/data/specialties.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_selectors.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/specialties_filter.dart';
@@ -15,6 +16,7 @@ class Specialties extends StatefulWidget {
 }
 
 class _SpecialtiesState extends State<Specialties> {
+  SortOrder sortOrder = SortOrder.ascending;
   String _search = '';
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,17 @@ class _SpecialtiesState extends State<Specialties> {
             SizedBox(height: 25.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 31.w),
-              child: SpecialtiesFilter(trailingText: 'Doctors'),
+              child: SpecialtiesFilter(
+                trailingText: 'Doctors',
+                sortOrder: sortOrder,
+                onPressed: () {
+                  setState(() {
+                    sortOrder = sortOrder == SortOrder.ascending
+                        ? SortOrder.descending
+                        : SortOrder.ascending;
+                  });
+                },
+              ),
             ),
             Expanded(
               child: Padding(

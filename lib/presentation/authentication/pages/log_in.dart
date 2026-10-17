@@ -91,9 +91,6 @@ class _LogInState extends State<LogIn> {
                 AppInputs.inputPassword(
                   controller: passwordController,
                   isNewPassword: false,
-                  // Diagnostic workaround for the first-character keyboard
-                  // dismissal reported on Samsung A26. Verify on the device.
-                  enableAutofill: false,
                   textInputAction: TextInputAction.done,
                   onSubmitted: _submit,
                   obscureText: obscureText,

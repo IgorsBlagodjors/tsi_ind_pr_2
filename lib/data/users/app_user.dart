@@ -1,6 +1,9 @@
-import '../gender.dart';
-import '../firestore_dates.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 
+part 'app_user.g.dart';
+
+@JsonSerializable()
 class AppUser {
   const AppUser({
     required this.id,
@@ -21,44 +24,11 @@ class AppUser {
   final Gender? gender;
   final String? photoUrl;
 
+  @JsonKey(defaultValue: <String>{})
   final Set<String> favoriteDoctorIds;
 
-  factory AppUser.fromMap(String id, Map<String, dynamic> data) => AppUser(
-    id: id,
-    fullName: data['fullName'] as String,
-    email: data['email'] as String,
-    phoneNumber: data['phoneNumber'] as String?,
-    dateOfBirth: data['dateOfBirth'] == null
-        ? null
-        : DateTime.parse(data['dateOfBirth'] as String),
-    gender: data['gender'] == null
-        ? null
-        : Gender.values.byName(data['gender'] as String),
-    photoUrl: data['photoUrl'] as String?,
-    favoriteDoctorIds: Set<String>.from(
-      data['favoriteDoctorIds'] as List? ?? const [],
-    ),
-  );
+  factory AppUser.fromJson(Map<String, dynamic> json) =>
+      _$AppUserFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-    'fullName': fullName,
-    'email': email,
-    'phoneNumber': phoneNumber,
-    'dateOfBirth': dateOfBirth == null ? null : dateOnly(dateOfBirth!),
-    'gender': gender?.name,
-    'photoUrl': photoUrl,
-    'favoriteDoctorIds': favoriteDoctorIds.toList(),
-  };
-
-  int? get age => ageOn(DateTime.now());
-  int? ageOn(DateTime date) {
-    final birth = dateOfBirth;
-    if (birth == null) return null;
-    var years = date.year - birth.year;
-    if (date.month < birth.month ||
-        (date.month == birth.month && date.day < birth.day)) {
-      years--;
-    }
-    return years < 0 ? null : years;
-  }
+  Map<String, dynamic> toJson() => _$AppUserToJson(this);
 }

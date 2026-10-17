@@ -23,7 +23,6 @@ class AppInputs {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         autocorrect: false,
-        autofillHints: [AutofillHints.email],
         style: isGradient
             ? AppTextStyles.regular20Prime
             : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
@@ -99,10 +98,7 @@ class AppInputs {
             width: 0,
             height: height,
           ),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 12.w,
-            vertical: 0,
-          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0),
           fillColor: AppColors.elements,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(13.r),
@@ -131,7 +127,6 @@ class AppInputs {
         textAlignVertical: TextAlignVertical.center,
         keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.next,
-        autofillHints: const [AutofillHints.telephoneNumber],
         style: isGradient
             ? AppTextStyles.regular20Prime
             : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
@@ -149,10 +144,7 @@ class AppInputs {
             width: 0,
             height: height,
           ),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 12.w,
-            vertical: 0,
-          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0),
           fillColor: AppColors.elements,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(13.r),
@@ -179,7 +171,6 @@ class AppInputs {
     required bool obscureText,
     required VoidCallback onEyePressed,
     bool isNewPassword = true,
-    bool enableAutofill = true,
     TextEditingController? confirmWith,
     TextInputAction textInputAction = TextInputAction.next,
     VoidCallback? onSubmitted,
@@ -190,9 +181,6 @@ class AppInputs {
         obscureText: obscureText,
         autocorrect: false,
         enableSuggestions: false,
-        autofillHints: enableAutofill
-            ? [isNewPassword ? AutofillHints.newPassword : AutofillHints.password]
-            : null,
         textInputAction: textInputAction,
         onFieldSubmitted: onSubmitted == null ? null : (_) => onSubmitted(),
         textAlignVertical: TextAlignVertical.center,
@@ -294,10 +282,7 @@ class AppInputs {
             width: 0,
             height: 45.h,
           ),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 12.w,
-            vertical: 0,
-          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0),
           fillColor: AppColors.elements,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(13.r),

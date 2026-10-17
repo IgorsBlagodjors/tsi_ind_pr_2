@@ -86,9 +86,7 @@ class CompletedApointmentlw extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Icon(
-                          doctor.isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border,
+                          Icons.favorite_border,
                           size: 15,
                           color: AppColors.primary,
                         ),

@@ -1,4 +1,4 @@
-import '../gender.dart';
+import '../app_enums.dart';
 
 /// Patient details at booking time. The patient may differ from the account owner.
 class PatientDetails {
