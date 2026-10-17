@@ -1,23 +1,12 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tsi_ind_pr_2/data/users/app_user.dart';
 
-sealed class ProfileState {
-  const ProfileState();
-}
+part 'profile_state.freezed.dart';
 
-final class ProfileLoading extends ProfileState {
-  const ProfileLoading();
-}
-
-final class ProfileSignedOut extends ProfileState {
-  const ProfileSignedOut();
-}
-
-final class ProfileLoaded extends ProfileState {
-  const ProfileLoaded(this.user);
-  final AppUser user;
-}
-
-final class ProfileError extends ProfileState {
-  const ProfileError(this.message);
-  final String message;
+@freezed
+sealed class ProfileState with _$ProfileState {
+  const factory ProfileState.loading() = ProfileLoading;
+  const factory ProfileState.signedOut() = ProfileSignedOut;
+  const factory ProfileState.loaded(AppUser user) = ProfileLoaded;
+  const factory ProfileState.error(String message) = ProfileError;
 }

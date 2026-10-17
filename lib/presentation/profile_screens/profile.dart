@@ -78,7 +78,9 @@ class _ProfileState extends State<Profile> {
               children: [
                 Stack(
                   children: [
-                    AppContainers.networkImage(imageUrl: user.photoUrl!),
+                    AppContainers.networkImage(
+                      imageUrl: user.photoUrl ?? 'https://www.dropbox.com/scl/fi/arp7awfdbtbz69gckyudy/unknown.png?rlkey=as20833k60pgp09hky1g8r8h6&st=p0ygqz9b&dl=1',
+                    ),
                     Positioned(
                       bottom: 5,
                       right: 5,

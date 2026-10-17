@@ -12,7 +12,6 @@ class AppInputs {
 
   static Widget inputEmail({
     required TextEditingController controller,
-    bool allowPhone = false,
     bool readOnly = false,
     bool isGradient = true,
   }) {
@@ -21,14 +20,10 @@ class AppInputs {
         controller: controller,
         readOnly: readOnly,
         textAlignVertical: TextAlignVertical.center,
-        keyboardType: allowPhone
-            ? TextInputType.text
-            : TextInputType.emailAddress,
+        keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         autocorrect: false,
-        autofillHints: [
-          allowPhone ? AutofillHints.username : AutofillHints.email,
-        ],
+        autofillHints: [AutofillHints.email],
         style: isGradient
             ? AppTextStyles.regular20Prime
             : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
@@ -55,16 +50,13 @@ class AppInputs {
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
-            return allowPhone ? 'Enter email or mobile number' : 'Enter email';
+            return 'Enter email';
           }
 
           final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
 
-          if (allowPhone && _validPhone(value)) return null;
           if (!emailRegex.hasMatch(value.trim())) {
-            return allowPhone
-                ? 'Enter a valid email or mobile number'
-                : 'Enter a valid email';
+            return 'Enter a valid email';
           }
 
           return null;
@@ -79,7 +71,6 @@ class AppInputs {
     bool isGradient = true,
   }) {
     return SizedBox(
-      height: height,
       child: TextFormField(
         controller: controller,
         textAlignVertical: TextAlignVertical.center,
@@ -102,9 +93,15 @@ class AppInputs {
                 ),
           filled: true,
           isDense: true,
+          // Validation messages sit below the fixed-height filled area.
+          suffixIcon: const SizedBox.shrink(),
+          suffixIconConstraints: BoxConstraints.tightFor(
+            width: 0,
+            height: height,
+          ),
           contentPadding: EdgeInsets.symmetric(
             horizontal: 12.w,
-            vertical: 12.h,
+            vertical: 0,
           ),
           fillColor: AppColors.elements,
           border: OutlineInputBorder(
@@ -129,9 +126,9 @@ class AppInputs {
     bool isGradient = true,
   }) {
     return SizedBox(
-      height: height,
       child: TextFormField(
         controller: controller,
+        textAlignVertical: TextAlignVertical.center,
         keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.next,
         autofillHints: const [AutofillHints.telephoneNumber],
@@ -146,9 +143,15 @@ class AppInputs {
               : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
           filled: true,
           isDense: true,
+          // Validation messages sit below the fixed-height filled area.
+          suffixIcon: const SizedBox.shrink(),
+          suffixIconConstraints: BoxConstraints.tightFor(
+            width: 0,
+            height: height,
+          ),
           contentPadding: EdgeInsets.symmetric(
             horizontal: 12.w,
-            vertical: 12.h,
+            vertical: 0,
           ),
           fillColor: AppColors.elements,
           border: OutlineInputBorder(
@@ -202,9 +205,10 @@ class AppInputs {
           hintText: '••••••••••••••',
           hintStyle: AppTextStyles.regular20Prime,
           contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0),
-          suffixIconConstraints: BoxConstraints(
-            minWidth: 45.w,
-            minHeight: 45.h,
+          // Keep the filled area fixed; validation text needs its own space.
+          suffixIconConstraints: BoxConstraints.tightFor(
+            width: 45.w,
+            height: 45.h,
           ),
           suffixIcon: IconButton(
             tooltip: obscureText ? 'Show password' : 'Hide password',
@@ -250,6 +254,7 @@ class AppInputs {
     return SizedBox(
       child: TextFormField(
         controller: controller,
+        textAlignVertical: TextAlignVertical.center,
         readOnly: true,
         onTap: () async {
           final date = await showDatePicker(
@@ -282,9 +287,15 @@ class AppInputs {
               : AppTextStyles.regular20Prime.copyWith(color: AppColors.text2),
           filled: true,
           isDense: true,
+          // Validation messages sit below the fixed-height filled area.
+          suffixIcon: const SizedBox.shrink(),
+          suffixIconConstraints: BoxConstraints.tightFor(
+            width: 0,
+            height: 45.h,
+          ),
           contentPadding: EdgeInsets.symmetric(
             horizontal: 12.w,
-            vertical: 12.h,
+            vertical: 0,
           ),
           fillColor: AppColors.elements,
           border: OutlineInputBorder(
