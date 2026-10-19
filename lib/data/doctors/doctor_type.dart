@@ -1,4 +1,3 @@
-/// Medical categories used to group doctors.
 enum DoctorType {
   cardiology('Cardiology'),
   dermatology('Dermatology'),

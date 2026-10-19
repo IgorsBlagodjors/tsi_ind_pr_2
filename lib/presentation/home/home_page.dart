@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tsi_ind_pr_2/data/app_constants.dart';
 import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_cubit.dart';
 import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_state.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
@@ -247,7 +248,7 @@ class Header extends StatelessWidget {
                       onTap: () => context.pushNamed('profile'),
                       child: AppContainers.networkImage(
                         small: true,
-                        imageUrl: user.photoUrl ?? 'https://www.dropbox.com/scl/fi/arp7awfdbtbz69gckyudy/unknown.png?rlkey=as20833k60pgp09hky1g8r8h6&st=p0ygqz9b&dl=1',
+                        imageUrl: user.photoUrl ?? defaultNetworkImage,
                       ),
                     ),
                     Positioned(

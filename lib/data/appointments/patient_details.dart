@@ -1,6 +1,10 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../app_enums.dart';
 
-/// Patient details at booking time. The patient may differ from the account owner.
+part 'patient_details.g.dart';
+
+@JsonSerializable()
 class PatientDetails {
   const PatientDetails({
     required this.fullName,
@@ -16,19 +20,8 @@ class PatientDetails {
   final bool isAccountOwner;
   final String problem;
 
-  factory PatientDetails.fromMap(Map<String, dynamic> data) => PatientDetails(
-    fullName: data['fullName'] as String,
-    age: (data['age'] as num).toInt(),
-    gender: Gender.values.byName(data['gender'] as String),
-    isAccountOwner: data['isAccountOwner'] as bool,
-    problem: data['problem'] as String? ?? '',
-  );
+  factory PatientDetails.fromJson(Map<String, dynamic> json) =>
+      _$PatientDetailsFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-    'fullName': fullName,
-    'age': age,
-    'gender': gender.name,
-    'isAccountOwner': isAccountOwner,
-    'problem': problem,
-  };
+  Map<String, dynamic> toJson() => _$PatientDetailsToJson(this);
 }

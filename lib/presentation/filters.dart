@@ -9,8 +9,6 @@ import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/speciality_wiev.dart';
 
-enum AgeSelector { first, seccont, third }
-
 class Filters extends StatefulWidget {
   const new({super.key});
 

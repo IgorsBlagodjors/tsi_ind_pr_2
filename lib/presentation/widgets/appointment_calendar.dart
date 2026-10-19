@@ -1,8 +1,13 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tsi_ind_pr_2/data/app_constants.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
+import 'package:tsi_ind_pr_2/data/appointments/appointments_repository.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tsi_ind_pr_2/data/schedule/demo_availability.dart';
+import 'package:tsi_ind_pr_2/data/schedule/weekly_availability.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
@@ -22,21 +27,19 @@ class AppointmentCalendar extends StatefulWidget {
 }
 
 class _AppointmentCalendarState extends State<AppointmentCalendar> {
-  static const _days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   late DateTime _selectedDate;
   late DateTime _pageStart;
   DateTime? _selectedTime;
   late final Timer _timer;
-
-  DateTime get _today => DateUtils.dateOnly(DateTime.now());
-  DateTime get _lastDate => _addDays(_today, 89);
-  DemoAvailability get _availability => DemoAvailability(widget.doctorId);
-  DateTime _addDays(DateTime date, int days) =>
-      DateTime(date.year, date.month, date.day + days);
+  StreamSubscription<Set<DateTime>>? _subscription;
+  Set<DateTime> _booked = {};
+  bool _loading = true;
+  bool _failed = false;
 
   @override
   void initState() {
     super.initState();
+    _listen();
     _selectedDate = _today;
     _pageStart = _today;
     _timer = Timer.periodic(const Duration(minutes: 1), (_) {
@@ -55,59 +58,21 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.doctorId != widget.doctorId) {
       _selectedTime = null;
+      _listen();
     }
   }
 
   @override
   void dispose() {
+    _subscription?.cancel();
     _timer.cancel();
     super.dispose();
-  }
-
-  void _selectDate(DateTime date) {
-    setState(() {
-      _selectedDate = date;
-      _selectedTime = null;
-      if (date.isBefore(_pageStart) ||
-          !date.isBefore(_addDays(_pageStart, 6))) {
-        _pageStart = date;
-      }
-    });
-    widget.onChanged?.call(null);
-  }
-
-  void _changePage(int direction) {
-    var date = _addDays(_pageStart, direction * 6);
-    if (date.isBefore(_today)) date = _today;
-    if (date.isAfter(_lastDate)) return;
-    setState(() => _pageStart = date);
-    _selectDate(date);
-  }
-
-  Future<void> _pickDate() async {
-    final date = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate.isBefore(_today) ? _today : _selectedDate,
-      firstDate: _today,
-      lastDate: _lastDate,
-    );
-    if (date != null && mounted) _selectDate(date);
-  }
-
-  String _dayStatus(DateTime date) {
-    final slots = _availability.slotsFor(date, now: DateTime.now());
-    if (slots.isEmpty) return 'Closed';
-    if (slots.any((slot) => slot.status == SlotStatus.available)) return 'Free';
-    if (slots.every((slot) => slot.status == SlotStatus.elapsed)) {
-      return 'Ended';
-    }
-    return 'Full';
   }
 
   @override
   Widget build(BuildContext context) {
     final localizations = MaterialLocalizations.of(context);
-    final slots = _availability.slotsFor(_selectedDate, now: DateTime.now());
+    final slots = _slots(_selectedDate);
     final hasAvailable = slots.any(
       (slot) => slot.status == SlotStatus.available,
     );
@@ -218,7 +183,13 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
                 style: AppTextStyles.regular14Black,
               ),
               const SizedBox(height: 12),
-              if (!hasAvailable)
+              if (_loading) const LinearProgressIndicator(),
+              if (_failed)
+                TextButton(
+                  onPressed: () => setState(_listen),
+                  child: const Text('Could not load availability. Retry'),
+                ),
+              if (!hasAvailable && !_loading && !_failed)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(
@@ -277,7 +248,7 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
               opacity: status == 'Free' || selected ? 1 : 0.45,
               child: AppContainers.dateContainer(
                 date: '${date.day}',
-                day: _days[date.weekday - 1],
+                day: days[date.weekday - 1],
                 isSelected: selected,
               ),
             ),
@@ -293,7 +264,8 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
   }
 
   Widget _timeSlot(AppointmentSlot slot) {
-    final enabled = slot.status == SlotStatus.available;
+    final enabled =
+        !_loading && !_failed && slot.status == SlotStatus.available;
     final selected = slot.start == _selectedTime;
     final label = MaterialLocalizations.of(context)
         .formatTimeOfDay(TimeOfDay.fromDateTime(slot.start));
@@ -347,5 +319,93 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
         ),
       ),
     );
+  }
+
+  void _listen() {
+    _subscription?.cancel();
+    _loading = true;
+    _failed = false;
+    _subscription = context
+        .read<AppointmentsRepository>()
+        .watchBookedTimes(widget.doctorId)
+        .listen(
+          (times) {
+            if (!mounted) return;
+            setState(() {
+              _booked = times;
+              _loading = false;
+              _failed = false;
+            });
+            if (_selectedTime != null && times.contains(_selectedTime)) {
+              setState(() => _selectedTime = null);
+              widget.onChanged?.call(null);
+            }
+          },
+          onError: (Object error) {
+            if (!mounted) return;
+            setState(() {
+              _failed = true;
+              _loading = false;
+              _selectedTime = null;
+            });
+            widget.onChanged?.call(null);
+          },
+        );
+  }
+
+  List<AppointmentSlot> _slots(DateTime date) => _availability
+      .slotsFor(date, now: DateTime.now())
+      .map(
+        (slot) => _booked.contains(slot.start)
+            ? AppointmentSlot(slot.start, SlotStatus.booked)
+            : slot,
+      )
+      .toList();
+
+  DateTime get _today => DateUtils.dateOnly(DateTime.now());
+  DateTime get _lastDate => _addDays(_today, 89);
+  WeeklyAvailability get _availability => WeeklyAvailability(widget.doctorId);
+  DateTime _addDays(DateTime date, int days) =>
+      DateTime(date.year, date.month, date.day + days);
+
+  void _selectDate(DateTime date) {
+    setState(() {
+      _selectedDate = date;
+      _selectedTime = null;
+      if (date.isBefore(_pageStart) ||
+          !date.isBefore(_addDays(_pageStart, 6))) {
+        _pageStart = date;
+      }
+    });
+    widget.onChanged?.call(null);
+  }
+
+  void _changePage(int direction) {
+    var date = _addDays(_pageStart, direction * 6);
+    if (date.isBefore(_today)) date = _today;
+    if (date.isAfter(_lastDate)) return;
+    setState(() => _pageStart = date);
+    _selectDate(date);
+  }
+
+  Future<void> _pickDate() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate.isBefore(_today) ? _today : _selectedDate,
+      firstDate: _today,
+      lastDate: _lastDate,
+    );
+    if (date != null && mounted) _selectDate(date);
+  }
+
+  String _dayStatus(DateTime date) {
+    if (_loading || _failed) return '…';
+    final slots = _slots(date);
+    if (slots.isEmpty) return 'Closed';
+    if (slots.any((slot) => slot.status == SlotStatus.available)) return 'Free';
+    if (slots.every((slot) => slot.status == SlotStatus.elapsed)) {
+      return 'Ended';
+    }
+    return 'Full';
   }
 }

@@ -31,14 +31,6 @@ class _LogInState extends State<LogIn> {
   final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
   late final LoginCubit _cubit;
-  void _submit() {
-    if (!_formKey.currentState!.validate()) return;
-    FocusScope.of(context).unfocus();
-    _cubit.logIn(
-      email: emailController.text,
-      password: passwordController.text,
-    );
-  }
 
   @override
   void initState() {
@@ -176,6 +168,15 @@ class _LogInState extends State<LogIn> {
           ),
         ),
       ),
+    );
+  }
+
+  void _submit() {
+    if (!_formKey.currentState!.validate()) return;
+    FocusScope.of(context).unfocus();
+    _cubit.logIn(
+      email: emailController.text,
+      password: passwordController.text,
     );
   }
 }

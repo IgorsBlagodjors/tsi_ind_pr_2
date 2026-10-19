@@ -1,3 +1,10 @@
+import 'package:tsi_ind_pr_2/data/users/app_user.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_cubit.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tsi_ind_pr_2/data/appointments/appointments_repository.dart';
+import 'package:tsi_ind_pr_2/data/appointments/patient_details.dart';
+import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +21,6 @@ import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
 class Schedule extends StatefulWidget {
   const new({super.key, required this.doctor});
-
   final Doctor doctor;
 
   @override
@@ -23,10 +29,22 @@ class Schedule extends StatefulWidget {
 
 class _ScheduleState extends State<Schedule> {
   bool patientDetailsYourself = true;
-  Gender _selectedGender = Gender.male;
-  final _patientNameController = TextEditingController();
-  final _patientAgeController = TextEditingController();
-  final _patientProblemController = TextEditingController();
+  DateTime? _selectedTime;
+  bool _saving = false;
+  AppUser? get _profile {
+    final state = context.read<ProfileCubit>().state;
+    return state is ProfileLoaded ? state.user : null;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final state = context.watch<ProfileCubit>().state;
+    if (!_profileFilled && patientDetailsYourself && state is ProfileLoaded) {
+      _fillFromProfile();
+      _profileFilled = true;
+    }
+  }
 
   @override
   void dispose() {
@@ -38,6 +56,7 @@ class _ScheduleState extends State<Schedule> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<ProfileCubit>();
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -150,7 +169,10 @@ class _ScheduleState extends State<Schedule> {
                   ),
                 ),
               ),
-              AppointmentCalendar(doctorId: widget.doctor.id),
+              AppointmentCalendar(
+                doctorId: widget.doctor.id,
+                onChanged: (time) => _selectedTime = time,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 31.w),
                 child: AppContainers.appDivider(),
@@ -173,30 +195,31 @@ class _ScheduleState extends State<Schedule> {
                     SizedBox(height: 6.h),
                     Padding(
                       padding: EdgeInsets.only(left: 8.w),
-                      child: Row(
-                        children: [
-                          AppButtons.singleTextButton(
-                            textIsBlack: !patientDetailsYourself,
-                            isGradient: patientDetailsYourself,
-                            text: 'Yourself',
-                            onPressed: () => setState(() {
-                              patientDetailsYourself = true;
-                            }),
-                            height: 18.h,
-                            horizontalPadding: 10.w,
-                          ),
-                          SizedBox(width: 3.w),
-                          AppButtons.singleTextButton(
-                            textIsBlack: true,
-                            isGradient: !patientDetailsYourself,
-                            text: 'Another Person',
-                            onPressed: () => setState(() {
-                              patientDetailsYourself = false;
-                            }),
-                            height: 18.h,
-                            horizontalPadding: 7.w,
-                          ),
-                        ],
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            AppButtons.singleTextButton(
+                              textIsBlack: !patientDetailsYourself,
+                              isGradient: patientDetailsYourself,
+                              text: 'Yourself',
+                              onPressed: () => _selectPatient(true),
+                              height: 18.h,
+                              horizontalPadding: 10.w,
+                            ),
+                            SizedBox(width: 3.w),
+                            AppButtons.singleTextButton(
+                              textIsBlack: true,
+                              isGradient: !patientDetailsYourself,
+                              text: 'Another Person',
+                              onPressed: () => _selectPatient(false),
+                              height: 18.h,
+                              horizontalPadding: 7.w,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 18.h),
@@ -210,6 +233,7 @@ class _ScheduleState extends State<Schedule> {
                     AppInputs.inputName(
                       isGradient: false,
                       controller: _patientNameController,
+                      hint: 'Full name',
                       height: 35.h,
                     ),
                     SizedBox(height: 12.h),
@@ -219,6 +243,7 @@ class _ScheduleState extends State<Schedule> {
                     ),
                     AppInputs.inputAge(
                       controller: _patientAgeController,
+                      hint: 'Age',
                       height: 35.h,
                     ),
                     SizedBox(height: 12.h),
@@ -235,7 +260,7 @@ class _ScheduleState extends State<Schedule> {
                           width: 61.w,
                           child: AppButtons.singleTextButton(
                             textIsBlack: true,
-                            isGradient: _selectedGender == Gender.male,
+                            isGradient: _effectiveGender == Gender.male,
                             text: 'Male',
                             onPressed: () => setState(() {
                               _selectedGender = Gender.male;
@@ -249,7 +274,7 @@ class _ScheduleState extends State<Schedule> {
                           width: 61.w,
                           child: AppButtons.singleTextButton(
                             textIsBlack: true,
-                            isGradient: _selectedGender == Gender.female,
+                            isGradient: _effectiveGender == Gender.female,
                             text: 'Female',
                             onPressed: () => setState(() {
                               _selectedGender = Gender.female;
@@ -263,7 +288,7 @@ class _ScheduleState extends State<Schedule> {
                           width: 61.w,
                           child: AppButtons.singleTextButton(
                             textIsBlack: true,
-                            isGradient: _selectedGender == Gender.other,
+                            isGradient: _effectiveGender == Gender.other,
                             text: 'Other',
                             onPressed: () => setState(() {
                               _selectedGender = Gender.other;
@@ -295,11 +320,8 @@ class _ScheduleState extends State<Schedule> {
                       padding: EdgeInsets.symmetric(horizontal: 22.w),
                       child: AppButtons.singleTextButton(
                         isGradient: true,
-                        text: 'Confirm',
-                        onPressed: () => showActionMessage(
-                          context,
-                          'Booking is not connected yet. No appointment was created.',
-                        ),
+                        text: _saving ? 'Saving...' : 'Confirm',
+                        onPressed: _confirm,
                         height: 48.h,
                         horizontalPadding: 1.w,
                         textStyle: AppTextStyles.semiBold20White,
@@ -315,4 +337,92 @@ class _ScheduleState extends State<Schedule> {
       ),
     );
   }
+
+  int? get _profileAge {
+    final birth = _profile?.dateOfBirth;
+    if (birth == null) return null;
+    final now = DateTime.now();
+    var age = now.year - birth.year;
+    if (now.month < birth.month ||
+        (now.month == birth.month && now.day < birth.day)) {
+      age--;
+    }
+    return age >= 0 && age <= 120 ? age : null;
+  }
+
+  Gender? get _effectiveGender =>
+      _selectedGender ?? (patientDetailsYourself ? _profile?.gender : null);
+  bool _profileFilled = false;
+
+  void _fillFromProfile() {
+    _patientNameController.text = _profile?.fullName ?? '';
+    _patientAgeController.text = _profileAge?.toString() ?? '';
+    _selectedGender = _profile?.gender;
+  }
+
+  void _selectPatient(bool yourself) {
+    setState(() {
+      patientDetailsYourself = yourself;
+      _patientNameController.clear();
+      _patientAgeController.clear();
+      _selectedGender = null;
+      if (yourself) _fillFromProfile();
+    });
+  }
+
+  Future<void> _confirm() async {
+    if (_saving) return;
+    final user = context.read<AuthRepository>().currentUser;
+    final time = _selectedTime;
+    final ageText = _patientAgeController.text.trim();
+    final age = int.tryParse(ageText);
+    final nameText = _patientNameController.text.trim();
+    final name = nameText;
+    final gender = _effectiveGender;
+    if (user == null ||
+        time == null ||
+        age == null ||
+        gender == null ||
+        name.isEmpty) {
+      showActionMessage(
+        context,
+        'Choose a time and enter the patient name, age and gender.',
+      );
+      return;
+    }
+    setState(() => _saving = true);
+    try {
+      await context.read<AppointmentsRepository>().book(
+        userId: user.id,
+        doctorId: widget.doctor.id,
+        startsAt: time,
+        patient: PatientDetails(
+          fullName: name,
+          age: age,
+          gender: gender,
+          isAccountOwner: patientDetailsYourself,
+          problem: _patientProblemController.text.trim(),
+        ),
+      );
+      if (!mounted) return;
+      showActionMessage(context, 'Appointment booked.');
+      context.goNamed('apointment');
+    } on BookingFailure catch (error) {
+      if (mounted) showActionMessage(context, error.message);
+    } catch (_) {
+      if (mounted) {
+        showActionMessage(
+          context,
+          'Could not save. Check your connection and try again.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  Gender? _selectedGender;
+  final _patientNameController = TextEditingController();
+  final _patientAgeController = TextEditingController();
+  final _patientProblemController = TextEditingController();
 }

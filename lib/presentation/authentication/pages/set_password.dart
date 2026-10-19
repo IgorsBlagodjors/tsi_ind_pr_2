@@ -19,16 +19,6 @@ class _SetPasswordState extends State<SetPassword> {
   final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
 
-  void _submit() {
-    if (!_formKey.currentState!.validate()) return;
-    FocusScope.of(context).unfocus();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Form is valid. Authentication is not connected yet.'),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return AuthScaffold(
@@ -83,6 +73,16 @@ class _SetPasswordState extends State<SetPassword> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _submit() {
+    if (!_formKey.currentState!.validate()) return;
+    FocusScope.of(context).unfocus();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Form is valid. Authentication is not connected yet.'),
       ),
     );
   }

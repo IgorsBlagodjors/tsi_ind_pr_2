@@ -1,3 +1,4 @@
+import 'package:tsi_ind_pr_2/presentation/appointments/appointment.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
@@ -107,11 +108,11 @@ final appRouter = GoRouter(
               state.extra is Doctor ? null : '/doctors',
           builder: (context, state) => Schedule(doctor: state.extra as Doctor),
         ),
-        // GoRoute(
-        //   path: '/apointment',
-        //   name: 'apointment',
-        //   builder: (context, state) => Appointment(),
-        // ),
+        GoRoute(
+          path: '/apointment',
+          name: 'apointment',
+          builder: (context, state) => const Appointment(),
+        ),
         GoRoute(
           path: '/favorite_doctor',
           name: 'favorite_doctor',

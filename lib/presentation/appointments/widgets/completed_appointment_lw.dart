@@ -4,20 +4,19 @@ import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
+import 'package:tsi_ind_pr_2/presentation/appointments/widgets/appointment_doctor_photo.dart';
 
 class CompletedApointmentlw extends StatelessWidget {
   const CompletedApointmentlw({super.key, required this.doctors});
   final List<Doctor> doctors;
   @override
-  Widget build(BuildContext context) => Expanded(
-    child: ListView.separated(
-      key: const PageStorageKey('CompletedApointmentlw'),
-      padding: const EdgeInsets.only(bottom: 16),
-      itemCount: doctors.length,
-      itemBuilder: (context, index) => _appointment(context, doctors[index]),
-      separatorBuilder: (context, index) =>
-          Divider(height: 1, thickness: 1, color: AppColors.outline),
-    ),
+  Widget build(BuildContext context) => ListView.separated(
+    key: const PageStorageKey('CompletedApointmentlw'),
+    padding: const EdgeInsets.only(bottom: 16),
+    itemCount: doctors.length,
+    itemBuilder: (context, index) => _appointment(context, doctors[index]),
+    separatorBuilder: (context, index) =>
+        Divider(height: 1, thickness: 1, color: AppColors.outline),
   );
   Widget _appointment(BuildContext context, Doctor doctor) {
     return Padding(
@@ -27,10 +26,7 @@ class CompletedApointmentlw extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                radius: 33,
-                backgroundImage: AssetImage(doctor.image),
-              ),
+              AppointmentDoctorPhoto(doctor: doctor),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(

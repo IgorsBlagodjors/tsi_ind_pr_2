@@ -1,10 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
+import 'package:tsi_ind_pr_2/data/appointments/patient_details.dart';
+import 'package:tsi_ind_pr_2/data/firestore_dates.dart';
 
-import '../firestore_dates.dart';
-import 'appointment_status.dart';
-import 'patient_details.dart';
+part 'appointment_booking.g.dart';
 
-/// Document at appointments/{id}. Named to avoid a conflict with the Appointment screen.
+@JsonSerializable(explicitToJson: true)
 class AppointmentBooking {
   const AppointmentBooking({
     required this.id,
@@ -17,44 +18,38 @@ class AppointmentBooking {
     required this.patient,
     this.status = AppointmentStatus.upcoming,
     this.cancelReason,
+    this.statusChangedAt,
   });
 
+  @JsonKey(includeToJson: false)
   final String id;
+
   final String userId;
   final String doctorId;
   final String slotId;
+
+  @JsonKey(fromJson: readTimestamp, toJson: writeTimestamp)
   final DateTime startsAt;
+
+  @JsonKey(fromJson: readTimestamp, toJson: writeTimestamp)
   final DateTime endsAt;
+
+  @JsonKey(fromJson: readTimestamp, toJson: writeTimestamp)
   final DateTime createdAt;
+
   final PatientDetails patient;
   final AppointmentStatus status;
   final String? cancelReason;
 
-  factory AppointmentBooking.fromMap(String id, Map<String, dynamic> data) =>
-      AppointmentBooking(
-        id: id,
-        userId: data['userId'] as String,
-        doctorId: data['doctorId'] as String,
-        slotId: data['slotId'] as String,
-        startsAt: readTimestamp(data['startsAt']),
-        endsAt: readTimestamp(data['endsAt']),
-        createdAt: readTimestamp(data['createdAt']),
-        patient: PatientDetails.fromMap(
-          Map<String, dynamic>.from(data['patient'] as Map),
-        ),
-        status: AppointmentStatus.values.byName(data['status'] as String),
-        cancelReason: data['cancelReason'] as String?,
-      );
+  @JsonKey(
+    fromJson: readNullableTimestamp,
+    toJson: writeNullableTimestamp,
+    includeIfNull: false,
+  )
+  final DateTime? statusChangedAt;
 
-  Map<String, dynamic> toMap() => {
-    'userId': userId,
-    'doctorId': doctorId,
-    'slotId': slotId,
-    'startsAt': Timestamp.fromDate(startsAt),
-    'endsAt': Timestamp.fromDate(endsAt),
-    'createdAt': Timestamp.fromDate(createdAt),
-    'patient': patient.toMap(),
-    'status': status.name,
-    'cancelReason': cancelReason,
-  };
+  factory AppointmentBooking.fromJson(Map<String, dynamic> json) =>
+      _$AppointmentBookingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AppointmentBookingToJson(this);
 }

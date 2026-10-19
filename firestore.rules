@@ -36,6 +36,52 @@ service cloud.firestore {
         && request.resource.data.email == resource.data.email;
     }
 
+    match /doctors/{doctorId} {
+      allow read: if request.auth != null;
+      match /bookings/{slotId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null
+          && request.resource.data.keys().hasOnly(['appointmentId', 'startsAt'])
+          && request.resource.data.startsAt is timestamp
+          && slotId == string(request.resource.data.startsAt.toMillis())
+          && getAfter(/databases/$(database)/documents/appointments/$(request.resource.data.appointmentId)).data.userId == request.auth.uid
+          && getAfter(/databases/$(database)/documents/appointments/$(request.resource.data.appointmentId)).data.doctorId == doctorId
+          && getAfter(/databases/$(database)/documents/appointments/$(request.resource.data.appointmentId)).data.slotId == slotId;
+        allow delete: if request.auth != null
+          && get(/databases/$(database)/documents/appointments/$(resource.data.appointmentId)).data.userId == request.auth.uid
+          && getAfter(/databases/$(database)/documents/appointments/$(resource.data.appointmentId)).data.status == 'cancelled';
+      }
+    }
+    match /appointments/{id} {
+      allow read: if ownsProfile(resource.data.userId);
+      allow create: if ownsProfile(request.resource.data.userId)
+        && request.resource.data.keys().hasOnly(['userId', 'doctorId', 'slotId', 'startsAt', 'endsAt', 'createdAt', 'patient', 'status', 'cancelReason'])
+        && exists(/databases/$(database)/documents/doctors/$(request.resource.data.doctorId))
+        && request.resource.data.startsAt > request.time
+        && request.resource.data.endsAt == request.resource.data.startsAt + duration.value(30, 'm')
+        && request.resource.data.slotId == string(request.resource.data.startsAt.toMillis())
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.status == 'upcoming'
+        && request.resource.data.cancelReason == null
+        && validPatient(request.resource.data.patient)
+        && !exists(/databases/$(database)/documents/doctors/$(request.resource.data.doctorId)/bookings/$(request.resource.data.slotId))
+        && getAfter(/databases/$(database)/documents/doctors/$(request.resource.data.doctorId)/bookings/$(request.resource.data.slotId)).data.appointmentId == id;
+      allow update: if ownsProfile(resource.data.userId)
+        && resource.data.status == 'upcoming'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'statusChangedAt'])
+        && request.resource.data.statusChangedAt == request.time
+        && ((request.resource.data.status == 'completed' && resource.data.endsAt <= request.time)
+          || (request.resource.data.status == 'cancelled' && resource.data.startsAt > request.time
+            && !existsAfter(/databases/$(database)/documents/doctors/$(resource.data.doctorId)/bookings/$(resource.data.slotId))));
+    }
+    function validPatient(p) {
+      return p.keys().hasOnly(['fullName', 'age', 'gender', 'isAccountOwner', 'problem'])
+        && p.fullName is string && p.fullName.size() > 0 && p.fullName.size() <= 200
+        && p.age is int && p.age >= 0 && p.age <= 120
+        && p.gender in ['male', 'female', 'other']
+        && p.isAccountOwner is bool && p.problem is string && p.problem.size() <= 2000;
+    }
+
     // Other collections stay private until their access rules are implemented.
     match /{document=**} {
       allow read, write: if false;

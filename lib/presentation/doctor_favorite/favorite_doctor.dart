@@ -7,10 +7,8 @@ import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
-import 'package:tsi_ind_pr_2/presentation/doctor_favorite/widgets/favorite_doctorLW.dart';
+import 'package:tsi_ind_pr_2/presentation/doctor_favorite/widgets/favorite_doctor_lw.dart';
 import 'package:tsi_ind_pr_2/presentation/widgets/a_z_filter.dart';
-
-enum FavSelector { doctor, services }
 
 class FavoriteDoctor extends StatefulWidget {
   const new({super.key});

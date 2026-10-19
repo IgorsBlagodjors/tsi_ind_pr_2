@@ -1,3 +1,6 @@
+import 'package:tsi_ind_pr_2/data/appointments/appointments_repository.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctors_repository.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
 // Firebase platform interfaces let these tests run without a real account.
 // ignore_for_file: depend_on_referenced_packages
 
@@ -63,6 +66,13 @@ void main() {
         designSize: const Size(360, 800),
         builder: (context, child) => MultiRepositoryProvider(
           providers: [
+            RepositoryProvider<DoctorsRepository>(
+              create: (_) => _TestDoctors(),
+            ),
+            RepositoryProvider(
+              create: (_) =>
+                  AppointmentsRepository(firestore: FakeFirebaseFirestore()),
+            ),
             RepositoryProvider<AuthRepository>(
               create: (_) =>
                   FirebaseAuthRepository(firebase_auth.FirebaseAuth.instance),
@@ -283,4 +293,21 @@ void main() {
     expect(find.text('Changed remotely'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
+}
+
+class _TestDoctors implements DoctorsRepository {
+  static const doctor = Doctor(
+    id: 'test-doctor',
+    name: 'Test Doctor',
+    type: DoctorType.cardiology,
+    specialization: 'Cardiology',
+    image: '',
+  );
+  @override
+  Future<Doctor?> getDoctorById(String id) async => doctor;
+  @override
+  Stream<List<Doctor>> watchDoctors() => Stream.value([doctor]);
+  @override
+  Stream<List<Doctor>> watchDoctorsByType(DoctorType type) =>
+      Stream.value(type == doctor.type ? [doctor] : []);
 }

@@ -144,14 +144,6 @@ class _FavoriteDoctorLWState extends State<FavoriteDoctorLW> {
                               );
                             },
                           ),
-
-                          // GestureDetector(
-                          //   onTap: () => showActionMessage(
-                          //     context,
-                          //     'Saving favorites is not connected yet.',
-                          //   ),
-                          //   child: AppIcons.heartIcon(color: AppColors.primary),
-                          // ),
                         ),
                         Positioned(
                           left: -5,

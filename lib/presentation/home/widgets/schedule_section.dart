@@ -1,11 +1,11 @@
-import 'package:go_router/go_router.dart';
+import 'package:tsi_ind_pr_2/data/app_constants.dart';
+import 'package:tsi_ind_pr_2/presentation/appointments/appointment.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 import 'package:tsi_ind_pr_2/presentation/home/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
-import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 
 class ScheduleSection extends StatefulWidget {
   const ScheduleSection({super.key});
@@ -15,25 +15,10 @@ class ScheduleSection extends StatefulWidget {
 }
 
 class _ScheduleSectionState extends State<ScheduleSection> {
-  static const _days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  static const _months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
   late DateTime _selectedDate;
+  bool _filterByDate = false;
   late DateTime _weekStart;
   final _selectedDayKey = GlobalKey();
-  bool apointmentExist = true;
 
   @override
   void initState() {
@@ -48,80 +33,6 @@ class _ScheduleSectionState extends State<ScheduleSection> {
             .ensureVisible(dayContext.findRenderObject()!, alignment: 0.5);
       }
     });
-  }
-
-  void _changeWeek(int direction) {
-    setState(() {
-      _weekStart = DateTime(
-        _weekStart.year,
-        _weekStart.month,
-        _weekStart.day + direction * 7,
-      );
-    });
-  }
-
-  String get _monthLabel {
-    final end = DateTime(_weekStart.year, _weekStart.month, _weekStart.day + 6);
-    if (end.month == _weekStart.month) return _months[end.month - 1];
-    return '${_months[_weekStart.month - 1].substring(0, 3)} / '
-        '${_months[end.month - 1].substring(0, 3)}';
-  }
-
-  Widget _calendarDay(int index) {
-    final date = DateTime(
-      _weekStart.year,
-      _weekStart.month,
-      _weekStart.day + index,
-    );
-    return SizedBox(
-      key: DateUtils.isSameDay(date, _selectedDate) ? _selectedDayKey : null,
-      width: 42.w < 42 ? 42 : 42.w,
-      child: GestureDetector(
-        onTap: () => setState(() => _selectedDate = date),
-        child: AppContainers.dateContainer(
-          date: '${date.day}',
-          day: _days[index],
-          isSelected: DateUtils.isSameDay(date, _selectedDate),
-        ),
-      ),
-    );
-  }
-
-  Widget _appointment({
-    required String date,
-    required String time,
-    required String doctor,
-  }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(top: 5.h),
-          child: Icon(Icons.circle, size: 7.r, color: Colors.white),
-        ),
-        SizedBox(width: 8.w),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(date, style: AppTextStyles.medium14White),
-            Wrap(
-              spacing: 12.w,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Text(time, style: AppTextStyles.medium16White),
-                Text(
-                  doctor,
-                  style: AppTextStyles.semiBold14Prime.copyWith(
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
   }
 
   @override
@@ -190,43 +101,61 @@ class _ScheduleSectionState extends State<ScheduleSection> {
             ),
           ),
           SizedBox(height: 18.h),
-          apointmentExist
-              ? Container(
-                  margin: EdgeInsets.symmetric(horizontal: 31.w),
-                  padding: EdgeInsets.fromLTRB(19.w, 8.h, 19.w, 12.h),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(28.r),
-                    border: Border.all(color: Colors.white, width: 1.w),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SectionHeader(
-                        onPressed: () => context.pushNamed('apointment'),
-                        color: Colors.white,
-                        dividerColor: Colors.white,
-                      ),
-                      SizedBox(height: 9.h),
-                      _appointment(
-                        date: '11 Month - Wednesday - Today',
-                        time: '10:00 am',
-                        doctor: 'Dr. Olivia Turner',
-                      ),
-                      SizedBox(height: 9.h),
-                      Divider(color: Colors.white, thickness: 1.h, height: 1.h),
-                      SizedBox(height: 9.h),
-                      _appointment(
-                        date: '16 Month - Monday',
-                        time: '08:00 am',
-                        doctor: 'Dr. Alexander Bennett',
-                      ),
-                    ],
-                  ),
-                )
-              : const SizedBox.shrink(),
+          if (_filterByDate)
+            TextButton(
+              onPressed: () => setState(() => _filterByDate = false),
+              child: const Text(
+                'Next appointments',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          BookingList(
+            date: _filterByDate ? _selectedDate : null,
+            homeStyle: true,
+          ),
           SizedBox(height: 24.h),
         ],
       ),
     );
+  }
+
+  String get _monthLabel {
+    final end = DateTime(_weekStart.year, _weekStart.month, _weekStart.day + 6);
+    if (end.month == _weekStart.month) return months[end.month - 1];
+    return '${months[_weekStart.month - 1].substring(0, 3)} / '
+        '${months[end.month - 1].substring(0, 3)}';
+  }
+
+  Widget _calendarDay(int index) {
+    final date = DateTime(
+      _weekStart.year,
+      _weekStart.month,
+      _weekStart.day + index,
+    );
+    return SizedBox(
+      key: DateUtils.isSameDay(date, _selectedDate) ? _selectedDayKey : null,
+      width: 42.w < 42 ? 42 : 42.w,
+      child: GestureDetector(
+        onTap: () => setState(() {
+          _selectedDate = date;
+          _filterByDate = true;
+        }),
+        child: AppContainers.dateContainer(
+          date: '${date.day}',
+          day: days[index],
+          isSelected: DateUtils.isSameDay(date, _selectedDate),
+        ),
+      ),
+    );
+  }
+
+  void _changeWeek(int direction) {
+    setState(() {
+      _weekStart = DateTime(
+        _weekStart.year,
+        _weekStart.month,
+        _weekStart.day + direction * 7,
+      );
+    });
   }
 }

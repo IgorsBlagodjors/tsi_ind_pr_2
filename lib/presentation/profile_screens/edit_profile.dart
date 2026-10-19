@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tsi_ind_pr_2/data/app_constants.dart';
+import 'package:tsi_ind_pr_2/data/users/firebase_profile_repository.dart';
 import 'package:tsi_ind_pr_2/data/users/profile_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_cubit.dart';
@@ -48,28 +50,6 @@ class _EditProfileState extends State<EditProfile> {
         : dateOnly(dateOfBirth!);
   }
 
-  Future<void> _save() async {
-    if (_saving || !_formKey.currentState!.validate()) return;
-    final birth = dateOfBirth;
-    if (birth == null) return;
-    final uid = (context.read<ProfileCubit>().state as ProfileLoaded).user.id;
-    FocusScope.of(context).unfocus();
-    setState(() => _saving = true);
-    try {
-      await context.read<ProfileRepository>().saveDetails(
-        uid: uid,
-        fullName: _inputNameController.text,
-        phoneNumber: _inputPhoneNumberController.text,
-        dateOfBirth: birth,
-      );
-      if (mounted) showActionMessage(context, 'Profile saved.');
-    } catch (error) {
-      if (mounted) showActionMessage(context, profileErrorMessage(error));
-    } finally {
-      if (mounted) setState(() => _saving = false);
-    }
-  }
-
   @override
   void dispose() {
     _inputNameController.dispose();
@@ -81,6 +61,9 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<ProfileCubit>().state;
+    if (state is! ProfileLoaded) return const SizedBox.shrink();
+    final user = state.user;
     return SafeArea(
       child: Scaffold(
         body: Form(
@@ -132,7 +115,7 @@ class _EditProfileState extends State<EditProfile> {
                       Stack(
                         children: [
                           AppContainers.networkImage(
-                            imageUrl: 'https://www.dropbox.com/scl/fi/arp7awfdbtbz69gckyudy/unknown.png?rlkey=as20833k60pgp09hky1g8r8h6&st=p0ygqz9b&dl=1',
+                            imageUrl: user.photoUrl ?? defaultNetworkImage,
                           ),
                           Positioned(
                             bottom: 5,
@@ -217,5 +200,27 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
     );
+  }
+
+  Future<void> _save() async {
+    if (_saving || !_formKey.currentState!.validate()) return;
+    final birth = dateOfBirth;
+    if (birth == null) return;
+    final uid = (context.read<ProfileCubit>().state as ProfileLoaded).user.id;
+    FocusScope.of(context).unfocus();
+    setState(() => _saving = true);
+    try {
+      await context.read<ProfileRepository>().saveDetails(
+        uid: uid,
+        fullName: _inputNameController.text,
+        phoneNumber: _inputPhoneNumberController.text,
+        dateOfBirth: birth,
+      );
+      if (mounted) showActionMessage(context, 'Profile saved.');
+    } catch (error) {
+      if (mounted) showActionMessage(context, profileErrorMessage(error));
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
   }
 }

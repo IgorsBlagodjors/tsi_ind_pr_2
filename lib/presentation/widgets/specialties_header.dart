@@ -26,13 +26,6 @@ class SpecialtiesHeader extends StatefulWidget {
 class _HeaderState extends State<SpecialtiesHeader> {
   Timer? _searchDebounce;
 
-  void _onSearchChanged(String value) {
-    _searchDebounce?.cancel();
-    _searchDebounce = Timer(const Duration(seconds: 2), () {
-      widget.onSearchChanged?.call(value);
-    });
-  }
-
   @override
   void dispose() {
     _searchDebounce?.cancel();
@@ -107,5 +100,12 @@ class _HeaderState extends State<SpecialtiesHeader> {
         ],
       ),
     );
+  }
+
+  void _onSearchChanged(String value) {
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(const Duration(seconds: 2), () {
+      widget.onSearchChanged?.call(value);
+    });
   }
 }

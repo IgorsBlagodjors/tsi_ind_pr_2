@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tsi_ind_pr_2/data/users/firebase_profile_repository.dart';
 import 'package:tsi_ind_pr_2/domain/app_access.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tsi_ind_pr_2/data/users/app_user.dart';
-import 'package:tsi_ind_pr_2/data/users/profile_repository.dart';
 import 'package:tsi_ind_pr_2/data/users/auth_error_message.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,78 +30,8 @@ class _CreateAccountState extends State<CreateAccount> {
   final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
   bool isSubmitting = false;
-
-  void _showDocument(String title) {
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: const Text('This document has not been published yet.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _submit() async {
-    if (isSubmitting || !_formKey.currentState!.validate()) return;
-    FocusScope.of(context).unfocus();
-    setState(() => isSubmitting = true);
-    final fullName = nameController.text.trim();
-    final phone = phoneController.text.trim();
-    final birth = birthDate;
-    final profiles = context.read<ProfileRepository>();
-    try {
-      final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text,
-          );
-      profiles.pendingRegistration = AppUser(
-        id: credential.user!.uid,
-        fullName: fullName,
-        email: credential.user!.email ?? emailController.text.trim(),
-        phoneNumber: phone,
-        dateOfBirth: birth,
-      );
-      // The account already exists even if updating its display name fails.
-      try {
-        await credential.user!.updateDisplayName(fullName);
-      } on FirebaseAuthException {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Account created, but the name could not be saved.',
-              ),
-            ),
-          );
-        }
-      }
-      if (!mounted) return;
-      AppAccess.instance.unlock(credential.user!.uid);
-      context.goNamed('home');
-    } on FirebaseAuthException catch (error) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(authErrorMessage(error))));
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Unable to create an account. Please try again.'),
-        ),
-      );
-    } finally {
-      if (mounted) setState(() => isSubmitting = false);
-    }
-  }
-
   DateTime? birthDate;
+
   @override
   void dispose() {
     nameController.dispose();
@@ -282,5 +212,74 @@ class _CreateAccountState extends State<CreateAccount> {
         ),
       ),
     );
+  }
+
+  void _showDocument(String title) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: const Text('This document has not been published yet.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _submit() async {
+    if (isSubmitting || !_formKey.currentState!.validate()) return;
+    FocusScope.of(context).unfocus();
+    setState(() => isSubmitting = true);
+    final fullName = nameController.text.trim();
+    final phone = phoneController.text.trim();
+    final birth = birthDate;
+    final profiles = context.read<FirebaseProfileRepository>();
+    try {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text,
+          );
+      profiles.pendingRegistration = AppUser(
+        id: credential.user!.uid,
+        fullName: fullName,
+        email: credential.user!.email ?? emailController.text.trim(),
+        phoneNumber: phone,
+        dateOfBirth: birth,
+      );
+      try {
+        await credential.user!.updateDisplayName(fullName);
+      } on FirebaseAuthException {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Account created, but the name could not be saved.',
+              ),
+            ),
+          );
+        }
+      }
+      if (!mounted) return;
+      AppAccess.instance.unlock(credential.user!.uid);
+      context.goNamed('home');
+    } on FirebaseAuthException catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(authErrorMessage(error))));
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Unable to create an account. Please try again.'),
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => isSubmitting = false);
+    }
   }
 }

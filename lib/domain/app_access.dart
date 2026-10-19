@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-/// In-memory access: restoring Firebase credentials does not unlock the UI.
 class AppAccess extends ChangeNotifier {
   static final instance = AppAccess();
   String? _userId;

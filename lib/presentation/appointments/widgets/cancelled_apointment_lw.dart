@@ -1,3 +1,5 @@
+import 'appointment_doctor_photo.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -18,17 +20,15 @@ class CancelledApointmentlLW extends StatefulWidget {
 
 class _CancelledApointmentlLWState extends State<CancelledApointmentlLW> {
   @override
-  Widget build(BuildContext context) => Expanded(
-    child: ListView.separated(
-      separatorBuilder: (context, index) => AppContainers.appDivider(),
+  Widget build(BuildContext context) => ListView.separated(
+    separatorBuilder: (context, index) => AppContainers.appDivider(),
 
-      itemBuilder: (context, index) {
-        final data = widget.doctors[index];
-        return _apointment(context: context, doctor: data);
-      },
+    itemBuilder: (context, index) {
+      final data = widget.doctors[index];
+      return _apointment(context: context, doctor: data);
+    },
 
-      itemCount: widget.doctors.length,
-    ),
+    itemCount: widget.doctors.length,
   );
 
   Widget _apointment({required BuildContext context, required Doctor doctor}) {
@@ -38,10 +38,7 @@ class _CancelledApointmentlLWState extends State<CancelledApointmentlLW> {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                radius: 33,
-                backgroundImage: AssetImage(doctor.image),
-              ),
+              AppointmentDoctorPhoto(doctor: doctor),
               SizedBox(width: 16.w),
               Expanded(
                 child: Column(

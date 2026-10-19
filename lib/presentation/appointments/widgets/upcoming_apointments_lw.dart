@@ -1,3 +1,11 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
+import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
+import 'package:tsi_ind_pr_2/data/appointments/appointments_repository.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
+
+import 'appointment_doctor_photo.dart';
+
 import 'package:flutter/material.dart';
 import 'package:tsi_ind_pr_2/data/appointments/appointment_booking.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +15,7 @@ import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
-class UpcomingApointmentsLW extends StatelessWidget {
+class UpcomingApointmentsLW extends StatefulWidget {
   const UpcomingApointmentsLW({
     super.key,
     required this.doctors,
@@ -16,21 +24,38 @@ class UpcomingApointmentsLW extends StatelessWidget {
   final List<Doctor> doctors;
   final List<AppointmentBooking> appointments;
   @override
-  Widget build(BuildContext context) => Expanded(
-    child: ListView.separated(
-      key: const PageStorageKey('Upcomingapointmentslw'),
-      padding: const EdgeInsets.only(bottom: 16),
-      itemCount: appointments.length,
-      itemBuilder: (context, index) {
-        final booking = appointments[index];
-        final doctor = doctors.firstWhere(
-          (item) => item.id == booking.doctorId,
-        );
-        return _appointment(context, doctor, booking);
-      },
-      separatorBuilder: (context, index) =>
-          Divider(height: 1, thickness: 1, color: AppColors.outline),
-    ),
+  State<UpcomingApointmentsLW> createState() => _UpcomingState();
+}
+
+class _UpcomingState extends State<UpcomingApointmentsLW> {
+  List<Doctor> get doctors => widget.doctors;
+  List<AppointmentBooking> get appointments => widget.appointments;
+  bool _saving = false;
+
+  @override
+  Widget build(BuildContext context) => ListView.separated(
+    key: const PageStorageKey('Upcomingapointmentslw'),
+    padding: const EdgeInsets.only(bottom: 16),
+    itemCount: appointments.length,
+    itemBuilder: (context, index) {
+      final booking = appointments[index];
+      final doctor = doctors.firstWhere(
+        (item) => item.id == booking.doctorId,
+        orElse: () => Doctor(
+          id: booking.doctorId,
+          name: 'Doctor unavailable',
+          type: DoctorType.cardiology,
+          specialization: '',
+          image: '',
+        ),
+      );
+      return KeyedSubtree(
+        key: ValueKey(booking.id),
+        child: _appointment(context, doctor, booking),
+      );
+    },
+    separatorBuilder: (context, index) =>
+        Divider(height: 1, thickness: 1, color: AppColors.outline),
   );
   Widget _appointment(
     BuildContext context,
@@ -46,10 +71,7 @@ class UpcomingApointmentsLW extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                radius: 33,
-                backgroundImage: AssetImage(doctor.image),
-              ),
+              AppointmentDoctorPhoto(doctor: doctor),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
@@ -127,20 +149,14 @@ class UpcomingApointmentsLW extends StatelessWidget {
               AppButtons.gradientCircleIconBTN(
                 radius: 15,
                 gradientOutlined: true,
-                onPressed: () => showActionMessage(
-                  context,
-                  'Confirmation is not connected yet.',
-                ),
+                onPressed: () => _change(booking, AppointmentStatus.completed),
                 icon: Icon(Icons.check, size: 21, color: AppColors.primary),
               ),
               const SizedBox(width: 5),
               AppButtons.gradientCircleIconBTN(
                 radius: 15,
                 gradientOutlined: true,
-                onPressed: () => showActionMessage(
-                  context,
-                  'Cancellation is not connected yet. The appointment was not cancelled.',
-                ),
+                onPressed: () => _change(booking, AppointmentStatus.cancelled),
                 icon: Icon(Icons.close, size: 21, color: AppColors.primary),
               ),
             ],
@@ -162,4 +178,55 @@ class UpcomingApointmentsLW extends StatelessWidget {
           style: TextStyle(fontSize: 11, height: 1.1, color: AppColors.text2),
         ),
       );
+
+  Future<void> _change(
+    AppointmentBooking booking,
+    AppointmentStatus status,
+  ) async {
+    if (_saving) return;
+    setState(() => _saving = true);
+    try {
+      final accepted = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            status == AppointmentStatus.cancelled
+                ? 'Cancel appointment?'
+                : 'Mark visit completed?',
+          ),
+          content: const Text(
+            'The visit will remain in your appointment history.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Back'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Confirm'),
+            ),
+          ],
+        ),
+      );
+      if (accepted != true || !mounted) return;
+      final uid = context.read<AuthRepository>().currentUser?.id ?? '';
+      await context.read<AppointmentsRepository>().changeStatus(
+        userId: uid,
+        appointmentId: booking.id,
+        status: status,
+      );
+    } on BookingFailure catch (error) {
+      if (mounted) showActionMessage(context, error.message);
+    } catch (_) {
+      if (mounted) {
+        showActionMessage(
+          context,
+          'Could not update the appointment. Please try again.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
 }

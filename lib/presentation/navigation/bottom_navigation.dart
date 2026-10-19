@@ -15,28 +15,6 @@ class BottomNavigation extends StatelessWidget {
   final Widget child;
   final String location;
 
-  int get currentIndex {
-    if (['/profile', '/edit_profile', '/favorite_doctor'].contains(location)) {
-      return 2;
-    }
-    if (['/apointment', '/rewiev'].contains(location)) return 3;
-    if (location == '/') return 1;
-    if (['/login', '/create_account', '/set_password'].contains(location)) {
-      return 2;
-    }
-    if ([
-      '/specialties',
-      '/doc_by_specialty',
-      '/doctors',
-      '/doctors_info',
-      '/schedule',
-      '/filters',
-    ].contains(location)) {
-      return 3;
-    }
-    return 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,5 +103,27 @@ class BottomNavigation extends StatelessWidget {
         icon: icon,
       ),
     );
+  }
+
+  int get currentIndex {
+    if (['/profile', '/edit_profile', '/favorite_doctor'].contains(location)) {
+      return 2;
+    }
+    if (['/apointment', '/rewiev'].contains(location)) return 3;
+    if (location == '/') return 1;
+    if (['/login', '/create_account', '/set_password'].contains(location)) {
+      return 2;
+    }
+    if ([
+      '/specialties',
+      '/doc_by_specialty',
+      '/doctors',
+      '/doctors_info',
+      '/schedule',
+      '/filters',
+    ].contains(location)) {
+      return 3;
+    }
+    return 0;
   }
 }

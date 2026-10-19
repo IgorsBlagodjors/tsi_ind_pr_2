@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tsi_ind_pr_2/data/users/app_user.dart';
+import 'package:tsi_ind_pr_2/data/users/firebase_profile_repository.dart';
 import 'package:tsi_ind_pr_2/data/users/profile_repository.dart';
 import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
 

@@ -8,7 +8,6 @@ import 'package:tsi_ind_pr_2/presentation/doctor_favorite/widgets/doctor_info_he
 
 class DoctorsInfo extends StatefulWidget {
   const DoctorsInfo({super.key, required this.doctor});
-
   final Doctor doctor;
 
   @override

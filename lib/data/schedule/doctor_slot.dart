@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
+import 'package:tsi_ind_pr_2/data/firestore_dates.dart';
 
-import '../firestore_dates.dart';
+part 'doctor_slot.g.dart';
 
-enum DoctorSlotStatus { available, booked, blocked }
-
+@JsonSerializable()
 class DoctorSlot {
   const DoctorSlot({
     required this.id,
@@ -13,28 +14,24 @@ class DoctorSlot {
     this.status = DoctorSlotStatus.available,
   });
 
+  @JsonKey(includeToJson: false)
   final String id;
+
   final String doctorId;
+
+  @JsonKey(fromJson: readTimestamp, toJson: writeTimestamp)
   final DateTime startsAt;
+
+  @JsonKey(fromJson: readTimestamp, toJson: writeTimestamp)
   final DateTime endsAt;
+
   final DoctorSlotStatus status;
 
   bool isAvailableAt(DateTime now) =>
       status == DoctorSlotStatus.available && startsAt.isAfter(now);
 
-  factory DoctorSlot.fromMap(String id, Map<String, dynamic> data) =>
-      DoctorSlot(
-        id: id,
-        doctorId: data['doctorId'] as String,
-        startsAt: readTimestamp(data['startsAt']),
-        endsAt: readTimestamp(data['endsAt']),
-        status: DoctorSlotStatus.values.byName(data['status'] as String),
-      );
+  factory DoctorSlot.fromJson(Map<String, dynamic> json) =>
+      _$DoctorSlotFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-    'doctorId': doctorId,
-    'startsAt': Timestamp.fromDate(startsAt),
-    'endsAt': Timestamp.fromDate(endsAt),
-    'status': status.name,
-  };
+  Map<String, dynamic> toJson() => _$DoctorSlotToJson(this);
 }

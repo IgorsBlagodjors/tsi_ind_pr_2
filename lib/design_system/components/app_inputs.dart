@@ -68,6 +68,7 @@ class AppInputs {
     required TextEditingController controller,
     required double height,
     bool isGradient = true,
+    String hint = 'Jane Doe',
   }) {
     return SizedBox(
       child: TextFormField(
@@ -83,7 +84,7 @@ class AppInputs {
         decoration: InputDecoration(
           errorMaxLines: 3,
           counterText: '',
-          hintText: 'Jane Doe',
+          hintText: hint,
           hintStyle: isGradient
               ? AppTextStyles.regular20Prime
               : AppTextStyles.regular14Black.copyWith(
@@ -349,6 +350,7 @@ class AppInputs {
   static Widget inputAge({
     required TextEditingController controller,
     required double height,
+    String hint = '30',
   }) {
     return SizedBox(
       height: height,
@@ -366,7 +368,7 @@ class AppInputs {
         ],
         style: AppTextStyles.regular14Black.copyWith(fontSize: 16.sp),
         decoration: InputDecoration(
-          hintText: '30',
+          hintText: hint,
           constraints: BoxConstraints.tightFor(height: height),
           hintStyle: AppTextStyles.regular14Black.copyWith(
             fontSize: 16.sp,
