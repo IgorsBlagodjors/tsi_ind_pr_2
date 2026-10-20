@@ -70,8 +70,8 @@ service cloud.firestore {
         && resource.data.status == 'upcoming'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'statusChangedAt'])
         && request.resource.data.statusChangedAt == request.time
-        && ((request.resource.data.status == 'completed' && resource.data.endsAt <= request.time)
-          || (request.resource.data.status == 'cancelled' && resource.data.startsAt > request.time
+        && ((request.resource.data.status == 'completed')
+          || (request.resource.data.status == 'cancelled'
             && !existsAfter(/databases/$(database)/documents/doctors/$(resource.data.doctorId)/bookings/$(resource.data.slotId))));
     }
     function validPatient(p) {
@@ -82,7 +82,35 @@ service cloud.firestore {
         && p.isAccountOwner is bool && p.problem is string && p.problem.size() <= 2000;
     }
 
-    // Other collections stay private until their access rules are implemented.
+    match /reviews/{appointmentId} {
+      function appointment() {
+        return get(/databases/$(database)/documents/appointments/$(appointmentId)).data;
+      }
+    
+      allow get: if request.auth != null
+        && appointment().userId == request.auth.uid;
+    
+      allow create: if request.auth != null
+        && appointment().userId == request.auth.uid
+        && appointment().status == 'completed'
+        && request.resource.data.keys().hasAll([
+          'userId', 'doctorId', 'rating', 'text', 'createdAt'
+        ])
+        && request.resource.data.keys().hasOnly([
+          'userId', 'doctorId', 'rating', 'text', 'createdAt'
+        ])
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.doctorId == appointment().doctorId
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0
+        && request.resource.data.text.size() <= 2000
+        && request.resource.data.createdAt == request.time;
+    }
+
+    // All other access remains denied.
     match /{document=**} {
       allow read, write: if false;
     }

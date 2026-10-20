@@ -36,17 +36,6 @@ class AppointmentsRepository {
       if (booking.status != AppointmentStatus.upcoming) {
         throw const BookingFailure('This appointment has already been closed.');
       }
-      final now = DateTime.now();
-      if (status == AppointmentStatus.completed &&
-          booking.endsAt.isAfter(now)) {
-        throw const BookingFailure(
-          'You can mark a visit completed after it ends.',
-        );
-      }
-      if (status == AppointmentStatus.cancelled &&
-          !booking.startsAt.isAfter(now)) {
-        throw const BookingFailure('You can cancel a visit before it starts.');
-      }
       final lock = db
           .collection('doctors')
           .doc(booking.doctorId)

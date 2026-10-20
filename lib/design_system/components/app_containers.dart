@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tsi_ind_pr_2/data/app_constants.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_tappable.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
@@ -164,18 +165,23 @@ class AppContainers {
     return Divider(thickness: 1, height: 1.h, color: AppColors.outline);
   }
 
-  static Widget networkImage({required String imageUrl, bool small = false}) {
+  static Widget cachedNetworkImage({
+    required String? imageUrl,
+    required double size,
+  }) {
     return ClipOval(
       child: CachedNetworkImage(
-        imageUrl: imageUrl,
-        width: small ? 40.w : 107.w,
-        height: small ? 40.w : 107.w,
+        imageUrl: imageUrl == null || imageUrl.isEmpty
+            ? defaultNetworkImage
+            : imageUrl,
+        width: size.w,
+        height: size.h,
         fit: BoxFit.cover,
 
         placeholder: (context, url) {
           return SizedBox(
-            width: small ? 40.w : 107.w,
-            height: small ? 40.w : 107.w,
+            width: size.w,
+            height: size.h,
             child: const Center(child: CircularProgressIndicator()),
           );
         },
@@ -184,10 +190,9 @@ class AppContainers {
           debugPrint('CACHE IMAGE ERROR: $error');
           debugPrint('URL: $url');
 
-          return SizedBox(
-            width: small ? 40.w : 107.w,
-            height: small ? 40.w : 107.w,
-            child: const Icon(Icons.person),
+          return CircleAvatar(
+            radius: size / 2,
+            child: CachedNetworkImage(imageUrl: defaultNetworkImage),
           );
         },
       ),

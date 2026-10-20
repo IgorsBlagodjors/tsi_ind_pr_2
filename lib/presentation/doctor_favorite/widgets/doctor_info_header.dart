@@ -123,7 +123,10 @@ class DoctorInfoHeader extends StatelessWidget {
                   padding: EdgeInsets.only(left: 52.w, right: 26.w),
                   child: Row(
                     children: [
-                      AppContainers.networkImage(imageUrl: doctor.image),
+                      AppContainers.cachedNetworkImage(
+                        imageUrl: doctor.image,
+                        size: 95,
+                      ),
                       SizedBox(width: 10.w),
                       Expanded(
                         child: Column(

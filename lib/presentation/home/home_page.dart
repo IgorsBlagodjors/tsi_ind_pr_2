@@ -246,8 +246,8 @@ class Header extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () => context.pushNamed('profile'),
-                      child: AppContainers.networkImage(
-                        small: true,
+                      child: AppContainers.cachedNetworkImage(
+                        size: 29,
                         imageUrl: user.photoUrl ?? defaultNetworkImage,
                       ),
                     ),

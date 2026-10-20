@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
 import 'package:tsi_ind_pr_2/domain/app_access.dart';
+import 'package:tsi_ind_pr_2/presentation/appointments/appointment_details.dart';
 import 'package:tsi_ind_pr_2/presentation/profile_screens/widgets/profile_session.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
@@ -127,8 +128,27 @@ final appRouter = GoRouter(
           path: '/rewiev',
           name: 'rewiev',
           redirect: (context, state) =>
-              state.extra is Doctor ? null : '/apointment',
-          builder: (context, state) => Review(doctor: state.extra as Doctor),
+              state.extra is ReviewArgs ? null : '/apointment',
+          builder: (context, state) {
+            final args = state.extra as ReviewArgs;
+            return Review(
+              doctor: args.doctor,
+              appointmentId: args.appointmentId,
+            );
+          },
+        ),
+        GoRoute(
+          path: '/appointment_details',
+          name: 'appointment_details',
+          redirect: (context, state) =>
+              state.extra is AppointmentDetailsArgs ? null : '/apointment',
+          builder: (context, state) {
+            final args = state.extra as AppointmentDetailsArgs;
+            return AppointmentDetails(
+              doctor: args.doctor,
+              booking: args.booking,
+            );
+          },
         ),
       ],
     ),

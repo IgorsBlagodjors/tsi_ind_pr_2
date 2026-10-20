@@ -333,6 +333,7 @@ class AppButtons {
     required Widget icon,
     Offset textOffset = Offset.zero,
     bool isGradient = false,
+    bool whiteBorder = false,
   }) {
     return AppTappable(
       padding: EdgeInsets.only(left: paddingLeft, right: paddingRight),
@@ -341,7 +342,10 @@ class AppButtons {
       decoration: BoxDecoration(
         border: isGradient
             ? null
-            : Border.all(color: AppColors.primary, width: 1),
+            : Border.all(
+                color: whiteBorder ? AppColors.elements : AppColors.primary,
+                width: 1,
+              ),
         gradient: isGradient ? AppColors.degradadoAzul : null,
         color: isGradient ? null : Colors.white,
         borderRadius: BorderRadius.circular(13.r),

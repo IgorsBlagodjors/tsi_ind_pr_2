@@ -79,7 +79,8 @@ class _ProfileState extends State<Profile> {
               children: [
                 Stack(
                   children: [
-                    AppContainers.networkImage(
+                    AppContainers.cachedNetworkImage(
+                      size: 109,
                       imageUrl: user.photoUrl ?? defaultNetworkImage,
                     ),
                     Positioned(

@@ -74,7 +74,10 @@ class _FavoriteDoctorLWState extends State<FavoriteDoctorLW> {
               SizedBox(height: 17.h),
               Row(
                 children: [
-                  AppContainers.networkImage(imageUrl: doctor.image),
+                  AppContainers.cachedNetworkImage(
+                    imageUrl: doctor.image,
+                    size: 70,
+                  ),
                   Expanded(
                     child: Stack(
                       clipBehavior: Clip.none,

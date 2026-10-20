@@ -1,10 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tsi_ind_pr_2/presentation/appointments/appointment_details.dart';
 import 'package:tsi_ind_pr_2/data/app_enums.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
 import 'package:tsi_ind_pr_2/data/appointments/appointments_repository.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
-
-import 'appointment_doctor_photo.dart';
 
 import 'package:flutter/material.dart';
 import 'package:tsi_ind_pr_2/data/appointments/appointment_booking.dart';
@@ -71,7 +72,10 @@ class _UpcomingState extends State<UpcomingApointmentsLW> {
         children: [
           Row(
             children: [
-              AppointmentDoctorPhoto(doctor: doctor),
+              AppContainers.cachedNetworkImage(
+                imageUrl: doctor.image,
+                size: 65,
+              ),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
@@ -137,8 +141,13 @@ class _UpcomingState extends State<UpcomingApointmentsLW> {
               Expanded(
                 child: AppButtons.singleTextButton(
                   text: 'Details',
-                  onPressed: () =>
-                      context.pushNamed('doctors_info', extra: doctor),
+                  onPressed: () => context.pushNamed(
+                    'appointment_details',
+                    extra: AppointmentDetailsArgs(
+                      doctor: doctor,
+                      booking: booking,
+                    ),
+                  ),
                   height: 30,
                   horizontalPadding: 6.0,
                   adaptiveHeight: true,
@@ -218,6 +227,15 @@ class _UpcomingState extends State<UpcomingApointmentsLW> {
       );
     } on BookingFailure catch (error) {
       if (mounted) showActionMessage(context, error.message);
+    } on FirebaseException catch (error) {
+      if (mounted) {
+        showActionMessage(
+          context,
+          error.code == 'permission-denied'
+              ? 'Firebase denied this change. Check appointment access rules.'
+              : 'Could not update the appointment (${error.code}). Please try again.',
+        );
+      }
     } catch (_) {
       if (mounted) {
         showActionMessage(

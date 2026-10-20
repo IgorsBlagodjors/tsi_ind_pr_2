@@ -131,6 +131,7 @@ class _AppointmentState extends State<Appointment> {
                           ),
                           AppointmentStatus.completed => CompletedApointmentlw(
                             doctors: visitDoctors,
+                            appointments: visits,
                           ),
                           AppointmentStatus.cancelled => CancelledApointmentlLW(
                             doctors: visitDoctors,

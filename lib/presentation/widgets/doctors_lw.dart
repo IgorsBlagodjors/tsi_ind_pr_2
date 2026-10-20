@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
-import 'package:tsi_ind_pr_2/data/users/firebase_profile_repository.dart';
-import 'package:tsi_ind_pr_2/data/users/profile_repository.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
@@ -12,7 +10,6 @@ import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_cubit.dart';
 import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_state.dart';
-import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
 class DoctorsLw extends StatefulWidget {
   const new({super.key, required this.doctorList});
@@ -42,7 +39,10 @@ class _DoctorsLwState extends State<DoctorsLw> {
                 children: [
                   Row(
                     children: [
-                      AppContainers.networkImage(imageUrl: doctor.image),
+                      AppContainers.cachedNetworkImage(
+                        imageUrl: doctor.image,
+                        size: 87,
+                      ),
                       SizedBox(width: 13.w),
                       Expanded(
                         child: Column(

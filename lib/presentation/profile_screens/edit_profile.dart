@@ -114,7 +114,8 @@ class _EditProfileState extends State<EditProfile> {
                       SizedBox(height: 20.h),
                       Stack(
                         children: [
-                          AppContainers.networkImage(
+                          AppContainers.cachedNetworkImage(
+                            size: 109,
                             imageUrl: user.photoUrl ?? defaultNetworkImage,
                           ),
                           Positioned(

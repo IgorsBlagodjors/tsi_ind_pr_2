@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:tsi_ind_pr_2/data/appointments/appointment_booking.dart';
+import 'package:tsi_ind_pr_2/presentation/appointments/review.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
+import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
-import 'package:tsi_ind_pr_2/presentation/appointments/widgets/appointment_doctor_photo.dart';
 
 class CompletedApointmentlw extends StatelessWidget {
-  const CompletedApointmentlw({super.key, required this.doctors});
+  const CompletedApointmentlw({
+    super.key,
+    required this.doctors,
+    required this.appointments,
+  });
   final List<Doctor> doctors;
+  final List<AppointmentBooking> appointments;
   @override
   Widget build(BuildContext context) => ListView.separated(
     key: const PageStorageKey('CompletedApointmentlw'),
     padding: const EdgeInsets.only(bottom: 16),
     itemCount: doctors.length,
-    itemBuilder: (context, index) => _appointment(context, doctors[index]),
+    itemBuilder: (context, index) =>
+        _appointment(context, doctors[index], appointments[index]),
     separatorBuilder: (context, index) =>
         Divider(height: 1, thickness: 1, color: AppColors.outline),
   );
-  Widget _appointment(BuildContext context, Doctor doctor) {
+  Widget _appointment(
+    BuildContext context,
+    Doctor doctor,
+    AppointmentBooking booking,
+  ) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 19.w, vertical: 16.h),
       child: Column(
@@ -26,7 +38,10 @@ class CompletedApointmentlw extends StatelessWidget {
         children: [
           Row(
             children: [
-              AppointmentDoctorPhoto(doctor: doctor),
+              AppContainers.cachedNetworkImage(
+                imageUrl: doctor.image,
+                size: 65,
+              ),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
@@ -110,7 +125,13 @@ class CompletedApointmentlw extends StatelessWidget {
               Expanded(
                 child: AppButtons.singleTextButton(
                   text: 'Add Review',
-                  onPressed: () => context.pushNamed('rewiev', extra: doctor),
+                  onPressed: () => context.pushNamed(
+                    'rewiev',
+                    extra: ReviewArgs(
+                      doctor: doctor,
+                      appointmentId: booking.id,
+                    ),
+                  ),
                   height: 30,
                   horizontalPadding: 6.0,
                   adaptiveHeight: true,

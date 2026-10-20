@@ -1,5 +1,3 @@
-import 'appointment_doctor_photo.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -38,7 +36,10 @@ class _CancelledApointmentlLWState extends State<CancelledApointmentlLW> {
         children: [
           Row(
             children: [
-              AppointmentDoctorPhoto(doctor: doctor),
+              AppContainers.cachedNetworkImage(
+                imageUrl: doctor.image,
+                size: 65,
+              ),
               SizedBox(width: 16.w),
               Expanded(
                 child: Column(

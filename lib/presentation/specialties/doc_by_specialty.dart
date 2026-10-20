@@ -12,6 +12,8 @@ import 'package:tsi_ind_pr_2/design_system/components/app_containers.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_cubit.dart';
+import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_state.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 
 import 'package:tsi_ind_pr_2/presentation/widgets/specialties_filter.dart';
@@ -96,13 +98,22 @@ class _DocBySpecialtyState extends State<DocBySpecialty> {
                             SizedBox(height: 13.h),
                         itemCount: doctors.length,
                         itemBuilder: (context, index) {
+                          final state = context.watch<ProfileCubit>().state;
+                          if (state is! ProfileLoaded) {
+                            return const SizedBox.shrink();
+                          }
+                          final user = state.user;
                           final doctor = doctors[index];
+                          final isFavorite = user.favoriteDoctorIds.contains(
+                            doctor.id,
+                          );
                           return SizedBox(
                             child: Column(
                               children: [
                                 Row(
                                   children: [
-                                    AppContainers.networkImage(
+                                    AppContainers.cachedNetworkImage(
+                                      size: 107,
                                       imageUrl: doctor.image,
                                     ),
                                     SizedBox(width: 13.w),
@@ -161,8 +172,15 @@ class _DocBySpecialtyState extends State<DocBySpecialty> {
                                                 height: 14.h,
                                               ),
                                               SizedBox(width: 14.w),
-                                              AppIcons.heartIcon(
-                                                color: AppColors.primary,
+                                              AppIcons.favIcon(
+                                                isFavorite: isFavorite,
+                                                onPressed: () {
+                                                  context
+                                                      .read<ProfileCubit>()
+                                                      .toggleFavoriteDoctor(
+                                                        doctor.id,
+                                                      );
+                                                },
                                               ),
                                             ],
                                           ),

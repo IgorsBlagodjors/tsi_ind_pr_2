@@ -1,4 +1,5 @@
 import 'package:tsi_ind_pr_2/data/appointments/appointments_repository.dart';
+import 'package:tsi_ind_pr_2/data/reviews/reviews_repository.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,6 +44,7 @@ Future<void> main() async {
         profileRepository,
         doctorRepository,
         RepositoryProvider(create: (_) => AppointmentsRepository()),
+        RepositoryProvider(create: (_) => ReviewsRepository()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 800),

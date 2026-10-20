@@ -379,15 +379,20 @@ class _ScheduleState extends State<Schedule> {
     final nameText = _patientNameController.text.trim();
     final name = nameText;
     final gender = _effectiveGender;
-    if (user == null ||
-        time == null ||
-        age == null ||
-        gender == null ||
-        name.isEmpty) {
+    if (user == null || time == null) {
       showActionMessage(
         context,
-        'Choose a time and enter the patient name, age and gender.',
+        'Choose a time and enter the patient name, age and gender',
       );
+      return;
+    } else if (age == null) {
+      showActionMessage(context, 'Enter the patient age');
+      return;
+    } else if (gender == null) {
+      showActionMessage(context, 'Select the patient gender');
+      return;
+    } else if (name.isEmpty) {
+      showActionMessage(context, 'Select the patient gender');
       return;
     }
     setState(() => _saving = true);
