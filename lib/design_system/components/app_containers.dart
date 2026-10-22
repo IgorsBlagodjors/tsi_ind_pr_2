@@ -2,24 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/data/app_constants.dart';
+
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_tappable.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 
 class AppContainers {
-  static Widget smallSquareContainer({required Widget icon}) {
-    return Container(
-      width: 96.w,
-      height: 94.h,
-      decoration: BoxDecoration(
-        gradient: AppColors.degradadoAzul,
-
-        borderRadius: BorderRadius.circular(9.r),
-      ),
-      child: icon,
-    );
-  }
-
   static Widget whiteCircleContainer({
     bool hasNotification = false,
     required double radius,
@@ -120,17 +108,6 @@ class AppContainers {
     );
   }
 
-  static Widget profileAvatar({
-    required NetworkImage image,
-    required double radius,
-  }) {
-    return CircleAvatar(
-      radius: radius,
-      backgroundImage: image,
-      backgroundColor: Colors.transparent,
-    );
-  }
-
   static Widget infoTextContainer({required String text, String? label}) {
     return Container(
       padding: EdgeInsets.only(
@@ -169,33 +146,36 @@ class AppContainers {
     required String? imageUrl,
     required double size,
   }) {
-    return ClipOval(
-      child: CachedNetworkImage(
-        imageUrl: imageUrl == null || imageUrl.isEmpty
-            ? defaultNetworkImage
-            : imageUrl,
-        width: size.w,
-        height: size.h,
-        fit: BoxFit.cover,
-
-        placeholder: (context, url) {
-          return SizedBox(
-            width: size.w,
-            height: size.h,
-            child: const Center(child: CircularProgressIndicator()),
-          );
-        },
-
-        errorWidget: (context, url, error) {
-          debugPrint('CACHE IMAGE ERROR: $error');
-          debugPrint('URL: $url');
-
-          return CircleAvatar(
-            radius: size / 2,
-            child: CachedNetworkImage(imageUrl: defaultNetworkImage),
-          );
-        },
+    final diameter = size.r;
+    final loading = SizedBox.square(
+      dimension: diameter,
+      child: const Center(child: CircularProgressIndicator()),
+    );
+    final fallback = CachedNetworkImage(
+      imageUrl: defaultNetworkImage,
+      width: diameter,
+      height: diameter,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => loading,
+      errorWidget: (context, url, error) => SizedBox.square(
+        dimension: diameter,
+        child: Icon(Icons.broken_image_outlined, color: AppColors.primary),
       ),
+    );
+    return ClipOval(
+      child:
+          imageUrl == null ||
+              imageUrl.trim().isEmpty ||
+              imageUrl == defaultNetworkImage
+          ? fallback
+          : CachedNetworkImage(
+              imageUrl: imageUrl,
+              width: diameter,
+              height: diameter,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => loading,
+              errorWidget: (context, url, error) => fallback,
+            ),
     );
   }
 }

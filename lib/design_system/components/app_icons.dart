@@ -17,14 +17,6 @@ class AppIcons {
     );
   }
 
-  static Widget userIcon() {
-    return SvgPicture.asset(
-      'assets/icons/user.svg',
-      width: 19.0.w,
-      height: 20.99.h,
-    );
-  }
-
   static Widget checkIcon({
     required Color color,
     required double width,
@@ -47,15 +39,6 @@ class AppIcons {
       'assets/icons/x.svg',
       width: width,
       height: height,
-      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-    );
-  }
-
-  static Widget heartIcon({required Color color}) {
-    return SvgPicture.asset(
-      'assets/icons/heart.svg',
-      width: 18.18.w,
-      height: 16.36.h,
       colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
   }
@@ -122,14 +105,6 @@ class AppIcons {
     );
   }
 
-  static Widget soundIcon() {
-    return SvgPicture.asset(
-      'assets/icons/sound.svg',
-      width: 23.w,
-      height: 23.h,
-    );
-  }
-
   static Widget fingerprintIcon() {
     return SvgPicture.asset(
       'assets/icons/fingerprint.svg',
@@ -143,14 +118,6 @@ class AppIcons {
       'assets/icons/privacy.svg',
       width: 18.1.w,
       height: 20.95.h,
-    );
-  }
-
-  static Widget globalIcon() {
-    return SvgPicture.asset(
-      'assets/icons/global.svg',
-      width: 22.w,
-      height: 22.h,
     );
   }
 
@@ -172,14 +139,6 @@ class AppIcons {
       width: width.w,
       height: height.h,
       colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-    );
-  }
-
-  static Widget whatsappIcon() {
-    return SvgPicture.asset(
-      'assets/icons/whatsapp.svg',
-      width: 23.6.w,
-      height: 24.h,
     );
   }
 
@@ -212,22 +171,6 @@ class AppIcons {
     );
   }
 
-  static Widget picgramIcon() {
-    return SvgPicture.asset(
-      'assets/icons/picgram.svg',
-      width: 18.w,
-      height: 18.h,
-    );
-  }
-
-  static Widget documentIcon() {
-    return SvgPicture.asset(
-      'assets/icons/document.svg',
-      width: 17.14.w,
-      height: 20.h,
-    );
-  }
-
   static Widget bookingOutlinedIcon({
     required Color color,
     required double width,
@@ -239,10 +182,6 @@ class AppIcons {
       height: height,
       colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
-  }
-
-  static Widget infoIcon() {
-    return SvgPicture.asset('assets/icons/info.svg', width: 2.w, height: 20.h);
   }
 
   static Widget returnIcon({
@@ -257,14 +196,6 @@ class AppIcons {
         height: height,
         colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
       ),
-    );
-  }
-
-  static Widget homeIcon({required double width, required double height}) {
-    return SvgPicture.asset(
-      'assets/icons/home.svg',
-      width: width.w,
-      height: height.h,
     );
   }
 
@@ -328,14 +259,6 @@ class AppIcons {
       'assets/icons/search.svg',
       width: 12.w,
       height: 14.h,
-    );
-  }
-
-  static Widget filters() {
-    return SvgPicture.asset(
-      'assets/icons/filters.svg',
-      width: 14.54.w,
-      height: 9.35.h,
     );
   }
 
@@ -434,79 +357,7 @@ class AppIcons {
     );
   }
 
-  //Gradient
-  static Widget get bookingIcon => SvgPicture.asset(
-    'assets/icons/bookingGradient.svg',
-    width: 18.1.w,
-    height: 21.59.h,
-  );
-
-  static Widget get chatGradienFullIcon => SvgPicture.asset(
-    'assets/icons/chatGradientFull.svg',
-    width: 22.43.w,
-    height: 19.87.h,
-  );
-
-  static Widget get pinHomeLocationIcon => SvgPicture.asset(
-    'assets/icons/pinHomeLocation.svg',
-    width: 26.w,
-    height: 34.5.h,
-  );
-
-  static Widget messageIcon({
-    required Color color,
-    required double width,
-    required double height,
-  }) {
-    return SvgPicture.asset(
-      'assets/icons/message.svg',
-      width: width,
-      height: height,
-      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-    );
-  }
-
   static Widget messageOutlinedIcon() {
     return SvgPicture.asset('assets/icons/messageOutlined.svg');
-  }
-
-  static Widget analysis({bool big = false}) {
-    return SvgPicture.asset(
-      big ? 'assets/icons/analysis.svg' : 'assets/icons/analysisSmall.svg',
-      width: big ? 41.56.w : 14.93.w,
-      height: big ? 60.44.h : 21.72.h,
-      colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-    );
-  }
-
-  static Widget vaccinations({bool big = false}) {
-    return SvgPicture.asset(
-      big
-          ? 'assets/icons/vaccinations.svg'
-          : 'assets/icons/vaccinationsSmall.svg',
-      width: big ? 60.44.w : 21.72.w,
-      height: big ? 60.44.h : 21.72.h,
-      colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-    );
-  }
-
-  static Widget allergies({bool big = false}) {
-    return SvgPicture.asset(
-      big ? 'assets/icons/allergies.svg' : 'assets/icons/allergiesSmall.svg',
-      width: big ? 71.76.w : 23.w,
-      height: big ? 64.h : 20.51.h,
-      colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-    );
-  }
-
-  static Widget medicalHistory({bool big = false}) {
-    return SvgPicture.asset(
-      big
-          ? 'assets/icons/medicalHistory.svg'
-          : 'assets/icons/medicalHistorySmall.svg',
-      width: big ? 56.w : 19.41.w,
-      height: big ? 64.h : 23.h,
-      colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:tsi_ind_pr_2/data/doctors/doctor_filters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,8 +28,18 @@ class Doctors extends StatefulWidget {
 }
 
 class _DoctorsState extends State<Doctors> {
+  late final DoctorsCubit _cubit;
   String _search = '';
+  DoctorFilters _filters = DoctorFilters();
+  Set<DoctorType> _selectedTypes = DoctorType.values.toSet();
   SortOrder sortOrder = SortOrder.ascending;
+
+  @override
+  void initState() {
+    _cubit = BlocProvider.of<DoctorsCubit>(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +73,12 @@ class _DoctorsState extends State<Doctors> {
                       ),
                     ),
                   ),
-                  SpecialityWiev(),
+                  SpecialityWiev(
+                    selectedTypes: _selectedTypes,
+                    onChanged: (selectedTypes) {
+                      setState(() => _selectedTypes = Set.of(selectedTypes));
+                    },
+                  ),
                   SizedBox(height: 17.h),
                   Divider(
                     height: 1.h,
@@ -72,6 +88,22 @@ class _DoctorsState extends State<Doctors> {
                   SizedBox(height: 12.h),
                   SpecialtiesFilter(
                     trailingText: 'Top Rating',
+                    onFilterPressed: () async {
+                      final result = await context.pushNamed<DoctorFilters>(
+                        'filters',
+                        extra: DoctorFilters(
+                          gender: _filters.gender,
+                          minimumRating: _filters.minimumRating,
+                          experience: _filters.experience,
+                          types: _selectedTypes,
+                        ),
+                      );
+                      if (!mounted || result == null) return;
+                      setState(() {
+                        _filters = result;
+                        _selectedTypes = Set.of(result.types);
+                      });
+                    },
                     sortOrder: sortOrder,
                     onPressed: () {
                       setState(() {
@@ -87,26 +119,38 @@ class _DoctorsState extends State<Doctors> {
             SizedBox(height: 14.h),
             BlocBuilder<DoctorsCubit, DoctorsState>(
               builder: (context, state) {
+                if (state is Loaded) {
+                  final visibleDoctors = _cubit.filterAndSortDoctors(
+                    doctors: state.doctors,
+                    selectedTypes: _selectedTypes,
+                    sortOrder: sortOrder,
+                    search: _search,
+                    filters: DoctorFilters(
+                      gender: _filters.gender,
+                      minimumRating: _filters.minimumRating,
+                      experience: _filters.experience,
+                      types: _selectedTypes,
+                    ),
+                  );
+                  if (visibleDoctors.isEmpty) {
+                    return const Expanded(
+                      child: Center(
+                        child: Text('No doctors match your filters.'),
+                      ),
+                    );
+                  }
+                  return DoctorsLw(doctorList: visibleDoctors);
+                }
                 return switch (state) {
                   Loading() => const Expanded(
                     child: Center(child: CircularProgressIndicator()),
                   ),
 
                   EmptyState() => const Expanded(
-                    child: Center(child: Text('There is no doctors')),
+                    child: Center(child: Text('No doctors available.')),
                   ),
 
-                  Loaded(:final doctors) => DoctorsLw(
-                    doctorList: doctors
-                        .where(
-                          (doctor) =>
-                              doctor.name.toLowerCase().contains(_search) ||
-                              doctor.specialization.toLowerCase().contains(
-                                _search,
-                              ),
-                        )
-                        .toList(),
-                  ),
+                  Loaded() => const SizedBox.shrink(),
 
                   ErrorState(:final message) => Expanded(
                     child: Center(child: Text(message)),

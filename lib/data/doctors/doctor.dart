@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'doctor_type.dart';
 import '../app_enums.dart';
 
 part 'doctor.g.dart';

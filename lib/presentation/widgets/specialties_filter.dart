@@ -10,11 +10,15 @@ import 'package:tsi_ind_pr_2/presentation/widgets/a_z_filter.dart';
 class SpecialtiesFilter extends StatelessWidget {
   const new({
     super.key,
-    required this.trailingText,
+    this.trailingText,
+    required this.onFilterPressed,
+    this.showDivider = true,
     required this.onPressed,
     required this.sortOrder,
   });
-  final String trailingText;
+  final String? trailingText;
+  final VoidCallback onFilterPressed;
+  final bool showDivider;
   final VoidCallback onPressed;
   final SortOrder sortOrder;
 
@@ -24,39 +28,52 @@ class SpecialtiesFilter extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(
-              'Sort By',
-              style: AppTextStyles.light12White.copyWith(
-                color: AppColors.text2,
+            Expanded(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Sort By',
+                      style: AppTextStyles.light12White.copyWith(
+                        color: AppColors.text2,
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    AZFilter(sortOrder: sortOrder, onPressed: onPressed),
+                    SizedBox(width: 7.w),
+                    AppButtons.infoOutlinedPrimeBTN(
+                      horizontalPadding: 10.w,
+                      verticalPadding: 2.h,
+                      plaintText: 'Filter',
+                      onPressed: onFilterPressed,
+                    ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(width: 4.w),
-            AZFilter(sortOrder: sortOrder, onPressed: onPressed),
-            SizedBox(width: 7.w),
-            AppButtons.infoOutlinedPrimeBTN(
-              horizontalPadding: 10.w,
-              verticalPadding: 2.h,
-              plaintText: 'Filter',
-              onPressed: () => context.pushNamed('filters'),
-            ),
-            const Spacer(),
-            GestureDetector(
-              onTap: trailingText == 'Doctors' || trailingText == 'See all'
-                  ? () => context.pushNamed('doctors')
-                  : null,
-              child: Text(trailingText, style: AppTextStyles.semiBold14Prime),
-            ),
+            if (trailingText != null) ...[
+              SizedBox(width: 8.w),
+              GestureDetector(
+                onTap: trailingText == 'Doctors' || trailingText == 'See all'
+                    ? () => context.pushNamed('doctors')
+                    : null,
+                child: Text(
+                  trailingText!,
+                  style: AppTextStyles.regular12Prime.copyWith(
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
-        SizedBox(height: 14.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 31.w),
-          child: Divider(
-            color: AppColors.elements,
-            thickness: 1.h,
-            height: 1.h,
-          ),
-        ),
+        if (showDivider) ...[
+          SizedBox(height: 14.h),
+          Divider(color: AppColors.elements, thickness: 1.h, height: 1.h),
+        ],
       ],
     );
   }

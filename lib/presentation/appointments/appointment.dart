@@ -1,7 +1,6 @@
 import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 

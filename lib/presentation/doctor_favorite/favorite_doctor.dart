@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctor_filters.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_buttons.dart';
@@ -8,7 +9,7 @@ import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/text_styles.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 import 'package:tsi_ind_pr_2/presentation/doctor_favorite/widgets/favorite_doctor_lw.dart';
-import 'package:tsi_ind_pr_2/presentation/widgets/a_z_filter.dart';
+import 'package:tsi_ind_pr_2/presentation/widgets/specialties_filter.dart';
 
 class FavoriteDoctor extends StatefulWidget {
   const new({super.key});
@@ -18,6 +19,7 @@ class FavoriteDoctor extends StatefulWidget {
 }
 
 class _FavoriteDoctorState extends State<FavoriteDoctor> {
+  DoctorFilters _filters = DoctorFilters();
   FavSelector selected = FavSelector.doctor;
   SortOrder sortOrder = SortOrder.ascending;
 
@@ -31,9 +33,9 @@ class _FavoriteDoctorState extends State<FavoriteDoctor> {
         child: Column(
           children: [
             SizedBox(height: 16.h),
-            _faboriteFilter(context: context),
+            _favoriteFilter(context: context),
             if (selected == FavSelector.doctor)
-              FavoriteDoctorLW()
+              FavoriteDoctorLW(sortOrder: sortOrder, filters: _filters)
             else
               Expanded(
                 child: Center(
@@ -52,36 +54,27 @@ class _FavoriteDoctorState extends State<FavoriteDoctor> {
     );
   }
 
-  Widget _faboriteFilter({required BuildContext context}) {
+  Widget _favoriteFilter({required BuildContext context}) {
     return Column(
       children: [
-        Row(
-          children: [
-            Text(
-              'Sort By',
-              style: AppTextStyles.light12White.copyWith(
-                color: AppColors.text2,
-              ),
-            ),
-            SizedBox(width: 4.w),
-            AZFilter(
-              sortOrder: sortOrder,
-              onPressed: () {
-                setState(() {
-                  sortOrder = sortOrder == SortOrder.ascending
-                      ? SortOrder.descending
-                      : SortOrder.ascending;
-                });
-              },
-            ),
-            SizedBox(width: 7.w),
-            AppButtons.infoOutlinedPrimeBTN(
-              horizontalPadding: 10.w,
-              verticalPadding: 2.h,
-              plaintText: 'Filter',
-              onPressed: () => context.pushNamed('filters'),
-            ),
-          ],
+        SpecialtiesFilter(
+          onFilterPressed: () async {
+            final result = await context.pushNamed<DoctorFilters>(
+              'filters',
+              extra: _filters,
+            );
+            if (!mounted || result == null) return;
+            setState(() => _filters = result);
+          },
+          showDivider: false,
+          sortOrder: sortOrder,
+          onPressed: () {
+            setState(() {
+              sortOrder = sortOrder == SortOrder.ascending
+                  ? SortOrder.descending
+                  : SortOrder.ascending;
+            });
+          },
         ),
         SizedBox(height: 20.h),
         Row(

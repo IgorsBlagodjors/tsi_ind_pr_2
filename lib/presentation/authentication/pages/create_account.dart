@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tsi_ind_pr_2/data/users/firebase_profile_repository.dart';
 import 'package:tsi_ind_pr_2/domain/app_access.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tsi_ind_pr_2/data/users/app_user.dart';
-import 'package:tsi_ind_pr_2/data/users/auth_error_message.dart';
+import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -234,43 +231,25 @@ class _CreateAccountState extends State<CreateAccount> {
     if (isSubmitting || !_formKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
     setState(() => isSubmitting = true);
-    final fullName = nameController.text.trim();
-    final phone = phoneController.text.trim();
-    final birth = birthDate;
-    final profiles = context.read<FirebaseProfileRepository>();
     try {
-      final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text,
-          );
-      profiles.pendingRegistration = AppUser(
-        id: credential.user!.uid,
-        fullName: fullName,
-        email: credential.user!.email ?? emailController.text.trim(),
-        phoneNumber: phone,
-        dateOfBirth: birth,
+      final result = await context.read<AuthRepository>().register(
+        email: emailController.text,
+        password: passwordController.text,
+        fullName: nameController.text,
+        phoneNumber: phoneController.text,
+        dateOfBirth: birthDate,
       );
-      try {
-        await credential.user!.updateDisplayName(fullName);
-      } on FirebaseAuthException {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Account created, but the name could not be saved.',
-              ),
-            ),
-          );
-        }
-      }
       if (!mounted) return;
-      AppAccess.instance.unlock(credential.user!.uid);
+      if (result.warning != null) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(result.warning!)));
+      }
+      AppAccess.instance.unlock(result.user.id);
       context.goNamed('home');
-    } on FirebaseAuthException catch (error) {
+    } on AuthFailure catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(authErrorMessage(error))));
+          .showSnackBar(SnackBar(content: Text(error.message)));
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

@@ -10,6 +10,14 @@ import 'package:tsi_ind_pr_2/presentation/authentication/bloc/login_state.dart';
 
 class ControlledAuthRepository implements AuthRepository {
   @override
+  Future<RegistrationResult> register({
+    required String email,
+    required String password,
+    required String fullName,
+    required String phoneNumber,
+    DateTime? dateOfBirth,
+  }) async => throw UnimplementedError();
+  @override
   AppUser? currentUser;
   int refreshCalls = 0;
   bool refreshFails = false;

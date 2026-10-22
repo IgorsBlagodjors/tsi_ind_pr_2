@@ -3,8 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/data/appointments/appointment_booking.dart';
 import 'package:tsi_ind_pr_2/data/appointments/appointments_repository.dart';
+import 'package:tsi_ind_pr_2/data/appointments/firebase_appointments_repository.dart';
 import 'package:tsi_ind_pr_2/data/appointments/patient_details.dart';
 import 'package:tsi_ind_pr_2/data/reviews/reviews_repository.dart';
+import 'package:tsi_ind_pr_2/data/reviews/firebase_reviews_repository.dart';
 
 void main() {
   for (final future in [true, false]) {
@@ -16,7 +18,8 @@ void main() {
         '${future ? "Future" : "Past"} visit can be ${status.name}',
         () async {
           final db = FakeFirebaseFirestore();
-          final repository = AppointmentsRepository(firestore: db);
+          final AppointmentsRepository repository =
+              FirebaseAppointmentsRepository(firestore: db);
           final start = DateTime.now().add(Duration(days: future ? 3 : -3));
           final booking = AppointmentBooking(
             id: 'visit',
@@ -60,7 +63,9 @@ void main() {
             status != AppointmentStatus.cancelled,
           );
           if (status == AppointmentStatus.completed) {
-            final reviews = ReviewsRepository(firestore: db);
+            final ReviewsRepository reviews = FirebaseReviewsRepository(
+              firestore: db,
+            );
             await reviews.add(
               appointmentId: 'visit',
               userId: 'user',

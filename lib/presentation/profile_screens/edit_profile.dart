@@ -38,9 +38,11 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    final state = context.watch<ProfileCubit>().state;
+    if (state is! ProfileLoaded) return;
     if (_initialized) return;
     _initialized = true;
-    final user = (context.read<ProfileCubit>().state as ProfileLoaded).user;
+    final user = state.user;
     _inputNameController.text = user.fullName;
     _inputPhoneNumberController.text = user.phoneNumber ?? '';
     _inputEmailrController.text = user.email;

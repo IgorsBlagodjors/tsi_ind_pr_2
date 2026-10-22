@@ -1,3 +1,5 @@
+import 'package:tsi_ind_pr_2/data/doctors/doctor_filters.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/presentation/appointments/appointment.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +8,6 @@ import 'package:tsi_ind_pr_2/domain/app_access.dart';
 import 'package:tsi_ind_pr_2/presentation/appointments/appointment_details.dart';
 import 'package:tsi_ind_pr_2/presentation/profile_screens/widgets/profile_session.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
 import 'package:tsi_ind_pr_2/presentation/appointments/review.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/pages/create_account.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/pages/log_in.dart';
@@ -85,9 +86,17 @@ final appRouter = GoRouter(
           path: '/doc_by_specialty',
           name: 'doc_by_specialty',
           redirect: (context, state) =>
-              state.extra is DoctorType ? null : '/specialties',
-          builder: (context, state) =>
-              DocBySpecialty(doctorType: state.extra as DoctorType).withCubit(),
+              state.extra is DoctorType || state.extra is DocBySpecialtyArgs
+              ? null
+              : '/specialties',
+          builder: (context, state) => DocBySpecialty(
+            doctorType: state.extra is DocBySpecialtyArgs
+                ? (state.extra as DocBySpecialtyArgs).type
+                : state.extra as DoctorType,
+            initialFilters: state.extra is DocBySpecialtyArgs
+                ? (state.extra as DocBySpecialtyArgs).filters
+                : null,
+          ).withCubit(),
         ),
         GoRoute(
           path: '/doctors',
@@ -122,7 +131,11 @@ final appRouter = GoRouter(
         GoRoute(
           path: '/filters',
           name: 'filters',
-          builder: (context, state) => const Filters(),
+          builder: (context, state) => Filters(
+            initialFilters: state.extra is DoctorFilters
+                ? state.extra as DoctorFilters
+                : null,
+          ),
         ),
         GoRoute(
           path: '/rewiev',

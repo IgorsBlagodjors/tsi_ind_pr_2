@@ -1,3 +1,5 @@
+import 'package:go_router/go_router.dart';
+import 'package:tsi_ind_pr_2/data/doctors/doctor_filters.dart';
 import 'package:flutter/material.dart';
 import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,18 +12,29 @@ import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.d
 import 'package:tsi_ind_pr_2/presentation/widgets/speciality_wiev.dart';
 
 class Filters extends StatefulWidget {
-  const new({super.key});
+  const new({super.key, this.initialFilters});
+  final DoctorFilters? initialFilters;
 
   @override
   State<Filters> createState() => _FiltersState();
 }
 
 class _FiltersState extends State<Filters> {
-  Gender _selectedGender = Gender.male;
-  AgeSelector _ageSelector = AgeSelector.first;
-  bool _switchActive = true;
-  int _selectedRating = 3;
-  double _selectedAge = 40;
+  Gender? _selectedGender;
+  AgeSelector? _ageSelector;
+  int _selectedRating = 0;
+  Set<DoctorType> _selectedTypes = DoctorType.values.toSet();
+  final double _selectedAge = 40;
+  @override
+  void initState() {
+    super.initState();
+    final initial = widget.initialFilters ?? DoctorFilters();
+    _selectedGender = initial.gender;
+    _ageSelector = initial.experience;
+    _selectedRating = initial.minimumRating;
+    _selectedTypes = Set.of(initial.types);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AuthScaffold(
@@ -40,30 +53,23 @@ class _FiltersState extends State<Filters> {
                   text: 'Reset',
                   textStyle: AppTextStyles.regular12Prime,
                   onPressed: () => setState(() {
-                    _selectedGender = Gender.male;
-                    _ageSelector = AgeSelector.first;
-                    _switchActive = true;
-                    _selectedRating = 3;
-                    _selectedAge = 40;
+                    _selectedGender = null;
+                    _ageSelector = null;
+                    _selectedRating = 0;
+                    _selectedTypes = DoctorType.values.toSet();
                   }),
                 ),
               ),
               SizedBox(height: 24.h),
               Row(
                 children: [
-                  Text(
-                    'Availability Today',
-                    style: AppTextStyles.medium15Prime,
+                  Expanded(
+                    child: Text(
+                      'Availability Today',
+                      style: AppTextStyles.medium15Prime,
+                    ),
                   ),
-                  Spacer(),
-                  AppButtons.switchBTN(
-                    value: _switchActive,
-                    onTap: () {
-                      setState(() {
-                        _switchActive = !_switchActive;
-                      });
-                    },
-                  ),
+                  const Switch(value: false, onChanged: null),
                 ],
               ),
               SizedBox(height: 24.h),
@@ -79,7 +85,9 @@ class _FiltersState extends State<Filters> {
                     text: 'Male',
                     onPressed: () {
                       setState(() {
-                        _selectedGender = Gender.male;
+                        _selectedGender = _selectedGender == Gender.male
+                            ? null
+                            : Gender.male;
                       });
                     },
                     height: 21.h,
@@ -92,7 +100,9 @@ class _FiltersState extends State<Filters> {
                     text: 'Female',
                     onPressed: () {
                       setState(() {
-                        _selectedGender = Gender.female;
+                        _selectedGender = _selectedGender == Gender.female
+                            ? null
+                            : Gender.female;
                       });
                     },
                     height: 21.h,
@@ -115,7 +125,9 @@ class _FiltersState extends State<Filters> {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            _selectedRating = starNumber;
+                            _selectedRating = _selectedRating == starNumber
+                                ? 0
+                                : starNumber;
                           });
                         },
                         child: Icon(
@@ -138,45 +150,62 @@ class _FiltersState extends State<Filters> {
                 style: AppTextStyles.medium15Prime,
               ),
               SizedBox(height: 12.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                spacing: 12.w,
+                runSpacing: 12.h,
                 children: [
-                  AppButtons.singleTextButton(
-                    isGradient: _ageSelector == AgeSelector.first,
-                    textIsBlack: _ageSelector != AgeSelector.first,
-                    text: '1 - 5',
-                    onPressed: () {
-                      setState(() {
-                        _ageSelector = AgeSelector.first;
-                      });
-                    },
-                    height: 21.h,
-                    horizontalPadding: 23.w,
+                  SizedBox(
+                    width: 84.w,
+                    child: AppButtons.singleTextButton(
+                      isGradient: _ageSelector == AgeSelector.first,
+                      textIsBlack: _ageSelector != AgeSelector.first,
+                      text: '1 - 5',
+                      onPressed: () {
+                        setState(() {
+                          _ageSelector = _ageSelector == AgeSelector.first
+                              ? null
+                              : AgeSelector.first;
+                        });
+                      },
+                      height: 21.h,
+                      horizontalPadding: 8.w,
+                    ),
                   ),
 
-                  AppButtons.singleTextButton(
-                    isGradient: _ageSelector == AgeSelector.seccont,
-                    textIsBlack: _ageSelector != AgeSelector.seccont,
-                    text: '6 - 9',
-                    onPressed: () {
-                      setState(() {
-                        _ageSelector = AgeSelector.seccont;
-                      });
-                    },
-                    height: 21.h,
-                    horizontalPadding: 23.w,
+                  SizedBox(
+                    width: 84.w,
+                    child: AppButtons.singleTextButton(
+                      isGradient: _ageSelector == AgeSelector.seccont,
+                      textIsBlack: _ageSelector != AgeSelector.seccont,
+                      text: '6 - 9',
+                      onPressed: () {
+                        setState(() {
+                          _ageSelector = _ageSelector == AgeSelector.seccont
+                              ? null
+                              : AgeSelector.seccont;
+                        });
+                      },
+                      height: 21.h,
+                      horizontalPadding: 8.w,
+                    ),
                   ),
-                  AppButtons.singleTextButton(
-                    isGradient: _ageSelector == AgeSelector.third,
-                    textIsBlack: _ageSelector != AgeSelector.third,
-                    text: '10 >',
-                    onPressed: () {
-                      setState(() {
-                        _ageSelector = AgeSelector.third;
-                      });
-                    },
-                    height: 21.h,
-                    horizontalPadding: 23.w,
+                  SizedBox(
+                    width: 84.w,
+                    child: AppButtons.singleTextButton(
+                      isGradient: _ageSelector == AgeSelector.third,
+                      textIsBlack: _ageSelector != AgeSelector.third,
+                      text: '10+',
+                      onPressed: () {
+                        setState(() {
+                          _ageSelector = _ageSelector == AgeSelector.third
+                              ? null
+                              : AgeSelector.third;
+                        });
+                      },
+                      height: 21.h,
+                      horizontalPadding: 8.w,
+                    ),
                   ),
                 ],
               ),
@@ -185,11 +214,16 @@ class _FiltersState extends State<Filters> {
               SizedBox(height: 24.h),
               Text('Specialty', style: AppTextStyles.medium15Prime),
               SizedBox(height: 12.h),
-              SpecialityWiev(),
+              SpecialityWiev(
+                selectedTypes: _selectedTypes,
+                onChanged: (selectedTypes) {
+                  setState(() => _selectedTypes = Set.of(selectedTypes));
+                },
+              ),
               SizedBox(height: 24.h),
               AppContainers.appDivider(),
               SizedBox(height: 24.h),
-              Text('Age', style: AppTextStyles.medium15Prime),
+              Text('Age (unavailable)', style: AppTextStyles.medium15Prime),
               SizedBox(height: 12.h),
               SliderTheme(
                 data: SliderTheme.of(context).copyWith(
@@ -217,7 +251,7 @@ class _FiltersState extends State<Filters> {
                   label: '${_selectedAge.round()}',
                   semanticFormatterCallback: (value) =>
                       '${value.round()} years',
-                  onChanged: (value) => setState(() => _selectedAge = value),
+                  onChanged: null,
                 ),
               ),
               Row(
@@ -231,6 +265,26 @@ class _FiltersState extends State<Filters> {
                       ),
                     ),
                 ],
+              ),
+              Text(
+                'Age and availability filters are not available yet.',
+                style: AppTextStyles.regular12Prime,
+              ),
+              SizedBox(height: 16.h),
+              AppButtons.singleTextButton(
+                text: 'Apply filters',
+                height: 40.h,
+                horizontalPadding: 24.w,
+                isGradient: true,
+                onPressed: () {
+                  final result = DoctorFilters(
+                    gender: _selectedGender,
+                    minimumRating: _selectedRating,
+                    experience: _ageSelector,
+                    types: _selectedTypes,
+                  );
+                  if (context.canPop()) context.pop(result);
+                },
               ),
               SizedBox(height: 24.h),
             ],

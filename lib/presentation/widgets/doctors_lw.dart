@@ -65,7 +65,10 @@ class _DoctorsLwState extends State<DoctorsLw> {
                               ),
                             ),
                             SizedBox(height: 15.h),
-                            Row(
+                            Wrap(
+                              spacing: 4.w,
+                              runSpacing: 4.h,
+                              crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
                                 AppButtons.infoOutlinedPrimeBTN(
                                   onPressed: () => context.pushNamed(
@@ -76,7 +79,6 @@ class _DoctorsLwState extends State<DoctorsLw> {
                                   horizontalPadding: 15.w,
                                   verticalPadding: 2,
                                 ),
-                                Spacer(),
                                 IconButton(
                                   tooltip: 'Schedule',
                                   onPressed: () => context.pushNamed(

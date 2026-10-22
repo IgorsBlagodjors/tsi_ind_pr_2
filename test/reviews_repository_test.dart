@@ -1,13 +1,14 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tsi_ind_pr_2/data/reviews/reviews_repository.dart';
+import 'package:tsi_ind_pr_2/data/reviews/firebase_reviews_repository.dart';
 
 void main() {
   late FakeFirebaseFirestore db;
   late ReviewsRepository repository;
   setUp(() async {
     db = FakeFirebaseFirestore();
-    repository = ReviewsRepository(firestore: db);
+    repository = FirebaseReviewsRepository(firestore: db);
     await db.collection('appointments').doc('visit').set({
       'userId': 'user',
       'doctorId': 'doctor',

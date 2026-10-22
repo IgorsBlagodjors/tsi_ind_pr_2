@@ -35,9 +35,11 @@ class _HeaderState extends State<SpecialtiesHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 197.h,
+      constraints: BoxConstraints(minHeight: 197.h),
+      padding: EdgeInsets.only(bottom: 18.h),
       decoration: BoxDecoration(gradient: AppColors.degradadoAzul),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(height: 30.h),
           Stack(
@@ -63,7 +65,12 @@ class _HeaderState extends State<SpecialtiesHeader> {
           Text('Find Your Doctor', style: AppTextStyles.regular16White),
           SizedBox(height: 22.h),
           SizedBox(
-            height: 38.h,
+            height:
+                38.h +
+                (MediaQuery.textScalerOf(context).scale(16) - 16).clamp(
+                  0,
+                  double.infinity,
+                ),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 31.w),
               child: TextFormField(

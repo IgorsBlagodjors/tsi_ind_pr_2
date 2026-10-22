@@ -1,16 +1,7 @@
-import 'package:tsi_ind_pr_2/data/appointments/appointments_repository.dart';
-import 'package:tsi_ind_pr_2/data/reviews/reviews_repository.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tsi_ind_pr_2/app/app_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctors_repository.dart';
-import 'package:tsi_ind_pr_2/data/doctors/firebase_doctors_repository.dart';
-import 'package:tsi_ind_pr_2/data/users/firebase_profile_repository.dart';
-import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
 import 'package:tsi_ind_pr_2/domain/app_access.dart';
-import 'package:tsi_ind_pr_2/data/users/firebase_auth_repository.dart';
-import 'package:tsi_ind_pr_2/data/users/profile_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,27 +16,8 @@ Future<void> main() async {
   });
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  final doctorRepository = RepositoryProvider<DoctorsRepository>(
-    create: (_) => FirebaseDoctorsRepository(),
-  );
-  CachedNetworkImage.logLevel = CacheManagerLogLevel.verbose;
-  final authRepository = RepositoryProvider<AuthRepository>(
-    create: (_) => FirebaseAuthRepository(FirebaseAuth.instance),
-  );
-
-  final profileRepository = RepositoryProvider<ProfileRepository>(
-    create: (_) => FirebaseProfileRepository(),
-  );
-
   runApp(
-    MultiRepositoryProvider(
-      providers: [
-        authRepository,
-        profileRepository,
-        doctorRepository,
-        RepositoryProvider(create: (_) => AppointmentsRepository()),
-        RepositoryProvider(create: (_) => ReviewsRepository()),
-      ],
+    AppProviders(
       child: ScreenUtilInit(
         designSize: const Size(360, 800),
         minTextAdapt: true,

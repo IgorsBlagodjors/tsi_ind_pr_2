@@ -3,7 +3,7 @@ import 'package:tsi_ind_pr_2/data/app_constants.dart';
 import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/data/appointments/appointments_repository.dart';
 
-import 'dart:async';
+import 'package:tsi_ind_pr_2/presentation/schedule/appointment_calendar_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,43 +29,50 @@ class AppointmentCalendar extends StatefulWidget {
 class _AppointmentCalendarState extends State<AppointmentCalendar> {
   late DateTime _selectedDate;
   late DateTime _pageStart;
-  DateTime? _selectedTime;
-  late final Timer _timer;
-  StreamSubscription<Set<DateTime>>? _subscription;
-  Set<DateTime> _booked = {};
-  bool _loading = true;
-  bool _failed = false;
+  late final AppointmentCalendarController _controller;
+  DateTime? _lastNotifiedTime;
+  DateTime? get _selectedTime => _controller.selectedTime;
+  bool get _loading => _controller.loading;
+  bool get _failed => _controller.failed;
 
   @override
   void initState() {
     super.initState();
-    _listen();
     _selectedDate = _today;
     _pageStart = _today;
-    _timer = Timer.periodic(const Duration(minutes: 1), (_) {
-      setState(() {
-        if (_selectedTime != null && !_selectedTime!.isAfter(DateTime.now())) {
-          _selectedTime = null;
-          widget.onChanged?.call(null);
-        }
-        if (_selectedDate.isBefore(_today)) _selectDate(_today);
-      });
+    _controller = AppointmentCalendarController(
+      context.read<AppointmentsRepository>(),
+      widget.doctorId,
+    );
+    _controller.addListener(_onCalendarChanged);
+  }
+
+  void _onCalendarChanged() {
+    if (!mounted) return;
+    setState(() {
+      if (_selectedDate.isBefore(_today)) {
+        _selectedDate = _today;
+        _pageStart = _today;
+      }
     });
+    if (_lastNotifiedTime != _selectedTime) {
+      _lastNotifiedTime = _selectedTime;
+      widget.onChanged?.call(_selectedTime);
+    }
   }
 
   @override
   void didUpdateWidget(covariant AppointmentCalendar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.doctorId != widget.doctorId) {
-      _selectedTime = null;
-      _listen();
+      _controller.changeDoctor(widget.doctorId);
     }
   }
 
   @override
   void dispose() {
-    _subscription?.cancel();
-    _timer.cancel();
+    _controller.removeListener(_onCalendarChanged);
+    _controller.dispose();
     super.dispose();
   }
 
@@ -186,7 +193,7 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
               if (_loading) const LinearProgressIndicator(),
               if (_failed)
                 TextButton(
-                  onPressed: () => setState(_listen),
+                  onPressed: _controller.retry,
                   child: const Text('Could not load availability. Retry'),
                 ),
               if (!hasAvailable && !_loading && !_failed)
@@ -271,17 +278,7 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
         .formatTimeOfDay(TimeOfDay.fromDateTime(slot.start));
     return OutlinedButton(
       key: ValueKey('slot-${slot.start.toIso8601String()}'),
-      onPressed: enabled
-          ? () {
-              if (!slot.start.isAfter(DateTime.now())) {
-                setState(() => _selectedTime = null);
-                widget.onChanged?.call(null);
-                return;
-              }
-              setState(() => _selectedTime = slot.start);
-              widget.onChanged?.call(slot.start);
-            }
-          : null,
+      onPressed: enabled ? () => _controller.selectTime(slot.start) : null,
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.r),
@@ -321,63 +318,22 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
     );
   }
 
-  void _listen() {
-    _subscription?.cancel();
-    _loading = true;
-    _failed = false;
-    _subscription = context
-        .read<AppointmentsRepository>()
-        .watchBookedTimes(widget.doctorId)
-        .listen(
-          (times) {
-            if (!mounted) return;
-            setState(() {
-              _booked = times;
-              _loading = false;
-              _failed = false;
-            });
-            if (_selectedTime != null && times.contains(_selectedTime)) {
-              setState(() => _selectedTime = null);
-              widget.onChanged?.call(null);
-            }
-          },
-          onError: (Object error) {
-            if (!mounted) return;
-            setState(() {
-              _failed = true;
-              _loading = false;
-              _selectedTime = null;
-            });
-            widget.onChanged?.call(null);
-          },
-        );
-  }
-
-  List<AppointmentSlot> _slots(DateTime date) => _availability
-      .slotsFor(date, now: DateTime.now())
-      .map(
-        (slot) => _booked.contains(slot.start)
-            ? AppointmentSlot(slot.start, SlotStatus.booked)
-            : slot,
-      )
-      .toList();
+  List<AppointmentSlot> _slots(DateTime date) => _controller.slotsFor(date);
 
   DateTime get _today => DateUtils.dateOnly(DateTime.now());
   DateTime get _lastDate => _addDays(_today, 89);
-  WeeklyAvailability get _availability => WeeklyAvailability(widget.doctorId);
   DateTime _addDays(DateTime date, int days) =>
       DateTime(date.year, date.month, date.day + days);
 
   void _selectDate(DateTime date) {
     setState(() {
       _selectedDate = date;
-      _selectedTime = null;
       if (date.isBefore(_pageStart) ||
           !date.isBefore(_addDays(_pageStart, 6))) {
         _pageStart = date;
       }
     });
-    widget.onChanged?.call(null);
+    _controller.selectTime(null);
   }
 
   void _changePage(int direction) {

@@ -1,5 +1,5 @@
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
 
 abstract class DoctorsRepository {
   Stream<List<Doctor>> watchDoctors();

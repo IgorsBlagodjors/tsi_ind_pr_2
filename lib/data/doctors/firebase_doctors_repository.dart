@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctor.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
 import 'package:tsi_ind_pr_2/data/doctors/doctors_repository.dart';
 
 class FirebaseDoctorsRepository implements DoctorsRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseDoctorsRepository({FirebaseFirestore? firestore})
+    : _firestore = firestore ?? FirebaseFirestore.instance;
+
+  final FirebaseFirestore _firestore;
   @override
   Stream<List<Doctor>> watchDoctors() {
     return _firestore

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/design_system/theme/app_colors.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_icons.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_tappable.dart';
@@ -69,124 +69,20 @@ class AppButtons {
     required double contHeight,
     required double radius,
     required Widget icon,
+    required DoctorType type,
+    required bool isSelected,
   }) {
     return AppTappable(
       onTap: onPressed,
-      width: contWidth.w,
-      height: contHeight.h,
+      width: contWidth,
+      height: contHeight,
       decoration: BoxDecoration(
-        gradient: AppColors.degradadoAzul,
-        borderRadius: BorderRadius.circular(radius.r),
+        color: isSelected ? null : AppColors.elements,
+        gradient: isSelected ? AppColors.degradadoAzul : null,
+        borderRadius: BorderRadius.circular(radius),
       ),
       alignment: Alignment.center,
       child: icon,
-    );
-  }
-
-  static Widget squareImageAndTextBTN({
-    required VoidCallback onPressed,
-    required double contWidth,
-    required double contHeight,
-    required double radius,
-    required double spacing,
-    required Widget icon,
-    required String text,
-    required int textSize,
-  }) {
-    return AppTappable(
-      onTap: onPressed,
-      width: contWidth.w,
-      height: contHeight.h,
-      decoration: BoxDecoration(
-        gradient: AppColors.degradadoAzul,
-        borderRadius: BorderRadius.circular(radius.r),
-      ),
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          icon,
-          SizedBox(height: spacing.h),
-          Text(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: textSize.sp,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-              height: 1,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  static Widget bookingGradientBTN({required VoidCallback onPressed}) {
-    return IconButton(onPressed: onPressed, icon: AppIcons.bookingIcon);
-  }
-
-  static Widget homeGradientBTN({required VoidCallback onPressed}) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: AppIcons.homeIcon(width: 23.12, height: 22.36),
-    );
-  }
-
-  static Widget chatGradientBTN({required VoidCallback onPressed}) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: SvgPicture.asset(
-        'assets/icons/chat.svg',
-        width: 23.53.w,
-        height: 21.h,
-      ),
-    );
-  }
-
-  static Widget userGradientBTN({required VoidCallback onPressed}) {
-    return IconButton(onPressed: onPressed, icon: AppIcons.userIcon());
-  }
-
-  static Widget starIconBTN({required VoidCallback onPressed}) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(Icons.star, size: 15.sp, color: AppColors.primary),
-    );
-  }
-
-  static Widget starOutlindedIconBTN({required VoidCallback onPressed}) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(Icons.star_border, size: 15.sp, color: AppColors.primary),
-    );
-  }
-
-  static Widget maleIconBTN({required VoidCallback onPressed}) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(Icons.male, size: 15.sp, color: AppColors.primary),
-    );
-  }
-
-  static Widget famaleIconBTN({required VoidCallback onPressed}) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(Icons.female, size: 15.sp, color: AppColors.primary),
-    );
-  }
-
-  static Widget heartIconBTN({required VoidCallback onPressed}) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(Icons.favorite, size: 15.sp, color: AppColors.primary),
-    );
-  }
-
-  static Widget heartOutlinedIconBTN({required VoidCallback onPressed}) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(Icons.favorite_border, size: 15.sp, color: AppColors.primary),
     );
   }
 
@@ -276,54 +172,6 @@ class AppButtons {
     );
   }
 
-  static Widget textWithImageBTN({
-    required VoidCallback onPressed,
-    bool isGradient = false,
-    String text = 'Main Button',
-  }) {
-    return AppTappable(
-      onTap: onPressed,
-      width: 153.w,
-      height: 28.h,
-      decoration: BoxDecoration(
-        border: isGradient
-            ? null
-            : Border.all(color: AppColors.primary, width: 1),
-        gradient: isGradient ? AppColors.degradadoAzul : null,
-        color: isGradient ? null : Colors.transparent,
-        borderRadius: BorderRadius.circular(38.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          isGradient
-              ? AppIcons.bookingOutlinedIcon(
-                  color: Colors.white,
-                  width: 14,
-                  height: 15,
-                )
-              : AppIcons.bookingOutlinedIcon(
-                  color: Colors.black,
-                  width: 14,
-                  height: 15,
-                ),
-          const SizedBox(width: 8),
-          Flexible(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w600,
-                color: isGradient ? Colors.white : Colors.black,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   static Widget textWithImageBTNWhite({
     required VoidCallback onPressed,
     required double height,
@@ -361,52 +209,6 @@ class AppButtons {
             child: Transform.translate(offset: textOffset, child: textData),
           ),
         ],
-      ),
-    );
-  }
-
-  static Widget contactUs({required VoidCallback onPressed}) {
-    return AppTappable(
-      onTap: onPressed,
-      width: 146.w,
-      height: 41.h,
-      decoration: BoxDecoration(
-        border: Border.all(width: 1, color: Colors.white),
-        borderRadius: BorderRadius.circular(20.r),
-        color: Colors.transparent,
-      ),
-      child: Center(
-        child: Text(
-          'Contact us',
-          style: TextStyle(fontSize: 20.sp, color: AppColors.primary),
-        ),
-      ),
-    );
-  }
-
-  static Widget customRadioBTN({
-    required bool selected,
-    required VoidCallback onTap,
-  }) {
-    return AppTappable(
-      onTap: onTap,
-      width: 20.r,
-      height: 20.r,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: AppColors.primary, width: 2.r),
-      ),
-      child: Center(
-        child: selected
-            ? Container(
-                width: 12.r,
-                height: 12.r,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: AppColors.degradadoAzul,
-                ),
-              )
-            : null,
       ),
     );
   }
@@ -493,32 +295,6 @@ class AppButtons {
           vertical: verticalPadding,
         ),
         child: Text(plaintText, style: AppTextStyles.semiBold14Prime),
-      ),
-    );
-  }
-
-  static Widget whiteConPrimeTextBTN({
-    required VoidCallback onPressed,
-    required double height,
-    required String text,
-    required double horizontalPadding,
-    bool isGradient = false,
-  }) {
-    return AppTappable(
-      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-      onTap: onPressed,
-      height: height,
-      width: 156.w,
-      decoration: BoxDecoration(
-        gradient: isGradient ? AppColors.degradadoAzul : null,
-        color: isGradient ? null : Colors.white,
-        borderRadius: BorderRadius.circular(13.r),
-      ),
-      child: Text(
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-        text,
-        style: AppTextStyles.medium14White.copyWith(color: AppColors.primary),
       ),
     );
   }

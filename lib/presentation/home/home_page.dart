@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tsi_ind_pr_2/data/app_constants.dart';
+import 'package:tsi_ind_pr_2/data/app_enums.dart';
 import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_cubit.dart';
 import 'package:tsi_ind_pr_2/presentation/profile_screens/bloc/profile_state.dart';
-import 'package:tsi_ind_pr_2/data/doctors/doctor_type.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 import 'package:tsi_ind_pr_2/design_system/components/app_selectors.dart';
