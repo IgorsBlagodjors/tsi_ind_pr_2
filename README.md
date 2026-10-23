@@ -6,7 +6,7 @@
 
 ### A mobile healthcare application built with Flutter and Firebase
 
-Discover specialists · Explore doctor profiles · Manage your account
+Discover specialists · Book appointments · Share reviews
 
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
@@ -25,11 +25,11 @@ Developed as a university course project at the<br>
 
 ## Overview
 
-**Health Track** brings doctor discovery and personal account management into one mobile interface. Users can browse medical specialties, view doctor information, manage their profile, and return to a saved account using device biometrics.
+**Health Track** is a completed university course project built with Flutter and Firebase. Users can browse medical specialties, filter doctors, save favorites, book appointments, manage their visits, and leave reviews after marking an appointment as completed.
 
 The project explores the path from a Figma design to a working mobile application: reusable UI components, navigation, state management, cloud data, authentication, and automated testing. Its visual identity combines turquoise gradients, rounded controls, medical icons, and League Spartan typography.
 
-Appointment scheduling and review screens extend the prototype, with backend integration still in progress.
+Authentication, profiles, favorites, appointments, and reviews are connected to Firebase. The project scope and the UI-only actions retained from the design are described below.
 
 ## Features
 
@@ -38,11 +38,15 @@ Appointment scheduling and review screens extend the prototype, with backend int
 | **Account access** | Email and password registration, login, and logout through Firebase Authentication. |
 | **Biometric login** | Fingerprint or face verification to access an existing Firebase session on Android and iOS. |
 | **Doctor discovery** | Firestore-backed doctor lists and queries by medical specialty. |
+| **Filters and sorting** | Filter doctors by specialty, gender, rating, and experience, and sort lists alphabetically. |
 | **Doctor profiles** | Dedicated doctor details screens with navigation to the scheduling interface. |
 | **Personal profile** | Profile creation, live updates, and editing of name, phone number, and date of birth. |
-| **Favorites** | Account-specific favorite IDs stored in Firestore and a dedicated favorites list; some screens still have placeholder favorite actions. |
-| **Scheduling interface** | Calendar and patient information form for demonstrating the booking flow. |
+| **Favorites** | Account-specific favorites stored in Firestore and displayed in a dedicated list. |
+| **Appointment booking** | Calendar, available time slots, patient details, and transactional Firestore booking to prevent duplicate reservations of a slot. |
+| **Appointment management** | Upcoming, completed, and cancelled visits, with appointment details and status changes. Cancelling a booking releases its slot. |
+| **Reviews** | One rating and written review per completed appointment, saved in Firestore. |
 | **Shared design system** | Reusable buttons, inputs, icons, containers, colors, and text styles. |
+| **App branding** | Health Track launcher icons for Android and iOS, plus a branded launch screen. |
 
 ### Medical specialties
 
@@ -60,10 +64,11 @@ After **Log Out**, a password is required again. The app receives the system's a
 | :--- | :--- |
 | **Flutter & Dart** | Application UI and logic |
 | **Firebase Authentication** | Registration and authentication |
-| **Cloud Firestore** | Profiles, doctor data, and favorites |
-| **Flutter Bloc / Cubit** | Authentication, doctor loading, and profile state |
+| **Cloud Firestore** | Profiles, doctor data, favorites, appointments, and reviews |
+| **Flutter Bloc / Cubit** | Authentication, doctor loading, profile, and scheduling state |
 | **GoRouter** | Navigation, route arguments, and access checks |
 | **Freezed** | Generated state classes |
+| **json_serializable** | Model serialization |
 | **local_auth** | Native biometric verification |
 | **flutter_screenutil** | Layout scaling based on the design dimensions |
 | **flutter_svg** | SVG icons and branding |
@@ -74,25 +79,48 @@ After **Log Out**, a password is required again. The app receives the system's a
 
 ```text
 lib/
-├── app/router/          # Routes and access checks
-├── data/                # Models, Firebase repositories, and demo data
+├── app/                 # App providers, router, and session access
+├── core/                # Shared constants and serialization helpers
+├── data/                # External services and repository implementations
+│   ├── repositories/    # Firebase implementations
+│   ├── services/        # Device biometric authentication
+│   └── mappers/         # Firebase error messages
+├── domain/              # Application models and contracts
+│   ├── models/          # Appointments, doctors, reviews, schedule, users
+│   ├── repositories/    # Repository interfaces
+│   ├── enums/           # Shared domain enums
+│   ├── filters/         # Doctor filtering rules
+│   └── services/        # Availability calculations
+├── design_system/       # Reusable components and theme
+├── presentation/        # Organized by application section
+│   ├── authentication/
 │   ├── doctors/
-│   ├── users/
+│   ├── favorites/
+│   ├── specialties/
 │   ├── appointments/
+│   ├── schedule/
 │   ├── reviews/
-│   └── schedule/
-├── domain/              # Authentication contract and app access state
-├── design_system/       # Shared components and theme
-├── presentation/        # Screens, widgets, and Cubits
+│   ├── profile/
+│   ├── home/
+│   ├── welcome/
+│   ├── navigation/
+│   └── shared/          # Widgets and helpers used across sections
 └── main.dart            # Firebase initialization and dependency providers
 
 assets/                  # Icons, branding, and fonts
-test/                    # Unit and widget tests
-tool/                    # Doctor seed export and import utilities
+test/                    # Mirrors app, data, domain, design_system, presentation
+tool/                    # Seed import and native image generation utilities
 firestore.rules          # Firestore access rules
 ```
 
 Repositories handle Firebase operations, Cubits expose loading and result states, and widgets render those states using the shared design system.
+
+Each presentation section uses `pages/` for screens, `widgets/` for its UI parts,
+`bloc/` for Cubits and states, and `controllers/` where needed. Add shared UI to
+`presentation/shared/` or `design_system/` according to its purpose. Repository
+interfaces live in `domain/repositories/`; Firebase implementations live in
+`data/repositories/`. Generated `.g.dart` and `.freezed.dart` files stay beside
+their source files. Shared test doubles belong in `test/helpers/`.
 
 ## Getting Started
 
@@ -123,7 +151,7 @@ android/app/google-services.json
 
 The app initializes Firebase through the native platform configuration.
 
-**Firestore setup:** the checked-in `firestore.rules` currently permits access to each user's own profile and denies access to other collections. The doctor repository queries `doctors`, so the deployed rules must also allow the intended doctor reads before the directory can load. This repository does not confirm which rules are currently deployed.
+**Firestore setup:** publish the checked-in `firestore.rules` to your Firebase project. The rules cover user profiles, authenticated doctor reads, booking slots, appointments, and reviews. Keeping the file in the repository does not deploy it automatically.
 
 Doctor seed files and import utilities are in `tool/`. With Node.js 18 or later, validate the seed without writing data:
 
@@ -133,7 +161,7 @@ node tool/import_doctors.mjs
 
 The importer currently targets `tsiindproject2`; review its target before using it with your own project. Doctor image values must match the network image URLs expected by the current UI.
 
-See [FIREBASE_SETUP.md](FIREBASE_SETUP.md) for profile setup and import details. Some migration notes there describe earlier demo-only screens; the feature table above reflects the current application code.
+See [FIREBASE_SETUP.md](FIREBASE_SETUP.md) for Firebase connection, rules deployment, and doctor import instructions. The feature table in this README describes the completed course-project scope.
 
 ### 3. Run the app
 
@@ -142,7 +170,7 @@ flutter devices
 flutter run -d <device-id>
 ```
 
-Create an account or sign in, then explore the directory and profile screens. After changing native plugins, stop and rebuild the app instead of relying on hot reload.
+Create an account or sign in, browse doctors, and book a visit. Open the appointments section to cancel or mark a visit as completed, then submit a review. After changing native plugins or launcher icons, stop and rebuild the app instead of relying on hot reload.
 
 ### 4. Build an Android APK
 
@@ -164,21 +192,20 @@ flutter test
 For focused authentication and profile checks:
 
 ```bash
-flutter test test/login_cubit_test.dart test/app_access_test.dart test/app_user_test.dart test/profile_repository_test.dart
+flutter test test/presentation/authentication test/app/session test/data/repositories/registration_repository_test.dart
 ```
 
-Tests cover authentication state changes, repeated submissions, biometric cancellation, session changes, access checks, and profile persistence. Firebase test doubles allow these checks to run without creating live accounts. Native biometric prompts and deployed Firestore rules still require device and backend verification.
+Tests cover authentication, biometrics, session access, registration, doctor filters, form layouts, calendar behavior, scheduling state, appointment status changes, and reviews. Firebase test doubles allow repository checks to run without creating live accounts. Native biometric prompts and deployed Firestore rules require device and backend verification.
 
-## Development Status
+## Project Scope
 
-This is an evolving academic prototype. Work in progress includes:
+The course project is complete within its educational scope: authentication, doctor discovery, profiles, favorites, booking, appointment management, and reviews.
 
-- Persisting bookings and connecting appointment history to the backend; the appointments route is currently disabled.
-- Submitting doctor reviews.
-- Connecting the password reset screen to Firebase.
-- Completing chat, call, service, and remaining favorite actions.
-- Aligning the checked-in Firestore rules with doctor directory access.
-- Completing iOS configuration and device testing.
+Scheduling uses a predefined weekly timetable. Users can mark an upcoming visit as completed to demonstrate the review flow; completion does not require the appointment time to have passed.
+
+Some controls from the original UI kit remain presentation-only: password reset, chat and calls, profile photo upload, payments, settings, help, and selected secondary actions. These are outside the completed implementation scope. The password form validates input but does not change Firebase credentials.
+
+Android is the primary target. The included iOS project and assets require separate Firebase configuration and verification on macOS and an iOS device.
 
 ## Design Credits
 

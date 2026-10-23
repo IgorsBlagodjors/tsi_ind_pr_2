@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tsi_ind_pr_2/data/users/biometric_auth.dart';
-import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
+import 'package:tsi_ind_pr_2/data/services/biometric_auth.dart';
+import 'package:tsi_ind_pr_2/domain/repositories/auth_repository.dart';
 
 import 'login_state.dart';
 
@@ -28,6 +28,7 @@ class LoginCubit extends Cubit<LogInPageState> {
         emit(const Initial());
         return;
       }
+      // The account may change while the native biometric prompt is open.
       if (_repository.currentUser?.id != userId) {
         throw const AuthFailure(
           'Your session has changed. Please log in again.',
@@ -35,6 +36,7 @@ class LoginCubit extends Cubit<LogInPageState> {
       }
       await _repository.refreshSession();
       if (isClosed) return;
+      // Refreshing credentials is asynchronous, so check the account again.
       if (_repository.currentUser?.id != userId) {
         throw const AuthFailure(
           'Your session has changed. Please log in again.',

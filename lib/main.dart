@@ -1,7 +1,7 @@
 import 'package:tsi_ind_pr_2/app/app_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tsi_ind_pr_2/domain/app_access.dart';
+import 'package:tsi_ind_pr_2/app/session/app_access.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

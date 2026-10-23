@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:tsi_ind_pr_2/data/users/app_user.dart';
-import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
+import 'package:tsi_ind_pr_2/domain/models/users/app_user.dart';
+import 'package:tsi_ind_pr_2/domain/repositories/auth_repository.dart';
 
 class ProfileAuth implements AuthRepository {
   ProfileAuth(this.currentUser);

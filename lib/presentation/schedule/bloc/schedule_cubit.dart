@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tsi_ind_pr_2/data/app_enums.dart';
-import 'package:tsi_ind_pr_2/data/appointments/appointments_repository.dart';
-import 'package:tsi_ind_pr_2/data/appointments/patient_details.dart';
-import 'package:tsi_ind_pr_2/data/users/app_user.dart';
-import 'package:tsi_ind_pr_2/domain/auth_repository.dart';
+import 'package:tsi_ind_pr_2/domain/enums/app_enums.dart';
+import 'package:tsi_ind_pr_2/domain/repositories/appointments_repository.dart';
+import 'package:tsi_ind_pr_2/domain/models/appointments/patient_details.dart';
+import 'package:tsi_ind_pr_2/domain/models/users/app_user.dart';
+import 'package:tsi_ind_pr_2/domain/repositories/auth_repository.dart';
 
 import 'schedule_state.dart';
 
@@ -19,6 +19,7 @@ class ScheduleCubit extends Cubit<ScheduleState> {
 
   void updateProfile(AppUser? profile) {
     _profile = profile;
+    // Later profile snapshots must not overwrite patient details being edited.
     if (profile != null && !_profileFilled && state.isAccountOwner) {
       _fillPatient(true);
     }

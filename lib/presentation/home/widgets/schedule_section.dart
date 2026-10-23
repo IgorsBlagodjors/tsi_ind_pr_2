@@ -1,5 +1,5 @@
-import 'package:tsi_ind_pr_2/data/app_constants.dart';
-import 'package:tsi_ind_pr_2/presentation/appointments/appointment.dart';
+import 'package:tsi_ind_pr_2/core/constants/app_constants.dart';
+import 'package:tsi_ind_pr_2/presentation/appointments/pages/appointments_page.dart';
 import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 import 'package:tsi_ind_pr_2/presentation/home/widgets/section_header.dart';
 import 'package:flutter/material.dart';
