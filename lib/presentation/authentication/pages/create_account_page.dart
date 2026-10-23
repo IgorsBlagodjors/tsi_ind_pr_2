@@ -1,3 +1,4 @@
+import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 import 'package:flutter/material.dart';
 import 'package:tsi_ind_pr_2/app/session/app_access.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -151,9 +152,7 @@ class _CreateAccountState extends State<CreateAccount> {
                           AppButtons.gradientCircleIconBTN(
                             radius: 20.r,
                             onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Google')),
-                              );
+                              showActionMessage(context, 'Google');
                             },
                             icon: AppIcons.googleIcon(),
                           ),
@@ -161,12 +160,9 @@ class _CreateAccountState extends State<CreateAccount> {
                           AppButtons.gradientCircleIconBTN(
                             radius: 20.r,
                             onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Facebook sign-in is not connected yet.',
-                                  ),
-                                ),
+                              showActionMessage(
+                                context,
+                                'Facebook sign-in is not connected yet.',
                               );
                             },
                             icon: AppIcons.facebookIcon(),
@@ -175,9 +171,7 @@ class _CreateAccountState extends State<CreateAccount> {
                           AppButtons.gradientCircleIconBTN(
                             radius: 20.r,
                             onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Fingerprint')),
-                              );
+                              showActionMessage(context, 'Fingerprint');
                             },
                             icon: AppIcons.fingerprintIcon(),
                           ),
@@ -241,21 +235,18 @@ class _CreateAccountState extends State<CreateAccount> {
       );
       if (!mounted) return;
       if (result.warning != null) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(result.warning!)));
+        showActionMessage(context, result.warning!);
       }
       AppAccess.instance.unlock(result.user.id);
       context.goNamed('home');
     } on AuthFailure catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.message)));
+      showActionMessage(context, error.message);
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Unable to create an account. Please try again.'),
-        ),
+      showActionMessage(
+        context,
+        'Unable to create an account. Please try again.',
       );
     } finally {
       if (mounted) setState(() => isSubmitting = false);

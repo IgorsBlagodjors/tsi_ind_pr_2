@@ -68,11 +68,8 @@ void main() {
             path: '/category',
             name: 'doc_by_specialty',
             builder: (_, state) {
-              final args = state.extra as DocBySpecialtyArgs;
-              return DocBySpecialty(
-                doctorType: args.type,
-                initialFilters: args.filters,
-              ).withCubit();
+              return DocBySpecialty(doctorType: state.extra as DoctorType)
+                  .withCubit();
             },
           ),
         ],
@@ -103,6 +100,12 @@ void main() {
       }
 
       await settle();
+      if (page == 'specialties') {
+        expect(find.byType(SpecialtiesFilter), findsNothing);
+        await tester.tap(find.text('Cardiology'));
+        await settle();
+        expect(find.byType(SpecialtiesFilter), findsOneWidget);
+      }
       await open();
       await tester.tap(find.text('Five'));
       await settle();
@@ -112,18 +115,9 @@ void main() {
           find.text('Clara'),
           findsNothing,
         ); // Non-favorite never leaks in.
-      } else if (page == 'specialty') {
-        expect(find.text('Clara'), findsOneWidget);
-        expect(find.text('Alice'), findsNothing);
       } else {
-        expect(find.text('Cardiology'), findsOneWidget);
-        expect(find.text('Gynecology'), findsNothing);
-        await tester.tap(find.text('Cardiology'));
-        await settle();
         expect(find.text('Clara'), findsOneWidget);
         expect(find.text('Alice'), findsNothing);
-        router.pop();
-        await settle();
       }
       await open();
       expect(opened!.minimumRating, 5);
@@ -133,11 +127,7 @@ void main() {
       expect(opened!.minimumRating, 5);
       await tester.tap(find.text('Reset'));
       await settle();
-      if (page == 'specialties') {
-        expect(find.text('Gynecology'), findsWidgets);
-      } else {
-        expect(find.text('Alice'), findsOneWidget);
-      }
+      expect(find.text('Alice'), findsOneWidget);
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
     });

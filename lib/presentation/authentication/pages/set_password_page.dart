@@ -1,3 +1,4 @@
+import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 import 'package:flutter/material.dart';
 import 'package:tsi_ind_pr_2/presentation/authentication/widgets/auth_scaffold.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -88,10 +89,9 @@ class _SetPasswordState extends State<SetPassword> {
     // This UI-kit screen validates input only; password recovery is out of scope.
     if (!_formKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Form is valid. Authentication is not connected yet.'),
-      ),
+    showActionMessage(
+      context,
+      'Form is valid. Authentication is not connected yet.',
     );
   }
 }

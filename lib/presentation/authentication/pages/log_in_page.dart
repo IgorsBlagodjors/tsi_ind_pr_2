@@ -1,3 +1,4 @@
+import 'package:tsi_ind_pr_2/presentation/shared/helpers/action_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tsi_ind_pr_2/domain/repositories/auth_repository.dart';
@@ -55,8 +56,7 @@ class _LogInState extends State<LogIn> {
           AppAccess.instance.unlock(user.id);
           context.goNamed('home');
         } else if (state is ErrorState) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.message)));
+          showActionMessage(context, state.message);
         }
       },
       child: AuthScaffold(
