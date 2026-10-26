@@ -44,79 +44,95 @@ class _DoctorsState extends State<Doctors> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            SpecialtiesHeader(
-              title: 'Doctors',
-              onSearchChanged: (value) =>
-                  setState(() => _search = value.trim().toLowerCase()),
-              onPressed: () {
-                if (context.canPop()) {
-                  context.pop();
-                } else {
-                  context.goNamed('home');
-                }
-              },
-            ),
-            SizedBox(height: 18.h),
-            Padding(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 31.w),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () => context.pushNamed('specialties'),
-                      child: Text(
-                        'See all',
-                        style: AppTextStyles.regular12Prime,
-                      ),
-                    ),
-                  ),
-                  SpecialityWiev(
-                    selectedTypes: _selectedTypes,
-                    onChanged: (selectedTypes) {
-                      setState(() => _selectedTypes = Set.of(selectedTypes));
-                    },
-                  ),
-                  SizedBox(height: 17.h),
-                  Divider(
-                    height: 1.h,
-                    color: AppColors.primary,
-                    thickness: 1.h,
-                  ),
-                  SizedBox(height: 12.h),
-                  SpecialtiesFilter(
-                    trailingText: 'Top Rating',
-                    onFilterPressed: () async {
-                      final result = await context.pushNamed<DoctorFilters>(
-                        'filters',
-                        extra: DoctorFilters(
-                          gender: _filters.gender,
-                          minimumRating: _filters.minimumRating,
-                          experience: _filters.experience,
-                          types: _selectedTypes,
-                        ),
-                      );
-                      if (!mounted || result == null) return;
-                      setState(() {
-                        _filters = result;
-                        _selectedTypes = Set.of(result.types);
-                      });
-                    },
-                    sortOrder: sortOrder,
-                    onPressed: () {
-                      setState(() {
-                        sortOrder = sortOrder == SortOrder.ascending
-                            ? SortOrder.descending
-                            : SortOrder.ascending;
-                      });
-                    },
-                  ),
-                ],
+        child: CustomScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          slivers: [
+            SliverToBoxAdapter(
+              child: SpecialtiesHeader(
+                title: 'Doctors',
+                onSearchChanged: (value) =>
+                    setState(() => _search = value.trim().toLowerCase()),
+                onPressed: () {
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.goNamed('home');
+                  }
+                },
               ),
             ),
-            SizedBox(height: 14.h),
+            PinnedHeaderSliver(
+              child: ColoredBox(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 18.h),
+                    Padding(
+                      padding: EdgeInsetsGeometry.symmetric(horizontal: 31.w),
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
+                              onTap: () => context.pushNamed('specialties'),
+                              child: Text(
+                                'See all',
+                                style: AppTextStyles.regular12Prime,
+                              ),
+                            ),
+                          ),
+                          SpecialityWiev(
+                            selectedTypes: _selectedTypes,
+                            onChanged: (selectedTypes) {
+                              setState(
+                                () => _selectedTypes = Set.of(selectedTypes),
+                              );
+                            },
+                          ),
+                          SizedBox(height: 17.h),
+                          Divider(
+                            height: 1.h,
+                            color: AppColors.primary,
+                            thickness: 1.h,
+                          ),
+                          SizedBox(height: 12.h),
+                          SpecialtiesFilter(
+                            trailingText: 'Top Rating',
+                            onFilterPressed: () async {
+                              final result = await context
+                                  .pushNamed<DoctorFilters>(
+                                    'filters',
+                                    extra: DoctorFilters(
+                                      gender: _filters.gender,
+                                      minimumRating: _filters.minimumRating,
+                                      experience: _filters.experience,
+                                      types: _selectedTypes,
+                                    ),
+                                  );
+                              if (!mounted || result == null) return;
+                              setState(() {
+                                _filters = result;
+                                _selectedTypes = Set.of(result.types);
+                              });
+                            },
+                            sortOrder: sortOrder,
+                            onPressed: () {
+                              setState(() {
+                                sortOrder = sortOrder == SortOrder.ascending
+                                    ? SortOrder.descending
+                                    : SortOrder.ascending;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 14.h),
+                  ],
+                ),
+              ),
+            ),
             BlocBuilder<DoctorsCubit, DoctorsState>(
               builder: (context, state) {
                 if (state is Loaded) {
@@ -133,26 +149,32 @@ class _DoctorsState extends State<Doctors> {
                     ),
                   );
                   if (visibleDoctors.isEmpty) {
-                    return const Expanded(
+                    return const SliverFillRemaining(
+                      hasScrollBody: false,
                       child: Center(
                         child: Text('No doctors match your filters.'),
                       ),
                     );
                   }
-                  return DoctorsLw(doctorList: visibleDoctors);
+                  return DoctorsLw(doctorList: visibleDoctors, sliver: true);
                 }
                 return switch (state) {
-                  Loading() => const Expanded(
+                  Loading() => const SliverFillRemaining(
+                    hasScrollBody: false,
                     child: Center(child: CircularProgressIndicator()),
                   ),
 
-                  EmptyState() => const Expanded(
+                  EmptyState() => const SliverFillRemaining(
+                    hasScrollBody: false,
                     child: Center(child: Text('No doctors available.')),
                   ),
 
-                  Loaded() => const SizedBox.shrink(),
+                  Loaded() => const SliverToBoxAdapter(
+                    child: SizedBox.shrink(),
+                  ),
 
-                  ErrorState(:final message) => Expanded(
+                  ErrorState(:final message) => SliverFillRemaining(
+                    hasScrollBody: false,
                     child: Center(child: Text(message)),
                   ),
                 };

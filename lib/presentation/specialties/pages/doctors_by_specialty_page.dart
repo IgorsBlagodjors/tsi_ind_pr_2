@@ -52,55 +52,71 @@ class _DocBySpecialtyState extends State<DocBySpecialty> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            SpecialtiesHeader(
-              title: widget.doctorType.title,
-              onSearchChanged: (value) =>
-                  setState(() => _search = value.trim().toLowerCase()),
-              onPressed: () {
-                if (context.canPop()) {
-                  context.pop();
-                } else {
-                  context.goNamed('specialties');
-                }
-              },
-            ),
-            SizedBox(height: 28.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 31.w),
-              child: SpecialtiesFilter(
-                onFilterPressed: () async {
-                  final result = await context.pushNamed<DoctorFilters>(
-                    'filters',
-                    extra: _filters,
-                  );
-                  if (!mounted || result == null) return;
-                  setState(() => _filters = result);
-                },
-                trailingText: 'See all',
-                sortOrder: sortOrder,
+        child: CustomScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          slivers: [
+            SliverToBoxAdapter(
+              child: SpecialtiesHeader(
+                title: widget.doctorType.title,
+                onSearchChanged: (value) =>
+                    setState(() => _search = value.trim().toLowerCase()),
                 onPressed: () {
-                  setState(() {
-                    sortOrder = sortOrder == SortOrder.ascending
-                        ? SortOrder.descending
-                        : SortOrder.ascending;
-                  });
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.goNamed('specialties');
+                  }
                 },
               ),
             ),
-            SizedBox(height: 14.h),
+            PinnedHeaderSliver(
+              child: ColoredBox(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 28.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 31.w),
+                      child: SpecialtiesFilter(
+                        onFilterPressed: () async {
+                          final result = await context.pushNamed<DoctorFilters>(
+                            'filters',
+                            extra: _filters,
+                          );
+                          if (!mounted || result == null) return;
+                          setState(() => _filters = result);
+                        },
+                        trailingText: 'See all',
+                        sortOrder: sortOrder,
+                        onPressed: () {
+                          setState(() {
+                            sortOrder = sortOrder == SortOrder.ascending
+                                ? SortOrder.descending
+                                : SortOrder.ascending;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 14.h),
+                  ],
+                ),
+              ),
+            ),
             BlocBuilder<DoctorsCubit, DoctorsState>(
               builder: (context, state) {
                 return switch (state) {
-                  Loading() => const Expanded(
+                  Loading() => const SliverFillRemaining(
+                    hasScrollBody: false,
                     child: Center(child: CircularProgressIndicator()),
                   ),
-                  ErrorState(:final message) => Expanded(
+                  ErrorState(:final message) => SliverFillRemaining(
+                    hasScrollBody: false,
                     child: Center(child: Text(message)),
                   ),
 
-                  EmptyState() => const Expanded(
+                  EmptyState() => const SliverFillRemaining(
+                    hasScrollBody: false,
                     child: Center(child: Text('There is no doctors')),
                   ),
                   Loaded(:final doctors) => Builder(
@@ -113,127 +129,126 @@ class _DocBySpecialtyState extends State<DocBySpecialty> {
                         filters: _filters,
                       );
                       if (sortedDoctors.isEmpty) {
-                        return const Expanded(
+                        return const SliverFillRemaining(
+                          hasScrollBody: false,
                           child: Center(
                             child: Text('No doctors match your filters.'),
                           ),
                         );
                       }
-                      return Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsGeometry.only(
-                            left: 27.w,
-                            right: 31.w,
-                          ),
-                          child: ListView.separated(
-                            separatorBuilder: (context, index) =>
-                                SizedBox(height: 13.h),
-                            itemCount: sortedDoctors.length,
-                            itemBuilder: (context, index) {
-                              final state = context.watch<ProfileCubit>().state;
-                              if (state is! ProfileLoaded) {
-                                return const SizedBox.shrink();
-                              }
-                              final user = state.user;
-                              final doctor = sortedDoctors[index];
-                              final isFavorite = user.favoriteDoctorIds
-                                  .contains(doctor.id);
-                              return SizedBox(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        AppContainers.cachedNetworkImage(
-                                          size: 107,
-                                          imageUrl: doctor.image,
+                      return SliverPadding(
+                        padding: EdgeInsetsGeometry.only(
+                          left: 27.w,
+                          right: 31.w,
+                        ),
+                        sliver: SliverList.separated(
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 13.h),
+                          itemCount: sortedDoctors.length,
+                          itemBuilder: (context, index) {
+                            final state = context.watch<ProfileCubit>().state;
+                            if (state is! ProfileLoaded) {
+                              return const SizedBox.shrink();
+                            }
+                            final user = state.user;
+                            final doctor = sortedDoctors[index];
+                            final isFavorite = user.favoriteDoctorIds.contains(
+                              doctor.id,
+                            );
+                            return SizedBox(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      AppContainers.cachedNetworkImage(
+                                        size: 107,
+                                        imageUrl: doctor.image,
+                                      ),
+                                      SizedBox(width: 13.w),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              doctor.name,
+                                              style:
+                                                  AppTextStyles.medium15Prime,
+                                            ),
+                                            Text(
+                                              doctor.specialization,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: AppTextStyles.light13Prime
+                                                  .copyWith(
+                                                    color: AppColors.text2,
+                                                  ),
+                                            ),
+                                            SizedBox(height: 15.h),
+                                            Wrap(
+                                              spacing: 8.w,
+                                              crossAxisAlignment:
+                                                  WrapCrossAlignment.center,
+                                              children: [
+                                                AppButtons.infoOutlinedPrimeBTN(
+                                                  horizontalPadding: 15.w,
+                                                  verticalPadding: 2.h,
+                                                  onPressed: () =>
+                                                      context.pushNamed(
+                                                        'doctors_info',
+                                                        extra: doctor,
+                                                      ),
+                                                  plaintText: 'Info',
+                                                ),
+                                                IconButton(
+                                                  tooltip: 'Schedule',
+                                                  onPressed: () =>
+                                                      context.pushNamed(
+                                                        'schedule',
+                                                        extra: doctor,
+                                                      ),
+                                                  icon:
+                                                      AppIcons.bookingOutlinedIcon(
+                                                        color:
+                                                            AppColors.primary,
+                                                        width: 13.w,
+                                                        height: 14.82.h,
+                                                      ),
+                                                ),
+                                                AppIcons.questionsIcon(
+                                                  color: AppColors.primary,
+                                                  width: 14.w,
+                                                  height: 14.h,
+                                                ),
+                                                AppIcons.favIcon(
+                                                  isFavorite: isFavorite,
+                                                  onPressed: () {
+                                                    context
+                                                        .read<ProfileCubit>()
+                                                        .toggleFavoriteDoctor(
+                                                          doctor.id,
+                                                        );
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        SizedBox(width: 13.w),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                doctor.name,
-                                                style:
-                                                    AppTextStyles.medium15Prime,
-                                              ),
-                                              Text(
-                                                doctor.specialization,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: AppTextStyles
-                                                    .light13Prime
-                                                    .copyWith(
-                                                      color: AppColors.text2,
-                                                    ),
-                                              ),
-                                              SizedBox(height: 15.h),
-                                              Wrap(
-                                                spacing: 8.w,
-                                                crossAxisAlignment:
-                                                    WrapCrossAlignment.center,
-                                                children: [
-                                                  AppButtons.infoOutlinedPrimeBTN(
-                                                    horizontalPadding: 15.w,
-                                                    verticalPadding: 2.h,
-                                                    onPressed: () =>
-                                                        context.pushNamed(
-                                                          'doctors_info',
-                                                          extra: doctor,
-                                                        ),
-                                                    plaintText: 'Info',
-                                                  ),
-                                                  IconButton(
-                                                    tooltip: 'Schedule',
-                                                    onPressed: () =>
-                                                        context.pushNamed(
-                                                          'schedule',
-                                                          extra: doctor,
-                                                        ),
-                                                    icon:
-                                                        AppIcons.bookingOutlinedIcon(
-                                                          color:
-                                                              AppColors.primary,
-                                                          width: 13.w,
-                                                          height: 14.82.h,
-                                                        ),
-                                                  ),
-                                                  AppIcons.questionsIcon(
-                                                    color: AppColors.primary,
-                                                    width: 14.w,
-                                                    height: 14.h,
-                                                  ),
-                                                  AppIcons.favIcon(
-                                                    isFavorite: isFavorite,
-                                                    onPressed: () {
-                                                      context
-                                                          .read<ProfileCubit>()
-                                                          .toggleFavoriteDoctor(
-                                                            doctor.id,
-                                                          );
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 15.h),
-                                    Divider(
-                                      thickness: 1,
-                                      height: 1.h,
-                                      color: AppColors.elements,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 15.h),
+                                  Divider(
+                                    thickness: 1,
+                                    height: 1.h,
+                                    color: AppColors.elements,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         ),
                       );
                     },
